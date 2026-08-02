@@ -41,12 +41,16 @@ Best experience:
   shape-matching and grows into real spelling. The game spells each finished
   word aloud.
 - 👶 **Sparkle Party** — for the 2-year-old: tapping anywhere makes fireworks
-  and chimes, and friendly animals pop up. No wrong answers.
+  and chimes, and friendly animals pop up. No wrong answers; hold 🏠 to leave.
 
 ## For the grown-ups
 
 - No ads, no links, no network calls at play time, nothing to install.
-- The 🔊/🔇 button mutes everything (including the voice) and remembers the choice.
+- The home-screen 🔊/🔇 button mutes everything (including the voice) and remembers
+  the choice. In a game, tap 🔊 to hear the current instruction again or hold it
+  to mute/unmute.
+- Letters, counting, number difficulty and spelling words continue where the child
+  reached when switching games; reloading the page starts a fresh play session.
 - Dress-up choices and castle stickers are saved on the device automatically;
   the broom clears the sticker scene and ↩️ removes the last sticker.
 - Everything is one file (`index.html`) — copy it to any device, email it to

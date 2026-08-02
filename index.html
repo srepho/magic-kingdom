@@ -49,6 +49,13 @@
   }
   .home-btn{left:12px;background:var(--candy-sun);}
   .sound-btn{right:12px;background:var(--candy-mint);}
+  #game-audio-toggle[hidden]{display:none;}
+  .hold-action{touch-action:none;}
+  .hold-action.holding{animation:holdReady 1.1s linear forwards;}
+  @keyframes holdReady{
+    from{transform:scale(1);box-shadow:var(--shadow)}
+    to{transform:scale(.72);box-shadow:0 0 0 12px rgba(255,255,255,.7)}
+  }
 
   /* ---------- HOME ---------- */
   #home{justify-content:flex-start;gap:2vmin;overflow-y:auto;padding:5vmin 3vmin 4vmin;}
@@ -345,6 +352,10 @@
   </div>
 </div>
 
+<!-- Tap to hear the current instruction again; hold to mute/unmute. -->
+<button class="btn corner-btn sound-btn hold-action" id="game-audio-toggle" hidden
+  aria-label="hear instructions again; hold to mute">🔊</button>
+
 <!-- ============ STAR POP ============ -->
 <div class="screen" id="pop">
   <button class="btn corner-btn home-btn" data-go="home">🏠</button>
@@ -541,7 +552,8 @@
 
 <!-- ============ LEAH MODE ============ -->
 <div class="screen" id="leah">
-  <button class="btn corner-btn home-btn" data-go="home">🏠</button>
+  <button class="btn corner-btn home-btn hold-action" id="leah-home-btn"
+    aria-label="hold to go home">🏠</button>
   <div class="game-title">👶 Leah's Sparkle Party!</div>
   <div id="leah-area"><div id="leah-hint">👆✨</div></div>
 </div>
@@ -632,18 +644,64 @@ function stopSpeech(){
 }
 
 const soundBtn = document.getElementById('sound-toggle');
+const gameAudioBtn = document.getElementById('game-audio-toggle');
+let replayPrompt = '';
+let gameAudioHoldTimer = null;
+let gameAudioHeld = false;
+function sayPrompt(text, delay=0){
+  replayPrompt = text;
+  say(text, delay);
+}
 function renderSoundBtn(){
   soundBtn.textContent = soundOn ? '🔊' : '🔇';
   soundBtn.setAttribute('aria-pressed', String(soundOn));
+  soundBtn.setAttribute('aria-label', soundOn ? 'turn sound off' : 'turn sound on');
+  gameAudioBtn.textContent = soundOn ? '🔊' : '🔇';
+  gameAudioBtn.setAttribute('aria-pressed', String(soundOn));
+  gameAudioBtn.setAttribute('aria-label', soundOn
+    ? 'hear instructions again; hold to mute'
+    : 'turn sound on and hear instructions');
 }
-renderSoundBtn();
-soundBtn.addEventListener('pointerdown', () => {
-  soundOn = !soundOn;
+function setSound(on){
+  soundOn = on;
   storeSet('mk-sound', soundOn ? 'on' : 'off');
   if(!soundOn) stopSpeech();
   renderSoundBtn();
   if(soundOn) twinkleSound();
+}
+function cancelGameAudioHold(){
+  clearTimeout(gameAudioHoldTimer);
+  gameAudioHoldTimer = null;
+  gameAudioBtn.classList.remove('holding');
+}
+renderSoundBtn();
+soundBtn.addEventListener('pointerdown', () => {
+  setSound(!soundOn);
 });
+gameAudioBtn.addEventListener('pointerdown', e => {
+  e.stopPropagation();
+  e.preventDefault();
+  if(gameAudioHoldTimer) return;
+  gameAudioHeld = false;
+  gameAudioBtn.classList.add('holding');
+  try{ gameAudioBtn.setPointerCapture(e.pointerId); }catch(err){}
+  gameAudioHoldTimer = setTimeout(()=>{
+    gameAudioHeld = true;
+    gameAudioHoldTimer = null;
+    gameAudioBtn.classList.remove('holding');
+    setSound(!soundOn);
+  }, 1100);
+});
+gameAudioBtn.addEventListener('pointerup', e => {
+  e.stopPropagation();
+  const wasHeld = gameAudioHeld;
+  cancelGameAudioHold();
+  if(wasHeld) return;
+  if(!soundOn) setSound(true);
+  if(replayPrompt) say(replayPrompt);
+});
+gameAudioBtn.addEventListener('pointercancel', cancelGameAudioHold);
+gameAudioBtn.addEventListener('contextmenu', e => e.preventDefault());
 
 /* ---------------- particles & celebration ---------------- */
 function burst(x, y, container, emojis=['✨','⭐','💖','🌟'], count=10){
@@ -700,9 +758,11 @@ let current = 'home';
 const enterHooks = {}, exitHooks = {};
 function go(id){
   stopSpeech();
+  cancelGameAudioHold();
   if(exitHooks[current]) exitHooks[current]();
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
   current = id;
+  gameAudioBtn.hidden = id === 'home' || id === 'leah';
   twinkleSound();
   if(enterHooks[id]) enterHooks[id]();
 }
@@ -757,7 +817,7 @@ function spawnFloater(){
 }
 enterHooks.pop = () => {
   popProgress = 0; noteStep = 0; renderMeter();
-  say('Pop the stars!');
+  sayPrompt('Pop the stars!');
   spawnFloater(); spawnFloater();
   popTimer = setInterval(spawnFloater, 900);
 };
@@ -839,7 +899,7 @@ document.querySelectorAll('.hat').forEach(h => h.style.display = 'none');
 if(HATS[hatIdx]) document.getElementById(HATS[hatIdx]).style.display = '';
 document.getElementById('uni-wings').style.display = wingsOn ? '' : 'none';
 if(BGS[bgIdx]) uniStage.classList.add(BGS[bgIdx]);
-enterHooks.uni = () => say('Dress up your unicorn!');
+enterHooks.uni = () => sayPrompt('Dress up your unicorn!');
 
 /* =====================================================
    GAME 3 — CASTLE STICKERS
@@ -914,7 +974,7 @@ castleScene.addEventListener('pointerdown', e=>{
   popNote();
 });
 placedStickers.forEach(item=>drawSticker(item, false));
-enterHooks.castle = () => say('Pick a sticker, then tap the castle!');
+enterHooks.castle = () => sayPrompt('Pick a sticker, then tap the castle!');
 
 /* =====================================================
    GAME 4 — LETTER BUBBLES
@@ -984,10 +1044,10 @@ function newLetterRound(){
     });
     bubblesEl.appendChild(b);
   });
-  say('Can you find the letter ' + target + '?', 300);
+  sayPrompt('Can you find the letter ' + target + '?', 300);
 }
 targetEl.addEventListener('pointerdown', ()=> say('Find the letter ' + targetEl.textContent + '!'));
-enterHooks.letters = () => { roundIdx = 0; letterIdx = 0; newLetterRound(); };
+enterHooks.letters = newLetterRound;
 exitHooks.letters = () => { clearTimeout(letterTimer); letterLocked = true; };
 
 /* =====================================================
@@ -1050,10 +1110,15 @@ function newCountRound(){
     });
     countGarden.appendChild(item);
   });
-  say('Can you count ' + countTarget + ' ' + friendName + '?', 250);
+  sayPrompt('Can you count ' + countTarget + ' ' + friendName + '?', 250);
 }
-enterHooks.count = () => { countRound = 0; newCountRound(); };
-exitHooks.count = () => { clearTimeout(countTimer); countLocked = true; countGarden.innerHTML = ''; };
+enterHooks.count = newCountRound;
+exitHooks.count = () => {
+  clearTimeout(countTimer);
+  if(!countLocked && countDone < countTarget) countRound = Math.max(0, countRound - 1);
+  countLocked = true;
+  countGarden.innerHTML = '';
+};
 
 /* =====================================================
    GAME 6 — MAGIC MATCHING
@@ -1118,7 +1183,7 @@ function newMemoryRound(){
     });
     memoryGrid.appendChild(card);
   });
-  say('Can you find the matching pictures?');
+  sayPrompt('Can you find the matching pictures?');
 }
 enterHooks.memory = newMemoryRound;
 exitHooks.memory = () => { clearTimeout(memoryTimer); memoryLocked = true; memoryOpen = []; };
@@ -1201,10 +1266,14 @@ function newMathRound(){
     });
     mathAnswers.appendChild(bub);
   });
-  say('What is ' + a + ' plus ' + b + '? Count them all!', 300);
+  sayPrompt('What is ' + a + ' plus ' + b + '? Count them all!', 300);
 }
-enterHooks.math = () => { mathRound = 0; mathStars = 0; renderMathStars(); newMathRound(); };
-exitHooks.math = () => { clearTimeout(mathTimer); mathLocked = true; };
+enterHooks.math = () => { renderMathStars(); newMathRound(); };
+exitHooks.math = () => {
+  clearTimeout(mathTimer);
+  if(!mathLocked) mathRound = Math.max(0, mathRound - 1);
+  mathLocked = true;
+};
 
 /* =====================================================
    GAME 8 — SPELLING BEE
@@ -1263,7 +1332,7 @@ function newSpellRound(){
           spellIdx++;
           spellTimer = setTimeout(newSpellRound, 3200);
         }else{
-          say(needed + '!');
+          say('Great! Now find the letter ' + word[spellPos] + '!');
         }
       }else{
         tile.classList.remove('wrong'); void tile.offsetWidth; tile.classList.add('wrong');
@@ -1273,28 +1342,54 @@ function newSpellRound(){
     });
     spellTray.appendChild(tile);
   });
-  say('Can you spell ' + word.toLowerCase() + '? Find the letter ' + word[0] + '!', 300);
+  sayPrompt('Can you spell ' + word.toLowerCase() + '? Find the letter ' + word[0] + '!', 300);
 }
 spellPicture.addEventListener('pointerdown', ()=>{
   const round = SPELL_WORDS[spellIdx % SPELL_WORDS.length];
   say('Spell ' + round.word.toLowerCase() + '!');
 });
-enterHooks.spell = () => { spellIdx = 0; newSpellRound(); };
+enterHooks.spell = newSpellRound;
 exitHooks.spell = () => { clearTimeout(spellTimer); spellLocked = true; };
 
 /* =====================================================
    GAME 9 — LEAH'S SPARKLE PARTY (age 2 mode)
    Any tap = fireworks. No wrong answers, no goals.
    ===================================================== */
-const leahArea = document.getElementById('leah-area');
+const leahScreen = document.getElementById('leah');
 const leahHint = document.getElementById('leah-hint');
+const leahHomeBtn = document.getElementById('leah-home-btn');
 const FRIENDS = ['🦄','🐰','🐥','🐸','🦋','🐻','🐱','⭐'];
 let leahTaps = 0;
-leahArea.addEventListener('pointerdown', e=>{
+let leahExitTimer = null;
+function cancelLeahExit(){
+  clearTimeout(leahExitTimer);
+  leahExitTimer = null;
+  leahHomeBtn.classList.remove('holding');
+}
+leahHomeBtn.addEventListener('pointerdown', e=>{
+  e.stopPropagation();
+  e.preventDefault();
+  if(leahExitTimer) return;
+  leahHomeBtn.classList.add('holding');
+  try{ leahHomeBtn.setPointerCapture(e.pointerId); }catch(err){}
+  leahExitTimer = setTimeout(()=>{
+    leahExitTimer = null;
+    leahHomeBtn.classList.remove('holding');
+    go('home');
+  }, 1100);
+});
+leahHomeBtn.addEventListener('pointerup', e=>{
+  e.stopPropagation();
+  cancelLeahExit();
+});
+leahHomeBtn.addEventListener('pointercancel', cancelLeahExit);
+leahHomeBtn.addEventListener('contextmenu', e => e.preventDefault());
+
+leahScreen.addEventListener('pointerdown', e=>{
   leahHint.style.display = 'none';
-  const r = leahArea.getBoundingClientRect();
+  const r = leahScreen.getBoundingClientRect();
   const x = e.clientX - r.left, y = e.clientY - r.top;
-  burst(x, y, leahArea, ['✨','⭐','💖','🌈','🌟','🦋'], 14);
+  burst(x, y, leahScreen, ['✨','⭐','💖','🌈','🌟','🦋'], 14);
   chime();
   leahTaps++;
   if(leahTaps % 4 === 0){
@@ -1302,12 +1397,16 @@ leahArea.addEventListener('pointerdown', e=>{
     f.className = 'friend';
     f.textContent = FRIENDS[Math.floor(Math.random()*FRIENDS.length)];
     f.style.left = x + 'px'; f.style.top = y + 'px';
-    leahArea.appendChild(f);
+    leahScreen.appendChild(f);
     setTimeout(()=>f.remove(), 1650);
     [0,3,5].forEach((n,i)=> tone(PENTA[n], 0.2, 'triangle', 0.15, i*0.1));
   }
 });
 enterHooks.leah = () => { leahHint.style.display = ''; leahTaps = 0; say('Tap tap tap, Leah!'); };
+exitHooks.leah = () => {
+  cancelLeahExit();
+  leahScreen.querySelectorAll('.particle,.friend').forEach(el => el.remove());
+};
 
 /* first-gesture audio unlock */
 document.body.addEventListener('pointerdown', ()=>{ if(soundOn) ctx(); }, {once:true});
