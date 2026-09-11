@@ -36,13 +36,31 @@ This version also saves dress-up and sticker creations locally, adds sticker und
 improves small-screen menu layout, prevents delayed letter rounds from continuing
 after navigation, and removes the online font request so play is fully self-contained.
 
-## v3 ideas (next sessions)
+## v3 — SHIPPED
 
-- **Colour-match game**: "Find something pink!"
+| Game | Skill it exercises | Loop |
+|---|---|---|
+| 🧮 Number Magic | early addition | count two emoji groups → tap the sum bubble → five stars = unicorn fly-by |
+| 🐝 Spelling Bee | letter order / word building | picture + spoken word → tap letter tiles in order → word spelled aloud |
+
+## v4 — SHIPPED (phone-friendly games)
+
+| Game | Skill it exercises | Loop |
+|---|---|---|
+| 🦄 Rainbow Run | timing, cause-and-effect | auto-running unicorn → tap to jump (double jump) → collect stars → castle ends the level → next level a little faster. Falling summons a rescue cloud: no fail state |
+| 🎨 Paint Pad | creativity, fine motor | fat crayons, rainbow crayon, sparkle stamps → undo / hold-to-wipe → saved locally |
+| 🌈 Colour Hunt | colour names | spoken colour + coloured blob → tap the matching picture → wrong taps name their colour |
+
+Rainbow Run is a `<canvas>` game (emoji sprites, world measured in units of the
+play-area height, anchored to the bottom so portrait phones show ~10 units of
+look-ahead). Physics has coyote time and jump buffering so late taps still work.
+
+## v5 ideas (next sessions)
+
 - **Creation gallery**: add a screen for several saved dress-up and sticker scenes.
 - **Record-a-cheer**: let a parent record their own voice for celebrations
   (MediaRecorder), stored locally.
-- **Drawing/colouring pad**: finger painting canvas with big crayon buttons.
+- **Rainbow Run extras**: Leah mode (auto-jump), tap-the-unicorn to change her colour, more scenery (night level).
 - **More letters**: lowercase mode; letter → word-with-picture ("M is for Moon 🌙").
 - **Install as app**: add PWA manifest + service worker so it can be added to an
   iPad home screen and launched fullscreen offline.

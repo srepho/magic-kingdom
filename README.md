@@ -12,6 +12,8 @@ princesses and castles for a 5-year-old, plus a special sparkle mode for a
 Or **just double-click `index.html`** — it opens in any browser. No internet needed.
 
 Best experience:
+- On a **phone**: Rainbow Run and Paint Pad work in portrait or landscape; add the
+  page to the home screen (Share → Add to Home Screen) to hide the browser bar.
 - On an **iPad/tablet**: open the file in Safari/Chrome, then use fullscreen so
   stray taps don't hit browser buttons. (Guided Access on iPad is great for the
   2-year-old.)
@@ -40,6 +42,17 @@ Best experience:
   the letter tiles in order. Faint letters sit in the slots, so it starts as
   shape-matching and grows into real spelling. The game spells each finished
   word aloud.
+- 🦄 **Rainbow Run** — a one-tap platformer for the phone. The unicorn runs by
+  herself; tap anywhere to jump (tap again in the air for a second jump) and
+  collect stars on the way to the castle. Fall off the edge and a cloud floats
+  her straight back — there is no way to lose. Each castle starts a slightly
+  faster level.
+- 🎨 **Paint Pad** — finger painting with fat crayons, a rainbow crayon and a
+  sparkle-stamp brush. ↩️ undoes the last stroke; hold the 🧽 sponge to wipe the
+  picture clean. Paintings are saved on the device.
+- 🌈 **Colour Hunt** — a big coloured blob and the voice say a colour ("Find
+  something pink!"); tap the picture that is that colour. Wrong taps wobble and
+  the voice names their colour instead.
 - 👶 **Sparkle Party** — for the 2-year-old: tapping anywhere makes fireworks
   and chimes, and friendly animals pop up. No wrong answers; hold 🏠 to leave.
 
@@ -51,7 +64,7 @@ Best experience:
   to mute/unmute.
 - Letters, counting, number difficulty and spelling words continue where the child
   reached when switching games; reloading the page starts a fresh play session.
-- Dress-up choices and castle stickers are saved on the device automatically;
+- Dress-up choices, castle stickers and paintings are saved on the device automatically;
   the broom clears the sticker scene and ↩️ removes the last sticker.
 - Everything is one file (`index.html`) — copy it to any device, email it to
   grandparents, it just works.
