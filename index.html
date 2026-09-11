@@ -49,6 +49,13 @@
   }
   .home-btn{left:12px;background:var(--candy-sun);}
   .sound-btn{right:12px;background:var(--candy-mint);}
+  #game-audio-toggle[hidden]{display:none;}
+  .hold-action{touch-action:none;}
+  .hold-action.holding{animation:holdReady 1.1s linear forwards;}
+  @keyframes holdReady{
+    from{transform:scale(1);box-shadow:var(--shadow)}
+    to{transform:scale(.72);box-shadow:0 0 0 12px rgba(255,255,255,.7)}
+  }
 
   /* ---------- HOME ---------- */
   #home{justify-content:flex-start;gap:2vmin;overflow-y:auto;padding:5vmin 3vmin 4vmin;}
@@ -82,6 +89,9 @@
   .card.c-memory{background:#e8e4ff;}
   .card.c-math{background:#e1ffe9;}
   .card.c-spell{background:#ffe9fb;}
+  .card.c-run{background:#e3f2ff;}
+  .card.c-paint{background:#fff6d6;}
+  .card.c-colour{background:#ffe4d6;}
 
   /* ---------- generic game header ---------- */
   .game-title{margin-top:2.5vmin;font-size:5.5vmin;font-weight:800;
@@ -299,6 +309,35 @@
   @keyframes bannerIn{0%{transform:scale(0)}20%{transform:scale(1.15)}30%{transform:scale(1)}
     80%{transform:scale(1);opacity:1}100%{transform:scale(1.4);opacity:0}}
 
+
+  /* ---------- RAINBOW RUN (one-tap platformer) ---------- */
+  #run-wrap{position:relative;flex:1;width:100%;overflow:hidden;cursor:pointer;touch-action:none;
+    border-top:6px solid var(--white);}
+  #run-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  #run-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:20vmin;pointer-events:none;animation:hintPulse 1.4s ease-in-out infinite;opacity:.9;
+    filter:drop-shadow(0 4px 0 #fff);}
+  #run-meter{display:flex;gap:1.6vmin;margin:1.2vmin 0;z-index:5;}
+
+  /* ---------- PAINT PAD ---------- */
+  #paint-wrap{position:relative;flex:1;width:min(94vw,1000px);margin:1vmin 0;border-radius:36px;
+    border:6px solid var(--white);box-shadow:var(--shadow);overflow:hidden;background:#fffdfa;
+    cursor:crosshair;touch-action:none;}
+  #paint-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  #paint-tray{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.6vmin;
+    padding:1.2vmin 2vmin;margin-bottom:2vmin;background:rgba(255,255,255,.65);
+    border-radius:40px;box-shadow:var(--shadow);max-width:94vw;}
+  #paint-tray .swatch.selected{border-color:var(--ink);}
+  .paint-tool.selected{background:var(--candy-sun);animation:wiggle .5s ease infinite;}
+  .swatch.rainbow{background:conic-gradient(#ff5fa8,#ff9d5c,#ffd23f,#5cd68a,#4fb8ff,#a06bff,#ff5fa8);}
+
+  /* ---------- COLOUR HUNT ---------- */
+  #colour-target{width:22vmin;height:22vmin;min-width:96px;min-height:96px;border-radius:50%;
+    margin-top:1.5vmin;border:6px solid var(--white);box-shadow:var(--shadow);cursor:pointer;
+    animation:cardFloat 3s ease-in-out infinite;}
+  #colour-bubbles{flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:4vmin;width:100%;padding:2vmin;}
+  .colour-bubble{background:var(--white);font-size:14vmin;line-height:1;}
   @media (max-width:760px){
     #home{padding-top:72px;}
     .menu{grid-template-columns:repeat(2,minmax(125px,1fr));gap:14px;}
@@ -314,9 +353,11 @@
     .card .big{font-size:12vmin}.card .label{font-size:3.3vmin}
     .game-title{font-size:4.5vmin}.corner-btn{top:6px}
     #memory-grid{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);}
+    #run .game-title{display:none}#run-meter{position:absolute;top:14px;left:50%;transform:translateX(-50%);margin:0;z-index:51}
+    #run-wrap{border-top:0}
   }
   @media (prefers-reduced-motion:reduce){
-    .cloud,.twinkle,.title,.card,.bubble,.count-item,#spell-picture{animation:none!important;}
+    .cloud,.twinkle,.title,.card,.bubble,.count-item,#spell-picture,#colour-target,#run-hint{animation:none!important;}
     .particle,.flyby,.friend,.celebrate-banner,.sticker,#unicorn-svg.bounce{
       animation-duration:.01ms!important;animation-iteration-count:1!important;}
     .memory-face,.swatch,.meter-dot{transition-duration:.01ms!important;}
@@ -333,6 +374,7 @@
   <div class="title">Magic<br>Kingdom</div>
   <div class="subtitle">✨ tap a picture to play ✨</div>
   <div class="menu">
+    <button class="btn card c-run" data-go="run"><span class="big">🦄</span><span class="label">Rainbow Run</span></button>
     <button class="btn card c-pop" data-go="pop"><span class="big">⭐</span><span class="label">Star Pop</span></button>
     <button class="btn card c-uni" data-go="uni"><span class="big">🦄</span><span class="label">Dress-Up</span></button>
     <button class="btn card c-castle" data-go="castle"><span class="big">🏰</span><span class="label">Stickers</span></button>
@@ -341,9 +383,15 @@
     <button class="btn card c-memory" data-go="memory"><span class="big">🎴</span><span class="label">Matching</span></button>
     <button class="btn card c-math" data-go="math"><span class="big">🧮</span><span class="label">Number Magic</span></button>
     <button class="btn card c-spell" data-go="spell"><span class="big">🐝</span><span class="label">Spelling Bee</span></button>
+    <button class="btn card c-paint" data-go="paint"><span class="big">🎨</span><span class="label">Paint Pad</span></button>
+    <button class="btn card c-colour" data-go="colour"><span class="big">🌈</span><span class="label">Colour Hunt</span></button>
     <button class="btn card c-leah" data-go="leah"><span class="big">👶</span><span class="label">Leah's Sparkles</span></button>
   </div>
 </div>
+
+<!-- Tap to hear the current instruction again; hold to mute/unmute. -->
+<button class="btn corner-btn sound-btn hold-action" id="game-audio-toggle" hidden
+  aria-label="hear instructions again; hold to mute">🔊</button>
 
 <!-- ============ STAR POP ============ -->
 <div class="screen" id="pop">
@@ -539,9 +587,39 @@
   <div id="spell-tray"></div>
 </div>
 
+
+<!-- ============ RAINBOW RUN ============ -->
+<div class="screen" id="run">
+  <button class="btn corner-btn home-btn" data-go="home" aria-label="go home">🏠</button>
+  <div class="game-title">🦄 Rainbow Run!</div>
+  <div id="run-meter"></div>
+  <div id="run-wrap" aria-label="tap anywhere to jump">
+    <canvas id="run-canvas"></canvas>
+    <div id="run-hint">👆</div>
+  </div>
+</div>
+
+<!-- ============ PAINT PAD ============ -->
+<div class="screen" id="paint">
+  <button class="btn corner-btn home-btn" data-go="home" aria-label="go home">🏠</button>
+  <div class="game-title">🎨 Paint Pad!</div>
+  <div id="paint-wrap"><canvas id="paint-canvas" aria-label="painting canvas"></canvas></div>
+  <div id="paint-tray"></div>
+</div>
+
+<!-- ============ COLOUR HUNT ============ -->
+<div class="screen" id="colour">
+  <button class="btn corner-btn home-btn" data-go="home" aria-label="go home">🏠</button>
+  <div class="game-title">🌈 Colour Hunt!</div>
+  <div id="colour-status" aria-live="polite"></div>
+  <div id="colour-target" aria-label="hear the colour again"></div>
+  <div id="colour-bubbles"></div>
+</div>
+
 <!-- ============ LEAH MODE ============ -->
 <div class="screen" id="leah">
-  <button class="btn corner-btn home-btn" data-go="home">🏠</button>
+  <button class="btn corner-btn home-btn hold-action" id="leah-home-btn"
+    aria-label="hold to go home">🏠</button>
   <div class="game-title">👶 Leah's Sparkle Party!</div>
   <div id="leah-area"><div id="leah-hint">👆✨</div></div>
 </div>
@@ -632,18 +710,64 @@ function stopSpeech(){
 }
 
 const soundBtn = document.getElementById('sound-toggle');
+const gameAudioBtn = document.getElementById('game-audio-toggle');
+let replayPrompt = '';
+let gameAudioHoldTimer = null;
+let gameAudioHeld = false;
+function sayPrompt(text, delay=0){
+  replayPrompt = text;
+  say(text, delay);
+}
 function renderSoundBtn(){
   soundBtn.textContent = soundOn ? '🔊' : '🔇';
   soundBtn.setAttribute('aria-pressed', String(soundOn));
+  soundBtn.setAttribute('aria-label', soundOn ? 'turn sound off' : 'turn sound on');
+  gameAudioBtn.textContent = soundOn ? '🔊' : '🔇';
+  gameAudioBtn.setAttribute('aria-pressed', String(soundOn));
+  gameAudioBtn.setAttribute('aria-label', soundOn
+    ? 'hear instructions again; hold to mute'
+    : 'turn sound on and hear instructions');
 }
-renderSoundBtn();
-soundBtn.addEventListener('pointerdown', () => {
-  soundOn = !soundOn;
+function setSound(on){
+  soundOn = on;
   storeSet('mk-sound', soundOn ? 'on' : 'off');
   if(!soundOn) stopSpeech();
   renderSoundBtn();
   if(soundOn) twinkleSound();
+}
+function cancelGameAudioHold(){
+  clearTimeout(gameAudioHoldTimer);
+  gameAudioHoldTimer = null;
+  gameAudioBtn.classList.remove('holding');
+}
+renderSoundBtn();
+soundBtn.addEventListener('pointerdown', () => {
+  setSound(!soundOn);
 });
+gameAudioBtn.addEventListener('pointerdown', e => {
+  e.stopPropagation();
+  e.preventDefault();
+  if(gameAudioHoldTimer) return;
+  gameAudioHeld = false;
+  gameAudioBtn.classList.add('holding');
+  try{ gameAudioBtn.setPointerCapture(e.pointerId); }catch(err){}
+  gameAudioHoldTimer = setTimeout(()=>{
+    gameAudioHeld = true;
+    gameAudioHoldTimer = null;
+    gameAudioBtn.classList.remove('holding');
+    setSound(!soundOn);
+  }, 1100);
+});
+gameAudioBtn.addEventListener('pointerup', e => {
+  e.stopPropagation();
+  const wasHeld = gameAudioHeld;
+  cancelGameAudioHold();
+  if(wasHeld) return;
+  if(!soundOn) setSound(true);
+  if(replayPrompt) say(replayPrompt);
+});
+gameAudioBtn.addEventListener('pointercancel', cancelGameAudioHold);
+gameAudioBtn.addEventListener('contextmenu', e => e.preventDefault());
 
 /* ---------------- particles & celebration ---------------- */
 function burst(x, y, container, emojis=['✨','⭐','💖','🌟'], count=10){
@@ -700,9 +824,11 @@ let current = 'home';
 const enterHooks = {}, exitHooks = {};
 function go(id){
   stopSpeech();
+  cancelGameAudioHold();
   if(exitHooks[current]) exitHooks[current]();
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
   current = id;
+  gameAudioBtn.hidden = id === 'home' || id === 'leah';
   twinkleSound();
   if(enterHooks[id]) enterHooks[id]();
 }
@@ -757,7 +883,7 @@ function spawnFloater(){
 }
 enterHooks.pop = () => {
   popProgress = 0; noteStep = 0; renderMeter();
-  say('Pop the stars!');
+  sayPrompt('Pop the stars!');
   spawnFloater(); spawnFloater();
   popTimer = setInterval(spawnFloater, 900);
 };
@@ -839,7 +965,7 @@ document.querySelectorAll('.hat').forEach(h => h.style.display = 'none');
 if(HATS[hatIdx]) document.getElementById(HATS[hatIdx]).style.display = '';
 document.getElementById('uni-wings').style.display = wingsOn ? '' : 'none';
 if(BGS[bgIdx]) uniStage.classList.add(BGS[bgIdx]);
-enterHooks.uni = () => say('Dress up your unicorn!');
+enterHooks.uni = () => sayPrompt('Dress up your unicorn!');
 
 /* =====================================================
    GAME 3 — CASTLE STICKERS
@@ -914,7 +1040,7 @@ castleScene.addEventListener('pointerdown', e=>{
   popNote();
 });
 placedStickers.forEach(item=>drawSticker(item, false));
-enterHooks.castle = () => say('Pick a sticker, then tap the castle!');
+enterHooks.castle = () => sayPrompt('Pick a sticker, then tap the castle!');
 
 /* =====================================================
    GAME 4 — LETTER BUBBLES
@@ -984,10 +1110,10 @@ function newLetterRound(){
     });
     bubblesEl.appendChild(b);
   });
-  say('Can you find the letter ' + target + '?', 300);
+  sayPrompt('Can you find the letter ' + target + '?', 300);
 }
 targetEl.addEventListener('pointerdown', ()=> say('Find the letter ' + targetEl.textContent + '!'));
-enterHooks.letters = () => { roundIdx = 0; letterIdx = 0; newLetterRound(); };
+enterHooks.letters = newLetterRound;
 exitHooks.letters = () => { clearTimeout(letterTimer); letterLocked = true; };
 
 /* =====================================================
@@ -1050,10 +1176,15 @@ function newCountRound(){
     });
     countGarden.appendChild(item);
   });
-  say('Can you count ' + countTarget + ' ' + friendName + '?', 250);
+  sayPrompt('Can you count ' + countTarget + ' ' + friendName + '?', 250);
 }
-enterHooks.count = () => { countRound = 0; newCountRound(); };
-exitHooks.count = () => { clearTimeout(countTimer); countLocked = true; countGarden.innerHTML = ''; };
+enterHooks.count = newCountRound;
+exitHooks.count = () => {
+  clearTimeout(countTimer);
+  if(!countLocked && countDone < countTarget) countRound = Math.max(0, countRound - 1);
+  countLocked = true;
+  countGarden.innerHTML = '';
+};
 
 /* =====================================================
    GAME 6 — MAGIC MATCHING
@@ -1118,7 +1249,7 @@ function newMemoryRound(){
     });
     memoryGrid.appendChild(card);
   });
-  say('Can you find the matching pictures?');
+  sayPrompt('Can you find the matching pictures?');
 }
 enterHooks.memory = newMemoryRound;
 exitHooks.memory = () => { clearTimeout(memoryTimer); memoryLocked = true; memoryOpen = []; };
@@ -1201,10 +1332,14 @@ function newMathRound(){
     });
     mathAnswers.appendChild(bub);
   });
-  say('What is ' + a + ' plus ' + b + '? Count them all!', 300);
+  sayPrompt('What is ' + a + ' plus ' + b + '? Count them all!', 300);
 }
-enterHooks.math = () => { mathRound = 0; mathStars = 0; renderMathStars(); newMathRound(); };
-exitHooks.math = () => { clearTimeout(mathTimer); mathLocked = true; };
+enterHooks.math = () => { renderMathStars(); newMathRound(); };
+exitHooks.math = () => {
+  clearTimeout(mathTimer);
+  if(!mathLocked) mathRound = Math.max(0, mathRound - 1);
+  mathLocked = true;
+};
 
 /* =====================================================
    GAME 8 — SPELLING BEE
@@ -1263,7 +1398,7 @@ function newSpellRound(){
           spellIdx++;
           spellTimer = setTimeout(newSpellRound, 3200);
         }else{
-          say(needed + '!');
+          say('Great! Now find the letter ' + word[spellPos] + '!');
         }
       }else{
         tile.classList.remove('wrong'); void tile.offsetWidth; tile.classList.add('wrong');
@@ -1273,28 +1408,54 @@ function newSpellRound(){
     });
     spellTray.appendChild(tile);
   });
-  say('Can you spell ' + word.toLowerCase() + '? Find the letter ' + word[0] + '!', 300);
+  sayPrompt('Can you spell ' + word.toLowerCase() + '? Find the letter ' + word[0] + '!', 300);
 }
 spellPicture.addEventListener('pointerdown', ()=>{
   const round = SPELL_WORDS[spellIdx % SPELL_WORDS.length];
   say('Spell ' + round.word.toLowerCase() + '!');
 });
-enterHooks.spell = () => { spellIdx = 0; newSpellRound(); };
+enterHooks.spell = newSpellRound;
 exitHooks.spell = () => { clearTimeout(spellTimer); spellLocked = true; };
 
 /* =====================================================
    GAME 9 — LEAH'S SPARKLE PARTY (age 2 mode)
    Any tap = fireworks. No wrong answers, no goals.
    ===================================================== */
-const leahArea = document.getElementById('leah-area');
+const leahScreen = document.getElementById('leah');
 const leahHint = document.getElementById('leah-hint');
+const leahHomeBtn = document.getElementById('leah-home-btn');
 const FRIENDS = ['🦄','🐰','🐥','🐸','🦋','🐻','🐱','⭐'];
 let leahTaps = 0;
-leahArea.addEventListener('pointerdown', e=>{
+let leahExitTimer = null;
+function cancelLeahExit(){
+  clearTimeout(leahExitTimer);
+  leahExitTimer = null;
+  leahHomeBtn.classList.remove('holding');
+}
+leahHomeBtn.addEventListener('pointerdown', e=>{
+  e.stopPropagation();
+  e.preventDefault();
+  if(leahExitTimer) return;
+  leahHomeBtn.classList.add('holding');
+  try{ leahHomeBtn.setPointerCapture(e.pointerId); }catch(err){}
+  leahExitTimer = setTimeout(()=>{
+    leahExitTimer = null;
+    leahHomeBtn.classList.remove('holding');
+    go('home');
+  }, 1100);
+});
+leahHomeBtn.addEventListener('pointerup', e=>{
+  e.stopPropagation();
+  cancelLeahExit();
+});
+leahHomeBtn.addEventListener('pointercancel', cancelLeahExit);
+leahHomeBtn.addEventListener('contextmenu', e => e.preventDefault());
+
+leahScreen.addEventListener('pointerdown', e=>{
   leahHint.style.display = 'none';
-  const r = leahArea.getBoundingClientRect();
+  const r = leahScreen.getBoundingClientRect();
   const x = e.clientX - r.left, y = e.clientY - r.top;
-  burst(x, y, leahArea, ['✨','⭐','💖','🌈','🌟','🦋'], 14);
+  burst(x, y, leahScreen, ['✨','⭐','💖','🌈','🌟','🦋'], 14);
   chime();
   leahTaps++;
   if(leahTaps % 4 === 0){
@@ -1302,12 +1463,625 @@ leahArea.addEventListener('pointerdown', e=>{
     f.className = 'friend';
     f.textContent = FRIENDS[Math.floor(Math.random()*FRIENDS.length)];
     f.style.left = x + 'px'; f.style.top = y + 'px';
-    leahArea.appendChild(f);
+    leahScreen.appendChild(f);
     setTimeout(()=>f.remove(), 1650);
     [0,3,5].forEach((n,i)=> tone(PENTA[n], 0.2, 'triangle', 0.15, i*0.1));
   }
 });
 enterHooks.leah = () => { leahHint.style.display = ''; leahTaps = 0; say('Tap tap tap, Leah!'); };
+exitHooks.leah = () => {
+  cancelLeahExit();
+  leahScreen.querySelectorAll('.particle,.friend').forEach(el => el.remove());
+};
+
+
+/* hold-to-activate helper for buttons that should not fire on an accidental tap */
+function holdButton(btn, onHold, ms=1100){
+  let timer = null;
+  const cancel = () => { clearTimeout(timer); timer = null; btn.classList.remove('holding'); };
+  btn.addEventListener('pointerdown', e => {
+    e.stopPropagation(); e.preventDefault();
+    if(timer) return;
+    btn.classList.add('holding');
+    try{ btn.setPointerCapture(e.pointerId); }catch(err){}
+    timer = setTimeout(()=>{ timer = null; btn.classList.remove('holding'); onHold(); }, ms);
+  });
+  btn.addEventListener('pointerup', e => { e.stopPropagation(); cancel(); });
+  btn.addEventListener('pointercancel', cancel);
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+}
+
+/* =====================================================
+   GAME 10 — RAINBOW RUN (one-tap platformer)
+   The unicorn runs by herself. Tap anywhere to jump;
+   a second tap in the air gives a second jump. Falling
+   off the edge just summons a cloud that floats her back
+   onto the path — there is no way to lose. Reaching the
+   castle finishes the level; the next one is a touch
+   faster with slightly wider gaps.
+   World units: 1 unit = 1/11 of the play area height,
+   x grows to the right, y grows downward.
+   ===================================================== */
+const runWrap = document.getElementById('run-wrap');
+const runCanvas = document.getElementById('run-canvas');
+const runCtx = runCanvas.getContext('2d');
+const runHint = document.getElementById('run-hint');
+const runMeter = document.getElementById('run-meter');
+RAINBOW.forEach(()=>{ const d = document.createElement('div'); d.className = 'meter-dot'; runMeter.appendChild(d); });
+const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+const RUN_G = 38, RUN_JUMP = 16, RUN_JUMP2 = 15;
+const HERO_W = 1.0, HERO_H = 1.3;
+const RUN = {
+  level: 1, stars: 0, raf: null, last: 0, W: 0, H: 0, u: 40, yOff: 0, dpr: 1, t: 0,
+  cam: 0, speed: 5, state: 'run', ground: [], plats: [], items: [], snails: [], parts: [], puffs: [],
+  genX: 0, goalX: 0, castleX: 0, done: false, winTimer: null, hintTimer: null, stuckT: 0,
+  hero: { x: 2, feet: 8, vy: 0, onGround: false, jumps: 0, coyote: 0, buffer: 0, squash: 1 },
+};
+function renderRunMeter(){
+  [...runMeter.children].forEach((d,i)=>{
+    const on = i < RUN.stars;
+    d.classList.toggle('filled', on);
+    d.style.background = on ? RAINBOW[i] : '';
+  });
+}
+function runResize(){
+  RUN.W = runWrap.clientWidth; RUN.H = runWrap.clientHeight;
+  RUN.dpr = Math.min(2, window.devicePixelRatio || 1);
+  runCanvas.width = Math.max(1, Math.round(RUN.W * RUN.dpr));
+  runCanvas.height = Math.max(1, Math.round(RUN.H * RUN.dpr));
+  runCtx.setTransform(RUN.dpr, 0, 0, RUN.dpr, 0, 0);
+  RUN.u = Math.max(20, Math.min(RUN.H / 11, RUN.W / 10));
+  RUN.yOff = RUN.H - RUN.u * 11;
+}
+function lastGround(){ return RUN.ground[RUN.ground.length - 1]; }
+function runItem(x, y, e){ RUN.items.push({ x, y, e, got: 0, phase: Math.random()*6.28 }); }
+function pickItem(){ const r = Math.random(); return r < .72 ? '⭐' : r < .9 ? '💖' : '🌈'; }
+function genSegment(){
+  const L = RUN.level, prev = lastGround();
+  let gap = 0;
+  if(RUN.genX > 12 && Math.random() < Math.min(.72, .42 + L*.06)){
+    gap = 1.6 + Math.random() * Math.min(2.4, .6 + L*.45);
+  }
+  let top = prev.top;
+  if(gap){ top += [ -1.5, -1, 0, 0, 1 ][Math.floor(Math.random()*5)]; }          // rise only after a gap
+  else if(Math.random() < .3){ top += 1; }                                         // gentle step down
+  top = Math.min(9.5, Math.max(6.5, top));
+  const x = RUN.genX + gap;
+  const w = 4 + Math.random() * 6;
+  RUN.ground.push({ x, w, top });
+  if(gap){                                                                         // arc of stars over the gap
+    const base = Math.min(prev.top, top);
+    for(let i = 0; i < 3; i++){
+      runItem(RUN.genX + gap/2 + (i - 1)*1.2, base - 1.6 - (i === 1 ? 1.2 : .5), i === 1 ? pickItem() : '⭐');
+    }
+  }else{
+    const n = 2 + Math.floor(Math.random()*3);
+    const start = x + (w - (n-1)*1.3) / 2;
+    const lift = Math.random() < .45 ? 1.6 : 2.6;
+    for(let i = 0; i < n; i++) runItem(start + i*1.3, top - lift, pickItem());
+  }
+  if(w >= 6 && Math.random() < .45){                                               // floating platform
+    const pw = 2.5 + Math.random()*1.5, px = x + 1 + Math.random()*(w - pw - 2), py = top - 3.1;
+    RUN.plats.push({ x: px, w: pw, top: py });
+    runItem(px + pw*.3, py - 1.4, '⭐'); runItem(px + pw*.7, py - 1.4, pickItem());
+  }else if(w >= 6 && L >= 2 && Math.random() < .35){                               // friendly snail
+    RUN.snails.push({ x: x + w/2, top, dir: 1, t: 0, spin: 0, minX: x + 1, maxX: x + w - 1 });
+  }
+  RUN.genX = x + w;
+}
+function genCastle(){
+  const prev = lastGround();
+  const x = RUN.genX, w = 22;
+  RUN.ground.push({ x, w, top: prev.top });
+  RUN.castleX = x + 9;
+  RUN.done = true;
+}
+function newLevel(){
+  const L = RUN.level;
+  RUN.speed = Math.min(8, 4.8 + (L-1)*.45);
+  RUN.ground = [{ x: -10, w: 24, top: 8.5 }];
+  RUN.plats = []; RUN.items = []; RUN.snails = []; RUN.parts = []; RUN.puffs = [];
+  RUN.genX = 14; RUN.goalX = Math.min(220, 80 + L*22); RUN.done = false;
+  RUN.state = 'run'; RUN.stuckT = 0;
+  Object.assign(RUN.hero, { x: 2, feet: 8.5, vy: 0, onGround: true, jumps: 0, coyote: 0, buffer: 0, squash: 1 });
+  RUN.cam = RUN.hero.x - (RUN.W/RUN.u)*.3;
+  while(!RUN.done){ if(RUN.genX >= RUN.goalX) genCastle(); else genSegment(); }
+}
+function runJump(){
+  const h = RUN.hero;
+  if(RUN.state !== 'run') return;
+  runHint.style.display = 'none';
+  if(h.onGround || h.coyote > 0){
+    h.vy = -RUN_JUMP; h.onGround = false; h.coyote = 0; h.jumps = 1; h.squash = 1.25;
+    tone(440, .12, 'triangle', .12); tone(660, .12, 'triangle', .1, .05);
+  }else if(h.jumps < 2){
+    h.vy = -RUN_JUMP2; h.jumps = 2; h.squash = 1.25;
+    RUN.puffs.push({ x: h.x, y: h.feet, t: 0 });
+    tone(660, .12, 'triangle', .12); tone(880, .12, 'triangle', .1, .05);
+  }else{
+    h.buffer = .18;
+  }
+}
+function runSparkle(x, y, n, emojis){
+  for(let i = 0; i < n; i++){
+    const a = Math.random()*Math.PI*2, s = 2 + Math.random()*4;
+    RUN.parts.push({ x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s - 2, t: 0, life: .7 + Math.random()*.4,
+      e: emojis ? emojis[Math.floor(Math.random()*emojis.length)] : null,
+      c: RAINBOW[Math.floor(Math.random()*RAINBOW.length)] });
+  }
+}
+function runRescue(){
+  const h = RUN.hero;
+  const next = RUN.ground.find(g => g.x + g.w > h.x + 1) || lastGround();
+  h.x = Math.max(h.x, next.x + 1.2);
+  h.feet = -2; h.vy = 0; h.jumps = 0; h.onGround = false;
+  RUN.state = 'rescue';
+  boing();
+  say('Whoops! Up we go!');
+}
+function runWin(){
+  RUN.state = 'win';
+  fanfare(); unicornFlyby(); banner('YAY!');
+  runSparkle(RUN.hero.x, RUN.hero.feet - 1, 26, ['⭐','✨','💖','🌈']);
+  say('Hooray Myla! You reached the castle! Ready for the next one?', 400);
+  RUN.winTimer = setTimeout(()=>{ RUN.level++; newLevel(); sayPrompt('Tap to jump!'); }, 3600);
+}
+function runStep(dt){
+  const h = RUN.hero, W = RUN.W/RUN.u;
+  RUN.t += dt;
+  const prevFeet = h.feet;
+  if(RUN.state === 'run' || RUN.state === 'win'){
+    const moving = RUN.state === 'run' || h.x < RUN.castleX + 1.3;
+    if(moving) h.x += RUN.speed * dt;
+    h.vy += RUN_G * dt;
+    h.feet += h.vy * dt;
+  }else if(RUN.state === 'rescue'){
+    h.feet += 5.5 * dt;
+  }
+  // landing on ground blocks (with a small automatic step-up) and one-way floating platforms
+  const wasOnGround = h.onGround;
+  h.onGround = false;
+  if(h.vy >= 0 || RUN.state === 'rescue'){
+    const solids = RUN.state === 'rescue' ? RUN.ground : RUN.ground.concat(RUN.plats);
+    for(const b of solids){
+      if(h.x + HERO_W*.3 <= b.x || h.x - HERO_W*.3 >= b.x + b.w) continue;
+      const stepUp = RUN.ground.includes(b) ? .6 : 0;
+      if(prevFeet <= b.top + .02 + stepUp && h.feet >= b.top - .02){
+        h.feet = b.top; h.vy = 0; h.onGround = true;
+        if(RUN.state === 'rescue'){ RUN.state = 'run'; runSparkle(h.x, h.feet, 8, ['☁️','✨']); }
+        break;
+      }
+    }
+  }
+  if(RUN.state === 'run'){
+    for(const b of RUN.ground){
+      if(h.x + HERO_W*.3 > b.x && h.x - HERO_W*.3 < b.x + b.w && h.feet > b.top + .62 && prevFeet > b.top + .62){
+        h.x = Math.min(h.x, b.x - HERO_W*.3);
+      }
+    }
+  }
+  if(h.onGround){
+    if(!wasOnGround){ h.squash = .7; h.jumps = 0; if(h.buffer > 0){ h.buffer = 0; runJump(); } }
+    h.jumps = 0; h.coyote = .12;
+  }else{
+    if(wasOnGround) h.coyote = .12; else h.coyote = Math.max(0, h.coyote - dt);
+  }
+  h.buffer = Math.max(0, h.buffer - dt);
+  h.squash += (1 - h.squash) * Math.min(1, dt*10);
+  if(RUN.state === 'run' && h.feet > 11 + 2) runRescue();
+  if(RUN.state === 'run' && h.x >= RUN.castleX) runWin();
+  // items
+  for(const it of RUN.items){
+    if(it.got){ it.got += dt; continue; }
+    const iy = it.y + Math.sin(RUN.t*3 + it.phase)*.15;
+    if(Math.abs(it.x - h.x) < .9 && Math.abs(iy - (h.feet - HERO_H/2)) < 1.1){
+      it.got = .001;
+      popNote();
+      runSparkle(it.x, iy, 6, null);
+      RUN.stars++;
+      if(RUN.stars >= RAINBOW.length){
+        RUN.stars = 0; twinkleSound(); runSparkle(h.x, h.feet - 1, 18, ['🌈','⭐','✨']);
+        say(['You made a rainbow!','Sparkly!','Wow, so many stars!'][Math.floor(Math.random()*3)]);
+      }
+      renderRunMeter();
+    }
+  }
+  // snails: bump = bounce
+  for(const s of RUN.snails){
+    s.t += dt; s.spin = Math.max(0, s.spin - dt*3);
+    s.x += s.dir * .6 * dt;
+    if(s.x > s.maxX) s.dir = -1; else if(s.x < s.minX) s.dir = 1;
+    if(Math.abs(s.x - h.x) < .9 && h.feet > s.top - 1.2 && h.feet <= s.top + .05 && RUN.state === 'run' && s.spin === 0){
+      h.vy = -RUN_JUMP; h.onGround = false; h.jumps = 1; h.squash = 1.3; s.spin = 1;
+      tone(330, .15, 'square', .06); tone(520, .2, 'triangle', .12, .06);
+      runSparkle(s.x, s.top - .6, 6, ['💕','✨']);
+    }
+  }
+  for(const p of RUN.puffs) p.t += dt;
+  RUN.puffs = RUN.puffs.filter(p => p.t < .5);
+  for(const p of RUN.parts){ p.t += dt; p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 12*dt; }
+  RUN.parts = RUN.parts.filter(p => p.t < p.life);
+  RUN.items = RUN.items.filter(it => it.got < .5 && it.x > RUN.cam - 4);
+  // camera follows a little ahead of the hero
+  const target = Math.min(h.x - W*.3, RUN.castleX + 9 - W);
+  RUN.cam += (target - RUN.cam) * Math.min(1, dt*(RUN.state === 'rescue' ? 3 : 7));
+  // gentle reminder if she never taps
+  if(RUN.state === 'run' && runHint.style.display !== 'none'){
+    RUN.stuckT += dt;
+    if(RUN.stuckT > 6){ RUN.stuckT = 0; say('Tap the screen to jump!'); }
+  }
+}
+function emoji(ctx, e, x, y, size, flip){
+  ctx.save();
+  ctx.translate(x, y);
+  if(flip) ctx.scale(-1, 1);
+  ctx.font = size + 'px ' + EMOJI_FONT;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(e, 0, 0);
+  ctx.restore();
+}
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y); ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r); ctx.closePath();
+}
+function runDraw(){
+  const c = runCtx, u = RUN.u, W = RUN.W, H = RUN.H, cam = RUN.cam, h = RUN.hero;
+  const X = x => (x - cam) * u, Y = y => y * u + RUN.yOff;
+  // sky
+  const sky = c.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#bfe3ff'); sky.addColorStop(.6, '#f6e6ff'); sky.addColorStop(1, '#ffe9c9');
+  c.fillStyle = sky; c.fillRect(0, 0, W, H);
+  emoji(c, '☀️', W - u*1.4, Math.max(u*1.2, RUN.yOff*.5 + u*.6), u*1.3);
+  // parallax clouds & hills
+  for(let i = 0; i < 5; i++){
+    const cx = ((i*137 - cam*u*.25) % (W + u*6) + W + u*6) % (W + u*6) - u*3;
+    emoji(c, '☁️', cx, u*(1 + (i%3)*1.1), u*1.6);
+  }
+  c.fillStyle = '#c7ecd2';
+  c.beginPath(); c.moveTo(0, H);
+  for(let px = 0; px <= W; px += 12){
+    const wx = px/u + cam*.45;
+    c.lineTo(px, Y(8.6) - u*(1.2 + Math.sin(wx*.35)*.9 + Math.sin(wx*.11)*1.2));
+  }
+  c.lineTo(W, H); c.closePath(); c.fill();
+  // rainbow bridge platforms
+  for(const p of RUN.plats){
+    if(p.x + p.w < cam - 1 || p.x > cam + W/u + 1) continue;
+    const x = X(p.x), y = Y(p.top), w = p.w*u;
+    const g = c.createLinearGradient(x, 0, x + w, 0);
+    RAINBOW.forEach((col, i) => g.addColorStop(i/(RAINBOW.length-1), col));
+    c.fillStyle = '#fffdfa'; roundRect(c, x - 3, y - 3, w + 6, u*.6 + 6, u*.3); c.fill();
+    c.fillStyle = g; roundRect(c, x, y, w, u*.6, u*.28); c.fill();
+  }
+  // ground
+  for(const b of RUN.ground){
+    if(b.x + b.w < cam - 1 || b.x > cam + W/u + 1) continue;
+    const x = X(b.x), y = Y(b.top), w = b.w*u;
+    c.fillStyle = '#f5b9dc'; roundRect(c, x, y, w, H - y + u, u*.35); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.35)';
+    for(let d = x + u*.6; d < x + w - u*.3; d += u*1.1){ c.beginPath(); c.arc(d, y + u*1.3, u*.14, 0, 7); c.fill(); }
+    c.fillStyle = '#86dd7c'; roundRect(c, x, y, w, u*.5, u*.25); c.fill();
+    c.fillStyle = '#5cd68a';
+    for(let d = x + u*.3; d < x + w - u*.2; d += u*.55){ c.beginPath(); c.arc(d, y + u*.42, u*.12, 0, 7); c.fill(); }
+  }
+  // castle
+  if(RUN.castleX - cam < W/u + 4){
+    const top = lastGround().top;
+    emoji(c, '🏰', X(RUN.castleX + 1.2), Y(top) - u*1.6, u*3.4);
+    emoji(c, '🎈', X(RUN.castleX - .6) , Y(top) - u*3.3 + Math.sin(RUN.t*2)*u*.15, u*1);
+    emoji(c, '🎈', X(RUN.castleX + 3.2), Y(top) - u*3.1 + Math.cos(RUN.t*2)*u*.15, u*1);
+  }
+  // snails
+  for(const s of RUN.snails){
+    if(s.x < cam - 2 || s.x > cam + W/u + 2) continue;
+    c.save(); c.translate(X(s.x), Y(s.top) - u*.5);
+    if(s.spin > 0) c.rotate(Math.sin(s.spin*Math.PI)*1.2);
+    emoji(c, '🐌', 0, 0, u*1.1, s.dir > 0);
+    c.restore();
+  }
+  // items
+  for(const it of RUN.items){
+    if(it.x < cam - 1 || it.x > cam + W/u + 1) continue;
+    const bob = Math.sin(RUN.t*3 + it.phase)*.15;
+    const size = it.got ? Math.max(0, 1 - it.got*2.5) : 1;
+    emoji(c, it.e, X(it.x), Y(it.y + bob), u*size*(it.e === '🌈' ? 1.15 : .95));
+  }
+  // rescue cloud
+  if(RUN.state === 'rescue') emoji(c, '☁️', X(h.x), Y(h.feet) + u*.25, u*2.2);
+  // double-jump puffs
+  for(const p of RUN.puffs){
+    c.globalAlpha = 1 - p.t*2;
+    emoji(c, '☁️', X(p.x), Y(p.y) + p.t*u, u*(.9 + p.t));
+    c.globalAlpha = 1;
+  }
+  // hero (a unicorn, flipped to run to the right) with squash & stretch
+  const sq = h.squash;
+  c.save();
+  c.translate(X(h.x), Y(h.feet));
+  c.rotate(RUN.state === 'run' ? Math.max(-.25, Math.min(.25, h.vy*.018)) : 0);
+  c.scale(1/Math.sqrt(sq), sq);
+  emoji(c, '🦄', 0, -u*HERO_H*.55, u*1.6, true);
+  c.restore();
+  // particles
+  for(const p of RUN.parts){
+    c.globalAlpha = Math.max(0, 1 - p.t/p.life);
+    if(p.e){ emoji(c, p.e, X(p.x), Y(p.y), u*.7); }
+    else{ c.fillStyle = p.c; c.beginPath(); c.arc(X(p.x), Y(p.y), u*.14, 0, 7); c.fill(); }
+  }
+  c.globalAlpha = 1;
+}
+function runFrame(now){
+  const dt = Math.min(.05, (now - RUN.last)/1000 || 0);
+  RUN.last = now;
+  runStep(dt);
+  if(RUN.state === 'run' && Math.random() < .5){          // rainbow trail behind the hero
+    RUN.parts.push({ x: RUN.hero.x - .5, y: RUN.hero.feet - .5 - Math.random()*.6, vx: -1, vy: 0, t: 0, life: .45,
+      e: null, c: RAINBOW[Math.floor(RUN.t*12) % RAINBOW.length] });
+  }
+  runDraw();
+  RUN.raf = requestAnimationFrame(runFrame);
+}
+runWrap.addEventListener('pointerdown', () => runJump());
+document.addEventListener('keydown', e => {
+  if(current !== 'run' || e.repeat) return;
+  if(e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); runJump(); }
+});
+window.addEventListener('resize', () => { if(current === 'run') runResize(); });
+enterHooks.run = () => {
+  runResize();
+  RUN.stars = 0; renderRunMeter();
+  runHint.style.display = '';
+  newLevel();
+  sayPrompt('Tap to jump!', 300);
+  RUN.last = performance.now();
+  RUN.raf = requestAnimationFrame(runFrame);
+};
+exitHooks.run = () => {
+  cancelAnimationFrame(RUN.raf); RUN.raf = null;
+  clearTimeout(RUN.winTimer); RUN.winTimer = null;
+};
+
+/* =====================================================
+   GAME 11 — PAINT PAD (finger painting)
+   Big crayon colours, a rainbow crayon, a sparkle stamp
+   brush, undo, and a sponge you hold to wipe clean.
+   Strokes are stored in canvas-width units so the
+   picture survives rotating the phone; saved locally.
+   ===================================================== */
+const paintWrap = document.getElementById('paint-wrap');
+const paintCanvas = document.getElementById('paint-canvas');
+const paintCtx = paintCanvas.getContext('2d');
+const paintTray = document.getElementById('paint-tray');
+const PAINT_COLOURS = ['#ff5fa8','#ff4d4d','#ff9d5c','#ffd23f','#5cd68a','#4fb8ff','#a06bff','#a0663f','#444'];
+const SPARKLES = ['⭐','✨','💖','🌟','🦋','🌸'];
+let paintStrokes = readJSON('mk-paint', []);
+let paintMode = 'color', paintColour = PAINT_COLOURS[0];
+const paintActive = new Map();   // pointerId -> stroke in progress
+let paintW = 1, paintH = 1;
+function paintResize(){
+  paintW = paintWrap.clientWidth; paintH = paintWrap.clientHeight;
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  paintCanvas.width = Math.max(1, Math.round(paintW*dpr));
+  paintCanvas.height = Math.max(1, Math.round(paintH*dpr));
+  paintCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  paintStrokes.forEach(st => { st.len = null; });
+  paintRedraw();
+}
+function brushSize(){ return Math.max(10, paintW*.04); }
+function rainbowAt(len){ return 'hsl(' + ((len*360/(paintW*.8)) % 360) + ',95%,62%)'; }
+function drawSegment(st, i){
+  // draws the piece of stroke `st` that ends at point index i (i=0 draws a dot)
+  const c = paintCtx, W = paintW, size = brushSize();
+  const [x, y] = st.pts[i].map(v => v*W);
+  if(st.mode === 'sparkle'){
+    if(i === 0 || st.pts[i][2] !== undefined){
+      emoji(c, SPARKLES[st.pts[i][2] || 0], x, y, size*1.9 + (st.pts[i][3] || 0)*size);
+    }
+    return;
+  }
+  c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = size;
+  if(i === 0){
+    c.fillStyle = st.mode === 'rainbow' ? rainbowAt(0) : st.color;
+    c.beginPath(); c.arc(x, y, size/2, 0, 7); c.fill();
+    return;
+  }
+  const [px, py] = st.pts[i-1].map(v => v*W);
+  c.strokeStyle = st.mode === 'rainbow' ? rainbowAt(st.len[i]) : st.color;
+  c.beginPath(); c.moveTo(px, py); c.lineTo(x, y); c.stroke();
+}
+function paintRedraw(){
+  paintCtx.clearRect(0, 0, paintW, paintH);
+  for(const st of paintStrokes){
+    if(!st.len) rebuildLen(st);
+    for(let i = 0; i < st.pts.length; i++) drawSegment(st, i);
+  }
+}
+function rebuildLen(st){
+  st.len = [0];
+  for(let i = 1; i < st.pts.length; i++){
+    const [ax, ay] = st.pts[i-1], [bx, by] = st.pts[i];
+    st.len[i] = st.len[i-1] + Math.hypot((bx-ax)*paintW, (by-ay)*paintW);
+  }
+}
+function paintSave(){
+  const keep = paintStrokes.slice(-80).map(st => ({ mode: st.mode, color: st.color, pts: st.pts }));
+  storeSet('mk-paint', JSON.stringify(keep));
+}
+function paintPoint(e){
+  const r = paintWrap.getBoundingClientRect();
+  return [(e.clientX - r.left)/paintW, (e.clientY - r.top)/paintW];
+}
+paintWrap.addEventListener('pointerdown', e => {
+  e.stopPropagation();
+  if(paintActive.size >= 4) return;
+  try{ paintWrap.setPointerCapture(e.pointerId); }catch(err){}
+  const [x, y] = paintPoint(e);
+  const st = { mode: paintMode, color: paintColour, pts: [], len: [0], lastSparkle: 0 };
+  if(paintMode === 'sparkle') st.pts.push([x, y, Math.floor(Math.random()*SPARKLES.length), Math.random()]);
+  else st.pts.push([x, y]);
+  paintStrokes.push(st);
+  paintActive.set(e.pointerId, st);
+  drawSegment(st, 0);
+  popNote();
+});
+paintWrap.addEventListener('pointermove', e => {
+  const st = paintActive.get(e.pointerId);
+  if(!st) return;
+  const [x, y] = paintPoint(e);
+  const [lx, ly] = st.pts[st.pts.length-1];
+  const d = Math.hypot((x-lx)*paintW, (y-ly)*paintW);
+  if(d < 2) return;
+  if(st.mode === 'sparkle'){
+    st.lastSparkle += d;
+    if(st.lastSparkle < brushSize()*1.4) return;
+    st.lastSparkle = 0;
+    st.pts.push([x, y, Math.floor(Math.random()*SPARKLES.length), Math.random()]);
+  }else{
+    st.pts.push([x, y]);
+  }
+  st.len.push(st.len[st.len.length-1] + d);
+  drawSegment(st, st.pts.length-1);
+});
+function paintEnd(e){
+  if(!paintActive.has(e.pointerId)) return;
+  paintActive.delete(e.pointerId);
+  paintSave();
+}
+paintWrap.addEventListener('pointerup', paintEnd);
+paintWrap.addEventListener('pointercancel', paintEnd);
+
+/* tray: colours, rainbow, sparkle, undo, sponge (hold) */
+function selectPaint(mode, colour){
+  paintMode = mode; if(colour) paintColour = colour;
+  paintTray.querySelectorAll('.swatch,.paint-tool').forEach(el => {
+    el.classList.toggle('selected', el.dataset.mode === mode && (mode !== 'color' || el.dataset.colour === colour));
+  });
+}
+PAINT_COLOURS.forEach(col => {
+  const s = document.createElement('button');
+  s.className = 'swatch'; s.style.background = col;
+  s.dataset.mode = 'color'; s.dataset.colour = col;
+  s.setAttribute('aria-label', 'crayon');
+  s.addEventListener('pointerdown', e => { e.stopPropagation(); selectPaint('color', col); popNote(); });
+  paintTray.appendChild(s);
+});
+const rainbowSwatch = document.createElement('button');
+rainbowSwatch.className = 'swatch rainbow'; rainbowSwatch.dataset.mode = 'rainbow';
+rainbowSwatch.setAttribute('aria-label', 'rainbow crayon');
+rainbowSwatch.addEventListener('pointerdown', e => { e.stopPropagation(); selectPaint('rainbow'); twinkleSound(); });
+paintTray.appendChild(rainbowSwatch);
+const sparkleTool = document.createElement('button');
+sparkleTool.className = 'btn tray-btn paint-tool'; sparkleTool.textContent = '✨'; sparkleTool.dataset.mode = 'sparkle';
+sparkleTool.setAttribute('aria-label', 'sparkle stamps');
+sparkleTool.addEventListener('pointerdown', e => { e.stopPropagation(); selectPaint('sparkle'); chime(); });
+paintTray.appendChild(sparkleTool);
+const undoTool = document.createElement('button');
+undoTool.className = 'btn tray-btn'; undoTool.textContent = '↩️';
+undoTool.setAttribute('aria-label', 'undo last stroke');
+undoTool.addEventListener('pointerdown', e => {
+  e.stopPropagation();
+  if(!paintStrokes.length) return;
+  paintStrokes.pop(); paintActive.clear(); paintRedraw(); paintSave(); boing();
+});
+paintTray.appendChild(undoTool);
+const spongeTool = document.createElement('button');
+spongeTool.className = 'btn tray-btn hold-action'; spongeTool.textContent = '🧽';
+spongeTool.setAttribute('aria-label', 'hold to wipe the picture clean');
+paintTray.appendChild(spongeTool);
+holdButton(spongeTool, () => {
+  paintStrokes = []; paintActive.clear(); paintRedraw(); paintSave();
+  twinkleSound(); say('All clean! Paint something new!');
+});
+window.addEventListener('resize', () => { if(current === 'paint') paintResize(); });
+enterHooks.paint = () => {
+  selectPaint(paintMode, paintColour);
+  paintResize();
+  sayPrompt('Pick a colour and paint with your finger!', 300);
+};
+exitHooks.paint = () => { paintActive.clear(); };
+
+/* =====================================================
+   GAME 12 — COLOUR HUNT
+   A big coloured blob and the voice say a colour; the
+   child finds the picture that is that colour. Wrong
+   taps wobble and name their colour instead.
+   ===================================================== */
+const colourStatus = document.getElementById('colour-status');
+const colourTarget = document.getElementById('colour-target');
+const colourBubbles = document.getElementById('colour-bubbles');
+const COLOURS = [
+  { name:'pink',   hex:'#ff8fc8', items:[['🌸','a flower'],['🐷','a pig'],['🎀','a bow'],['🦩','a flamingo']] },
+  { name:'red',    hex:'#ff4d4d', items:[['🍓','a strawberry'],['🍎','an apple'],['❤️','a heart'],['🍒','cherries']] },
+  { name:'orange', hex:'#ff9d5c', items:[['🍊','an orange'],['🥕','a carrot'],['🎃','a pumpkin'],['🦊','a fox']] },
+  { name:'yellow', hex:'#ffd23f', items:[['🍌','a banana'],['🐥','a chick'],['🍋','a lemon'],['🌻','a sunflower']] },
+  { name:'green',  hex:'#5cd68a', items:[['🐸','a frog'],['🍀','a clover'],['🥦','broccoli'],['🐢','a turtle']] },
+  { name:'blue',   hex:'#4fb8ff', items:[['🐳','a whale'],['🫐','blueberries'],['💙','a heart'],['🧢','a cap']] },
+  { name:'purple', hex:'#a06bff', items:[['🍇','grapes'],['🍆','an eggplant'],['💜','a heart'],['🔮','a crystal ball']] },
+  { name:'brown',  hex:'#a0663f', items:[['🐻','a bear'],['🍫','chocolate'],['🐴','a horse'],['🥔','a potato']] },
+];
+let colourRound = 0, colourStars = 0, colourLocked = false, colourTimer = null, colourPromptText = '';
+function renderColourStars(){
+  colourStatus.innerHTML = '<span>✨</span>';
+  for(let i = 0; i < 5; i++){
+    const star = document.createElement('span');
+    star.className = 'memory-star' + (i < colourStars ? ' won' : '');
+    star.textContent = '⭐';
+    colourStatus.appendChild(star);
+  }
+  const end = document.createElement('span'); end.textContent = '✨'; colourStatus.appendChild(end);
+}
+function newColourRound(){
+  colourLocked = false;
+  const target = COLOURS[colourRound % COLOURS.length];
+  colourRound++;
+  colourTarget.style.background = target.hex;
+  const pick = list => list[Math.floor(Math.random()*list.length)];
+  const answer = pick(target.items);
+  const others = shuffle(COLOURS.filter(c => c !== target)).slice(0, 3).map(c => ({ c, it: pick(c.items) }));
+  const options = shuffle([{ c: target, it: answer }, ...others]);
+  colourBubbles.innerHTML = '';
+  options.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'btn bubble colour-bubble';
+    b.textContent = o.it[0];
+    b.setAttribute('aria-label', o.it[1]);
+    b.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if(colourLocked) return;
+      if(o.c === target){
+        colourLocked = true;
+        const r = colourBubbles.getBoundingClientRect();
+        burst(e.clientX - r.left, e.clientY - r.top, colourBubbles, ['⭐','✨','💖']);
+        colourStars++;
+        renderColourStars();
+        if(colourStars >= 5){
+          fanfare(); unicornFlyby(); banner('WOW!');
+          say('Yes! ' + o.it[1] + ' is ' + target.name + '! You know all the colours!', 300);
+          colourTimer = setTimeout(()=>{ colourStars = 0; renderColourStars(); newColourRound(); }, 3200);
+        }else{
+          twinkleSound();
+          say('Yes! ' + o.it[1] + ' is ' + target.name + '!');
+          colourTimer = setTimeout(newColourRound, 1800);
+        }
+      }else{
+        b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
+        boing();
+        say('That is ' + o.it[1] + '. It is ' + o.c.name + '. Find something ' + target.name + '!');
+      }
+    });
+    colourBubbles.appendChild(b);
+  });
+  colourPromptText = 'Find something ' + target.name + '!';
+  sayPrompt(colourPromptText, 300);
+}
+colourTarget.addEventListener('pointerdown', e => { e.stopPropagation(); say(colourPromptText); });
+enterHooks.colour = () => { renderColourStars(); newColourRound(); };
+exitHooks.colour = () => {
+  clearTimeout(colourTimer);
+  if(!colourLocked) colourRound = Math.max(0, colourRound - 1);
+  colourLocked = true;
+};
 
 /* first-gesture audio unlock */
 document.body.addEventListener('pointerdown', ()=>{ if(soundOn) ctx(); }, {once:true});
