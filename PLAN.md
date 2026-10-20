@@ -55,6 +55,12 @@ Rainbow Run is a `<canvas>` game (emoji sprites, world measured in units of the
 play-area height, anchored to the bottom so portrait phones show ~10 units of
 look-ahead). Physics has coyote time and jump buffering so late taps still work.
 
+## v4.1 — SHIPPED
+
+| Game | Skill it exercises | Loop |
+|---|---|---|
+| ⭕ Noughts & Crosses | turn-taking, planning ahead | pick a friend (🐣 easy / 🐸 medium / 🐲 perfect minimax / 👭 two players) → get three in a row → stars for wins (and dragon draws) |
+
 ## v5 ideas (next sessions)
 
 - **Creation gallery**: add a screen for several saved dress-up and sticker scenes.

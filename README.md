@@ -53,6 +53,10 @@ Best experience:
 - 🌈 **Colour Hunt** — a big coloured blob and the voice say a colour ("Find
   something pink!"); tap the picture that is that colour. Wrong taps wobble and
   the voice names their colour instead.
+- ⭕ **Noughts & Crosses** — Myla is the unicorn. Pick who to play: the baby
+  chick 🐣 (easy), the frog 🐸 (medium) or the dragon 🐲 (never loses, so a draw
+  earns a star too). The 🦄🌸 card is two players taking turns on one screen.
+  Wins fill a five-star meter; losing just starts a new game.
 - 👶 **Sparkle Party** — for the 2-year-old: tapping anywhere makes fireworks
   and chimes, and friendly animals pop up. No wrong answers; hold 🏠 to leave.
 

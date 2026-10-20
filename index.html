@@ -92,6 +92,7 @@
   .card.c-run{background:#e3f2ff;}
   .card.c-paint{background:#fff6d6;}
   .card.c-colour{background:#ffe4d6;}
+  .card.c-ttt{background:#e8f4ff;}
 
   /* ---------- generic game header ---------- */
   .game-title{margin-top:2.5vmin;font-size:5.5vmin;font-weight:800;
@@ -338,6 +339,41 @@
   #colour-bubbles{flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
     gap:4vmin;width:100%;padding:2vmin;}
   .colour-bubble{background:var(--white);font-size:14vmin;line-height:1;}
+  /* ---------- NOUGHTS & CROSSES ---------- */
+  #ttt-picker,#ttt-play{flex:1;min-height:0;width:100%;}
+  #ttt-picker[hidden],#ttt-play[hidden]{display:none;}
+  #ttt-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3vmin;
+    width:min(92vw,620px);align-content:center;padding:2vmin 0 3vmin;}
+  .ttt-friend{height:min(30vh,42vw);min-height:110px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:.5vmin;animation:cardFloat 3.4s ease-in-out infinite;}
+  .ttt-friend:nth-child(2){animation-delay:.4s}.ttt-friend:nth-child(3){animation-delay:.8s}
+  .ttt-friend:nth-child(4){animation-delay:1.2s}
+  .ttt-friend .big{font-size:min(13vh,17vw);line-height:1;}
+  .ttt-friend .ttt-level{font-size:min(5vh,6vw);line-height:1;letter-spacing:.3vmin;}
+  .ttt-friend[data-level="chick"]{background:#fff3d1;}
+  .ttt-friend[data-level="frog"]{background:#e0f9ee;}
+  .ttt-friend[data-level="dragon"]{background:#ffe1e1;}
+  .ttt-friend[data-level="two"]{background:#ffe9fb;}
+  #ttt-play{--ttt-size:min(90vw,calc(100vh - 240px),600px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5vmin;padding-bottom:2vmin;}
+  @supports (height:100dvh){#ttt-play{--ttt-size:min(90vw,calc(100dvh - 240px),600px);}}
+  #ttt-status{display:flex;align-items:center;justify-content:center;gap:1.2vmin;font-size:5vmin;font-weight:800;}
+  .ttt-chip{font-size:7vmin;line-height:1;padding:.6vmin 1.6vmin;border-radius:30px;
+    background:rgba(255,255,255,.45);opacity:.55;transition:transform .25s,opacity .25s,background .25s;}
+  .ttt-chip.turn{opacity:1;background:var(--white);transform:scale(1.15);box-shadow:var(--shadow);}
+  .ttt-chip.thinking{animation:wiggle .5s ease infinite;}
+  #ttt-stars{display:flex;gap:.8vmin;}
+  #ttt-stars[hidden]{display:none;}
+  #ttt-board{width:var(--ttt-size);height:var(--ttt-size);display:grid;
+    grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:2vmin;padding:2vmin;
+    background:rgba(255,255,255,.55);border-radius:36px;box-shadow:var(--shadow);}
+  .ttt-cell{padding:0;border-radius:24px;display:flex;align-items:center;justify-content:center;
+    font-size:calc(var(--ttt-size) * .19);line-height:1;min-width:0;min-height:0;transition:opacity .3s;}
+  .ttt-cell .mark{display:block;animation:markPop .35s cubic-bezier(.3,1.6,.5,1);}
+  @keyframes markPop{from{transform:scale(0) rotate(-30deg)}to{transform:scale(1) rotate(0)}}
+  .ttt-cell.win{background:var(--candy-sun);animation:popWin .6s ease 2;}
+  .ttt-cell.dim{opacity:.45;}
+  #ttt-change{font-size:max(5vmin,30px);padding:.6vmin 5vmin;line-height:1.2;}
   @media (max-width:760px){
     #home{padding-top:72px;}
     .menu{grid-template-columns:repeat(2,minmax(125px,1fr));gap:14px;}
@@ -355,10 +391,15 @@
     #memory-grid{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);}
     #run .game-title{display:none}#run-meter{position:absolute;top:14px;left:50%;transform:translateX(-50%);margin:0;z-index:51}
     #run-wrap{border-top:0}
+    #ttt-picker{grid-template-columns:repeat(4,minmax(0,1fr));width:min(94vw,900px);}
+    .ttt-friend{height:min(58vh,21vw);}.ttt-friend .big{font-size:min(20vh,9vw);}
+    .ttt-friend .ttt-level{font-size:min(7vh,3vw);}
+    #ttt-play{flex-direction:row;gap:4vmin;--ttt-size:min(calc(100vh - 70px),55vw);}
+    #ttt-status{flex-direction:column;}#ttt-stars{flex-direction:column;}
   }
   @media (prefers-reduced-motion:reduce){
-    .cloud,.twinkle,.title,.card,.bubble,.count-item,#spell-picture,#colour-target,#run-hint{animation:none!important;}
-    .particle,.flyby,.friend,.celebrate-banner,.sticker,#unicorn-svg.bounce{
+    .cloud,.twinkle,.title,.card,.bubble,.count-item,#spell-picture,#colour-target,#run-hint,.ttt-friend,.ttt-chip{animation:none!important;}
+    .particle,.flyby,.friend,.celebrate-banner,.sticker,#unicorn-svg.bounce,.ttt-cell,.ttt-cell .mark{
       animation-duration:.01ms!important;animation-iteration-count:1!important;}
     .memory-face,.swatch,.meter-dot{transition-duration:.01ms!important;}
   }
@@ -385,6 +426,7 @@
     <button class="btn card c-spell" data-go="spell"><span class="big">🐝</span><span class="label">Spelling Bee</span></button>
     <button class="btn card c-paint" data-go="paint"><span class="big">🎨</span><span class="label">Paint Pad</span></button>
     <button class="btn card c-colour" data-go="colour"><span class="big">🌈</span><span class="label">Colour Hunt</span></button>
+    <button class="btn card c-ttt" data-go="ttt"><span class="big">⭕</span><span class="label">Noughts &amp; Crosses</span></button>
     <button class="btn card c-leah" data-go="leah"><span class="big">👶</span><span class="label">Leah's Sparkles</span></button>
   </div>
 </div>
@@ -614,6 +656,31 @@
   <div id="colour-status" aria-live="polite"></div>
   <div id="colour-target" aria-label="hear the colour again"></div>
   <div id="colour-bubbles"></div>
+</div>
+
+<!-- ============ NOUGHTS & CROSSES ============ -->
+<div class="screen" id="ttt">
+  <button class="btn corner-btn home-btn" data-go="home" aria-label="go home">🏠</button>
+  <div class="game-title">⭕ Noughts &amp; Crosses!</div>
+  <div id="ttt-picker">
+    <button class="btn ttt-friend" data-level="chick" aria-label="play the baby chick, easy">
+      <span class="big">🐣</span><span class="ttt-level">⭐</span></button>
+    <button class="btn ttt-friend" data-level="frog" aria-label="play the frog, medium">
+      <span class="big">🐸</span><span class="ttt-level">⭐⭐</span></button>
+    <button class="btn ttt-friend" data-level="dragon" aria-label="play the dragon, hard">
+      <span class="big">🐲</span><span class="ttt-level">⭐⭐⭐</span></button>
+    <button class="btn ttt-friend" data-level="two" aria-label="two players">
+      <span class="big">🦄🌸</span><span class="ttt-level">👭</span></button>
+  </div>
+  <div id="ttt-play" hidden>
+    <div id="ttt-status" aria-live="polite">
+      <span class="ttt-chip" id="ttt-chip-a">🦄</span>
+      <span id="ttt-stars"></span>
+      <span class="ttt-chip" id="ttt-chip-b">🐣</span>
+    </div>
+    <div id="ttt-board"></div>
+    <button class="btn" id="ttt-change" aria-label="pick a different friend">🐣🐸🐲</button>
+  </div>
 </div>
 
 <!-- ============ LEAH MODE ============ -->
@@ -2082,6 +2149,219 @@ exitHooks.colour = () => {
   if(!colourLocked) colourRound = Math.max(0, colourRound - 1);
   colourLocked = true;
 };
+
+/* =====================================================
+   GAME 13 — NOUGHTS & CROSSES
+   Myla is always the unicorn. She picks who to play:
+   the chick (easy, mostly random), the frog (medium,
+   wins when it can and usually blocks) or the dragon
+   (perfect play — a draw is a win against it). The
+   fourth card is two players sharing one screen.
+   Losing just starts a new game; there is no fail state.
+   ===================================================== */
+const tttPicker = document.getElementById('ttt-picker');
+const tttPlay = document.getElementById('ttt-play');
+const tttBoard = document.getElementById('ttt-board');
+const tttStars = document.getElementById('ttt-stars');
+const tttChipA = document.getElementById('ttt-chip-a');
+const tttChipB = document.getElementById('ttt-chip-b');
+const TTT_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const TTT_FRIENDS = {
+  chick:  { mark:'🐣', name:'the baby chick', hello:'The baby chick! It is just learning to play.' },
+  frog:   { mark:'🐸', name:'the frog', hello:'The frog! It is quite clever.' },
+  dragon: { mark:'🐲', name:'the dragon', hello:'The dragon! It is very tricky. Can you stop it?' },
+  two:    { mark:'🌸', name:'flower', hello:'Two players! Take turns. Unicorn, then flower.' },
+};
+let tttLevel = 'chick', tttCells = [], tttTurn = 'A', tttStarter = 'A';
+let tttLocked = true, tttTimer = null, tttWins = 0;
+const tttCellBtns = [];
+for(let i = 0; i < 9; i++){
+  const b = document.createElement('button');
+  b.className = 'btn ttt-cell';
+  b.addEventListener('pointerdown', e => { e.stopPropagation(); tttTap(i); });
+  tttBoard.appendChild(b);
+  tttCellBtns.push(b);
+}
+function tttEmpty(cells){ return cells.flatMap((c, i) => c ? [] : [i]); }
+function tttResult(cells){
+  for(const line of TTT_LINES){
+    const [a, b, c] = line;
+    if(cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) return { who: cells[a], line };
+  }
+  return cells.every(Boolean) ? { who: 'draw' } : null;
+}
+// The empty square that would complete a line for `who`, or -1.
+function tttFinishing(cells, who){
+  for(const line of TTT_LINES){
+    const mine = line.filter(i => cells[i] === who).length;
+    const gap = line.find(i => !cells[i]);
+    if(mine === 2 && gap !== undefined) return gap;
+  }
+  return -1;
+}
+// Score from B's side: quicker wins score higher, slower losses lose less.
+function tttMinimax(cells, turn, depth){
+  const r = tttResult(cells);
+  if(r) return r.who === 'B' ? 10 - depth : r.who === 'A' ? depth - 10 : 0;
+  let best = turn === 'B' ? -Infinity : Infinity;
+  for(const i of tttEmpty(cells)){
+    cells[i] = turn;
+    const score = tttMinimax(cells, turn === 'B' ? 'A' : 'B', depth + 1);
+    cells[i] = null;
+    best = turn === 'B' ? Math.max(best, score) : Math.min(best, score);
+  }
+  return best;
+}
+function tttPickMove(cells, level){
+  const empty = tttEmpty(cells);
+  const any = () => empty[Math.floor(Math.random() * empty.length)];
+  const win = tttFinishing(cells, 'B'), block = tttFinishing(cells, 'A');
+  if(level === 'chick') return win >= 0 && Math.random() < 0.35 ? win : any();
+  if(level === 'frog'){
+    if(win >= 0) return win;
+    if(block >= 0 && Math.random() < 0.7) return block;
+    if(!cells[4] && Math.random() < 0.5) return 4;
+    return any();
+  }
+  // dragon: perfect play, picking randomly among equally good squares
+  let bestScore = -Infinity, best = [];
+  for(const i of empty){
+    cells[i] = 'B';
+    const score = tttMinimax(cells, 'A', 1);
+    cells[i] = null;
+    if(score > bestScore){ bestScore = score; best = [i]; }
+    else if(score === bestScore) best.push(i);
+  }
+  return best[Math.floor(Math.random() * best.length)];
+}
+function tttMark(who){ return who === 'A' ? '🦄' : TTT_FRIENDS[tttLevel].mark; }
+function renderTttStatus(){
+  const vsComputer = tttLevel !== 'two';
+  tttChipB.textContent = tttMark('B');
+  tttChipA.classList.toggle('turn', !tttLocked && tttTurn === 'A');
+  tttChipB.classList.toggle('turn', !tttLocked && tttTurn === 'B');
+  tttStars.hidden = !vsComputer;
+  tttStars.innerHTML = '';
+  for(let i = 0; i < 5; i++){
+    const star = document.createElement('span');
+    star.className = 'memory-star' + (i < tttWins ? ' won' : '');
+    star.textContent = '⭐';
+    tttStars.appendChild(star);
+  }
+}
+function renderTttBoard(){
+  tttCells.forEach((c, i) => {
+    const b = tttCellBtns[i];
+    b.classList.remove('win', 'dim');
+    b.innerHTML = c ? '<span class="mark">' + tttMark(c) + '</span>' : '';
+    b.setAttribute('aria-label', c ? (c === 'A' ? 'unicorn' : TTT_FRIENDS[tttLevel].name) : 'empty square');
+  });
+}
+function tttShowPicker(){
+  clearTimeout(tttTimer);
+  tttLocked = true;
+  tttPicker.hidden = false;
+  tttPlay.hidden = true;
+  sayPrompt('Who do you want to play with?', 300);
+}
+function tttChoose(level){
+  tttLevel = level;
+  tttWins = 0;
+  tttStarter = 'A';
+  tttPicker.hidden = true;
+  tttPlay.hidden = false;
+  newTttGame(false);
+  say(TTT_FRIENDS[level].hello + ' ' + replayPrompt);
+}
+function newTttGame(speak=true){
+  clearTimeout(tttTimer);
+  tttCells = Array(9).fill(null);
+  // Myla always starts against the computer; two players take turns starting.
+  tttTurn = tttLevel === 'two' ? tttStarter : 'A';
+  tttLocked = false;
+  renderTttBoard();
+  renderTttStatus();
+  replayPrompt = tttLevel === 'two'
+    ? 'Get three in a row! ' + (tttTurn === 'A' ? 'Unicorn' : 'Flower') + ' goes first.'
+    : 'You are the unicorn! Get three unicorns in a row!';
+  if(speak) say(tttLevel === 'two'
+    ? 'New game! ' + (tttTurn === 'A' ? 'Unicorn' : 'Flower') + ' goes first.'
+    : 'New game! You go first.', 300);
+}
+function tttTap(i){
+  if(tttLocked || tttCells[i]) return;
+  if(tttLevel !== 'two' && tttTurn !== 'A') return;
+  tttPlace(i);
+}
+function tttPlace(i){
+  tttCells[i] = tttTurn;
+  renderTttBoard();
+  if(tttTurn === 'A') popNote(); else tone(PENTA[1], 0.2, 'sine', 0.16);
+  const r = tttResult(tttCells);
+  if(r){ tttFinish(r); return; }
+  tttTurn = tttTurn === 'A' ? 'B' : 'A';
+  renderTttStatus();
+  if(tttLevel === 'two'){ stopSpeech(); return; }
+  if(tttTurn === 'B'){
+    tttLocked = true;
+    tttChipB.classList.add('turn', 'thinking');
+    tttTimer = setTimeout(() => {
+      tttChipB.classList.remove('thinking');
+      tttLocked = false;
+      tttPlace(tttPickMove(tttCells, tttLevel));
+    }, 650 + Math.random() * 400);
+  }
+}
+function tttFinish(r){
+  tttLocked = true;
+  tttChipB.classList.remove('thinking');
+  renderTttStatus();
+  const friend = TTT_FRIENDS[tttLevel], two = tttLevel === 'two';
+  if(r.line){
+    tttCellBtns.forEach((b, i) => b.classList.add(r.line.includes(i) ? 'win' : 'dim'));
+    const br = tttBoard.getBoundingClientRect();
+    r.line.forEach(i => {
+      const cr = tttCellBtns[i].getBoundingClientRect();
+      burst(cr.left - br.left + cr.width/2, cr.top - br.top + cr.height/2, tttBoard, ['⭐','✨','💖'], 6);
+    });
+  }
+  let delay = 3200;
+  if(two){
+    if(r.who === 'draw'){ chime(); say('It is a draw! Nobody got three in a row. Let’s play again!'); }
+    else{
+      fanfare(); banner(r.who === 'A' ? 'UNICORN!' : 'FLOWER!');
+      say((r.who === 'A' ? 'Unicorn' : 'Flower') + ' wins! Three in a row!', 300);
+    }
+    tttStarter = tttStarter === 'A' ? 'B' : 'A';
+  }else if(r.who === 'A' || (r.who === 'draw' && tttLevel === 'dragon')){
+    tttWins++;
+    renderTttStatus();
+    if(tttWins >= 5){
+      fanfare(); unicornFlyby(); banner('CHAMPION!');
+      say('Five stars! You are a noughts and crosses champion!', 300);
+      tttWins = 0;
+      delay = 4200;
+    }else if(r.who === 'A'){
+      fanfare(); banner('YOU WIN!');
+      say('Three unicorns in a row! You beat ' + friend.name + '!', 300);
+    }else{
+      twinkleSound(); banner('DRAW!');
+      say('A draw! You stopped the dragon! That is a star!', 300);
+    }
+  }else if(r.who === 'draw'){
+    chime(); say('It is a draw! Nobody got three in a row. Let’s play again!');
+  }else{
+    boing(); say('Oh! ' + friend.name + ' got three in a row. Let’s play again!', 300);
+  }
+  tttTimer = setTimeout(newTttGame, delay);
+}
+tttPicker.querySelectorAll('.ttt-friend').forEach(b =>
+  b.addEventListener('pointerdown', e => { e.stopPropagation(); tttChoose(b.dataset.level); }));
+document.getElementById('ttt-change').addEventListener('pointerdown', e => {
+  e.stopPropagation(); tttShowPicker();
+});
+enterHooks.ttt = tttShowPicker;
+exitHooks.ttt = () => { clearTimeout(tttTimer); tttLocked = true; tttChipB.classList.remove('thinking'); };
 
 /* first-gesture audio unlock */
 document.body.addEventListener('pointerdown', ()=>{ if(soundOn) ctx(); }, {once:true});
