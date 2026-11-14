@@ -1,17 +1,20 @@
 /* Big Questions — offline support. After the first visit everything here opens with no network.
  * Serves from the cache straight away and refreshes the cached copy in the background,
  * so a change shows up on the visit after next. Bump VERSION when files are added or renamed. */
-var VERSION = 'bq-2026-11-14b';
+var VERSION = 'bq-2026-11-14d';
 var FILES = [
-  './', 'index.html', 'shared/base.css', 'shared/kit.js',
+  './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js',
   'guides/01-made-of/', 'guides/01-made-of/index.html',
   'guides/01-made-of/scenes/warmth-sim.js', 'guides/01-made-of/scenes/warmth-toy.js',
   'guides/01-made-of/scenes/opening.js', 'guides/01-made-of/scenes/puddle.js',
   'guides/01-made-of/scenes/kettle.js',
   'guides/02-money/', 'guides/02-money/index.html',
-  'guides/02-money/scenes/cast.js', 'guides/02-money/scenes/market-sim.js',
+  'guides/02-money/scenes/market-sim.js',
   'guides/02-money/scenes/market.js', 'guides/02-money/scenes/picnic.js',
-  'guides/02-money/scenes/jar.js'
+  'guides/02-money/scenes/jar.js',
+  'guides/03-in-charge/', 'guides/03-in-charge/index.html',
+  'guides/03-in-charge/scenes/town-sim.js', 'guides/03-in-charge/scenes/town.js',
+  'guides/03-in-charge/scenes/hands.js', 'guides/03-in-charge/scenes/levels.js'
 ];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Who is in charge?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .slip { transform-origin: 150px 96px; animation: drop 3s ease-in-out infinite; }
+  @keyframes drop { 0%, 100% { transform: translateY(-12px) rotate(-8deg); } 50% { transform: translateY(8px) rotate(-8deg); } }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>Who is in charge?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="A ballot box with a vote dropping in, and two flags">
+      <ellipse cx="236" cy="42" rx="40" ry="12" fill="#fff"/>
+      <rect x="0" y="190" width="300" height="50" fill="#b9dca8"/>
+      <path d="M52 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
+      <path d="M52 96l42 14-42 16z" fill="#f5a742" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M248 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
+      <path d="M248 96l-42 14 42 16z" fill="#5aa9dc" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+      <g class="slip ambient"><rect x="134" y="66" width="32" height="44" rx="4" fill="#fff" stroke="#3b3a36" stroke-width="4"/></g>
+      <rect x="96" y="112" width="108" height="86" rx="14" fill="#8a7fd1" stroke="#3b3a36" stroke-width="5"/>
+      <rect x="122" y="122" width="56" height="9" rx="4" fill="#3b3a36"/>
+      <path d="M130 162l14 13 28-30" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="26" r="9" fill="#aeb5bd"/><path d="M13 22L9 8M35 22l4-14"/></svg>Hands up</a>
+    <a class="tile" href="#levels">
+      <svg viewBox="0 0 48 48" stroke="#3b3a36" stroke-width="2.5" stroke-linejoin="round"><path d="M4 40V34l5-5 5 5v6z" fill="#f5a742"/><path d="M17 40V30l7-7 7 7v10z" fill="#8a7fd1"/><path d="M33 40V25l6-9 6 9v15z" fill="#5fb98a"/></svg>Three governments</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48" stroke="#3b3a36" stroke-width="3"><path d="M9 18h12l-2 22h-8z" fill="#fff"/><path d="M27 18h12l-2 22h-8z" fill="#fff"/><circle cx="15" cy="12" r="4" fill="#f5a742"/><circle cx="33" cy="12" r="4" fill="#5aa9dc"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="levels" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: leader for the afternoon</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Put out two cups. Draw a picture on each for two people in the family.</li>
+      <li>Everyone drops one block in the cup of the person they choose. That is your vote.</li>
+      <li>Tip the cups out. Whoever has the most blocks is the leader for the afternoon.</li>
+      <li>The leader decides three small things: which game, which song, which fruit.</li>
+      <li>After that, vote again. Did you choose the same leader?</li>
+    </ol>
+  </div>
+  <p style="color:var(--soft);font-size:15px">You need: two cups, a few blocks or pegs, paper and a pencil. It works best with three or more people, or line up some toys to vote too.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">If you were the leader, what is the first thing you would decide?</li>
+    <li class="card">What could you do if the leader decided something you didn't like?</li>
+    <li class="card">The most votes wins. How do you think the others feel?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not settled.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>Australia is a representative democracy. Citizens aged 18 and over vote to choose people, called representatives, who then make decisions on everyone's behalf. People do not vote on each rule.</li>
+    <li><span class="tag fact">Fact</span>There are elections again every few years, so voters can keep their representatives or choose new ones.</li>
+    <li><span class="tag fact">Fact</span>Australia has three levels of government. Local councils look after things like rubbish collection and parks. States and territories look after things like schools and hospitals. The federal government looks after things like defence, immigration and passports.</li>
+    <li><span class="tag fact">Fact</span>There are more than 500 local councils across Australia.</li>
+    <li><span class="tag fact">Fact</span>Voting in federal elections is compulsory for enrolled citizens aged 18 and over.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>One leader who decides alone.</b> Real representatives sit together in a council or parliament, argue it out and vote among themselves. Leaders must also follow the law, and courts can overrule them.</li>
+    <li><span class="tag simp">Model</span><b>Two candidates and "most votes wins".</b> Real elections usually have several candidates, and Australian voters number them in order of preference.</li>
+    <li><span class="tag simp">Model</span><b>Open voting.</b> In the toy you can see how everyone votes. Real votes are secret, so nobody can be pressured.</li>
+    <li><span class="tag simp">Model</span><b>One thing to disagree about.</b> The townsfolk care only which side of town gets built on. Real voters weigh many things at once.</li>
+    <li><span class="tag simp">Model</span><b>No parties.</b> Left out on purpose. The guide shows how choosing works, not who should win.</li>
+    <li><span class="tag simp">Model</span><b>Hands up.</b> The opening is a direct vote among friends, which works for small groups. The town shows why bigger groups choose people instead.</li>
+    <li><span class="tag simp">Model</span><b>The map.</b> A rough drawn outline. It leaves out the territories and the other states' borders.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Who is in charge of Australia?</b> <span class="tag fact">Fact</span>The people we elect to Parliament make the laws. The leader of the government is called the Prime Minister. The King is the head of state, and the Governor-General does that job for him here, but neither runs the country day to day.</li>
+    <li><b>Can children vote?</b> <span class="tag fact">Fact</span>Not until they are 18. Children can still say what they think, and grown-ups can listen.</li>
+    <li><b>What if a leader does something bad?</b> <span class="tag fact">Fact</span>The rules apply to leaders too, and judges can say no. And at the next election people can choose someone else.</li>
+    <li><b>Who do you vote for?</b> <span class="tag simp">Model</span>A neutral answer: "Voting is private, and people in the same family or street often choose differently. When you are grown up you will make up your own mind."</li>
+    <li><b>Is it fair that the most votes wins?</b> <span class="tag unsure">Unsure</span>People have argued about this for a very long time. Most agree it is fairer than one person deciding for ever, and that the winners should still look after everyone.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Vote</b>: showing which one you choose. <b>Leader</b>: the person we choose to decide for us.
+     <b>Government</b>: the leaders we choose, for a town, a state or the whole country.</p>
+
+  <h2>Go further</h2>
+  <p><b>NSW Parliament House</b> on Macquarie Street in Sydney is open to visitors on weekdays and runs free guided tours.
+     Times change with sitting days and school holidays, so check
+     <a href="https://www.parliament.nsw.gov.au/visit-parliament" target="_blank" rel="noopener">its visiting page</a> first.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://peo.gov.au/understand-our-parliament/how-parliament-works/three-levels-of-government/three-levels-of-government-governing-australia" target="_blank" rel="noopener">Parliamentary Education Office, "Three levels of government"</a>: who looks after what, the number of councils, and voting at 18.</li>
+    <li><a href="https://www.aec.gov.au/About_AEC/publications/voting/" target="_blank" rel="noopener">Australian Electoral Commission, "Compulsory voting in Australia"</a>.</li>
+    <li><a href="https://www.parliament.nsw.gov.au/visit-parliament" target="_blank" rel="noopener">Parliament of NSW, "Visit Parliament"</a>.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. Passports as a federal matter, preferential and secret voting, and the roles of the Prime Minister,
+     King and Governor-General are standard civics, not taken from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="../../shared/cast.js"></script>
+<script src="scenes/town-sim.js"></script>
+<script src="scenes/town.js"></script>
+<script src="scenes/hands.js"></script>
+<script src="scenes/levels.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.town, opening: BQ.scenes.hands, levels: BQ.scenes.levels }
+  });
+</script>
+</body>
+</html>

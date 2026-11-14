@@ -1,4 +1,4 @@
-/* Guide 02 — the cast: three Australian animals, the things they trade, coins, thought bubbles.
+/* The cast (shared): three Australian animals, the things they trade, coins, thought bubbles.
  * Drawn in the "what eyes see" style from STYLE.md: flat shapes, ink outlines.
  */
 (function (root) {
