@@ -1,6 +1,7 @@
 # Guide 01 — What is everything made of?
 
-**Checkpoint 1: on paper.** Nothing is built yet. Awaiting review.
+**Built** (checkpoint 3, 14 November 2026). This is the plan the build follows; places where the
+build differs are marked *Built as*. Fact checks are in `notes.md`.
 
 ## The guide in one line
 
@@ -50,9 +51,10 @@ A big ice cube in a glass of cordial, gently bobbing and clinking. No words.
 
 - Touch the cube: it dunks and bobs back up with a clink. Poke it repeatedly: it spins and
   looks dizzy (the funny bit).
-- Hold a finger on it: a warm glow spreads from her finger, the cube shrinks a little and the
-  drink level rises a little. Let go: it stops. Her finger did it.
-- A pair of cardboard "pretend glasses" wiggles in the corner. Tapping them opens the toy.
+- Hold a finger on it: a warm glow spreads from her finger, the cube shrinks and small drops of meltwater slip into
+  the drink. Let go: it stops. Her finger did it. *Built as:* the drink level does not move,
+  because melting floating ice never raises the level. A melted cube is replaced by a new one.
+- The pretend-glasses button in the corner starts to wiggle. Tapping it opens the toy.
 
 Caption (after her first hold): *"Your warm finger is melting the ice. Where does the ice go?"* (12 words)
 
@@ -150,14 +152,15 @@ Captions, one per state, shown small the first time she reaches it:
 
 Caption: *"The puddle didn't vanish. Its bits floated off into the air."* (10 words)
 
-Funny bit: a magpie walks through the puddle leaving wet footprints, which also dry.
+Funny bit: *Built as* a tap on the puddle makes a splash. The magpie was dropped.
+In shade the bits leave very slowly rather than stopping, which is the truth.
 
 ## Moment B — the kettle cloud
 
 | Field | |
 | --- | --- |
 | The insight | Steam is invisible. The white cloud above a kettle is tiny drops of water |
-| What she does | Taps the kettle to boil it, then drags the sketchbook card around the picture |
+| What she does | Taps the kettle to boil it, then drags the sketchbook card. A dashed ring on the card's corner marks the spot it is showing |
 | What she sees | A clear gap at the spout, then a white cloud further out. Card over the gap: bits far apart and fast. Card over the cloud: bits bunched into tiny drops. Card over the water inside: bits sliding |
 | What she can vary | Where she holds the card; kettle on and off |
 | Misconception to avoid | That the white cloud is the gas. That the card is a magnifier (it keeps its crayon style and taped corners) |

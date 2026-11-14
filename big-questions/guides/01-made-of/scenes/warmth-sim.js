@@ -40,8 +40,14 @@
     for (var j = 0; j < 3; j++) {
       for (var i = 0; i < 6; i++) {
         var x = x0 + i * s3 + (j % 2) * s3 / 2, y = yb - j * 1.5 * A;
-        sites.push({ x: x, y: y }, { x: x, y: y - A });
+        // each bit turns so its two bumps reach toward neighbours, as in real ice
+        var lean = i % 2 ? 2.618 : 0.524;
+        sites.push({ x: x, y: y, ang: -lean }, { x: x, y: y - A, ang: lean });
       }
+    }
+    var links = [];                // pairs of neighbouring sites, for drawing the holds
+    for (var p = 0; p < N; p++) for (var q = p + 1; q < N; q++) {
+      if (Math.hypot(sites[p].x - sites[q].x, sites[p].y - sites[q].y) < A * 1.05) links.push([p, q]);
     }
     var cx = 0, cy = 0, far = 0;
     sites.forEach(function (s) { cx += s.x / N; cy += s.y / N; });
@@ -62,7 +68,7 @@
       state.finger = null;
       for (var k = 0; k < N; k++) {
         bits[k] = { id: k, x: sites[k].x, y: sites[k].y, vx: 0, vy: 0,
-                    ang: rand() * 6.283, w: 0, site: k, star: false, near: 0 };
+                    ang: sites[k].ang, w: 0, site: k, star: false, near: 0 };
         sites[k].bit = k; sites[k].hold = 1;
       }
     }
@@ -171,6 +177,11 @@
         b.w = b.w * keep + spin * randn();
         var held = b.site >= 0 ? sites[b.site].hold : 0;
         b.ang += b.w * dt * (1 - 0.95 * held);
+        if (held > 0) {
+          var turn = sites[b.site].ang - b.ang;
+          turn -= 6.283185 * Math.round(turn / 6.283185);
+          b.ang += turn * Math.min(1, held * 8 * dt);
+        }
       }
     }
 
@@ -182,7 +193,8 @@
       var pooling = 1 - smooth(T_BOIL - 0.04, T_BOIL + 0.08, state.T);
       for (var k = 0; k < N; k++) {
         var b = bits[k];
-        if (b.site >= 0) ice += sites[b.site].hold;
+        // a bit whose site is letting go is partly ice, partly water
+        if (b.site >= 0) { ice += sites[b.site].hold; liquid += (1 - sites[b.site].hold) * pooling; }
         // a loose bit beside melting ice is water, not steam
         else if (b.near >= 2 || state.T < 0.42) liquid += pooling;
       }
@@ -199,7 +211,7 @@
     }
 
     reset(opts.warmth);
-    return { state: state, step: step, reset: reset, census: census, bitAt: bitAt };
+    return { state: state, step: step, reset: reset, census: census, bitAt: bitAt, links: links };
   }
 
   var api = { create: create, W: W, H: H, N: N, R: R, T_BOIL: T_BOIL };

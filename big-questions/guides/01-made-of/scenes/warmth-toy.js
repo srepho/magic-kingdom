@@ -1,238 +1,241 @@
-/* Warmth toy — ROUGH PROTOTYPE (checkpoint 2). Plain shapes on purpose.
- * Scene interface: start(container), reset(), cleanup().
- * Needs warmth-sim.js loaded first. Classic script, so it runs from file://.
+/* Centrepiece — the warmth toy.
+ * Left: what eyes see (painted). Right: the model (crayon on paper). Same bits drive both.
+ * Scene interface: start(stage, frame), reset(), cleanup(). Needs kit.js and warmth-sim.js.
  */
 (function (root) {
   'use strict';
-  var BQ = root.BQ = root.BQ || {};
-  var S = BQ.warmthSim;
-  var PAD = 16, STEP = 1 / 120;
+  var BQ = root.BQ, S = BQ.warmthSim, D = BQ.draw, INK = BQ.ink;
+  var VW = S.W + 40, VH = S.H + 70, PX = 20, PY = 30;   // picture box and where the pot sits in it
+  var STEP = 1 / 120;
 
-  var el, sim, raf = 0, last = 0, running = false, clock = 0;
-  var eyes, model, track, thumb, listeners = [];
-  var press = null, dragging = false;
+  var CAPTIONS = {
+    model: 'This is a <b>model</b>: a pretend picture of something too small to see.',
+    cold: 'Cold. The <b>bits</b> hold tight and jiggle on the spot.',
+    warm: 'Warmer. The bits let go and slide past each other.',
+    hot: 'Hot. The bits fly apart. This is <b>steam</b>. Same bits!'
+  };
 
-  function on(target, type, fn, opt) {
-    target.addEventListener(type, fn, opt);
-    listeners.push(function () { target.removeEventListener(type, fn, opt); });
-  }
+  var el, frame, sim, loop, eyes, model, track, thumb, offs = [];
+  var dragging = false, clock = 0, phase = 'cold', blupDue = 0;
 
-  function start(container) {
-    el = container;
+  function start(stage, api) {
+    el = stage; frame = api;
     el.innerHTML =
       '<div class="wt-panels">' +
-        '<div class="wt-panel wt-eyes"><span class="wt-tag">👁</span><canvas></canvas></div>' +
-        '<div class="wt-panel wt-model"><span class="wt-tag">👓</span><canvas></canvas></div>' +
+        '<div class="wt-panel wt-eyes"></div>' +
+        '<div class="wt-panel wt-model"></div>' +
       '</div>' +
       '<div class="wt-bar">' +
-        '<span class="wt-end">❄️</span>' +
+        '<span class="wt-end wt-snow"></span>' +
         '<div class="wt-track"><div class="wt-thumb"></div></div>' +
-        '<span class="wt-end">🔥</span>' +
-        '<button class="wt-reset" aria-label="Start again">↺</button>' +
+        '<span class="wt-end wt-flame"></span>' +
       '</div>';
-    eyes = el.querySelector('.wt-eyes canvas');
-    model = el.querySelector('.wt-model canvas');
+    sim = S.create();
+    eyes = BQ.surface(el.querySelector('.wt-eyes'), draw);
+    model = BQ.surface(el.querySelector('.wt-model'), draw);
     track = el.querySelector('.wt-track');
     thumb = el.querySelector('.wt-thumb');
-    sim = S.create();
 
-    on(track, 'pointerdown', function (e) {
-      dragging = true; track.setPointerCapture(e.pointerId); slide(e); e.preventDefault();
-    });
-    on(track, 'pointermove', function (e) { if (dragging) slide(e); });
-    on(track, 'pointerup', function () { dragging = false; });
-    on(track, 'pointercancel', function () { dragging = false; });
-
-    on(model, 'pointerdown', function (e) {
-      model.setPointerCapture(e.pointerId);
-      var p = toSim(e);
-      press = { x: p.x, y: p.y, t: performance.now(), moved: false };
-      sim.state.finger = p; e.preventDefault();
-    });
-    on(model, 'pointermove', function (e) {
-      if (!press) return;
-      var p = toSim(e);
-      if (Math.hypot(p.x - press.x, p.y - press.y) > 8) press.moved = true;
-      sim.state.finger = p;
-    });
-    function lift() {
-      if (press && !press.moved && performance.now() - press.t < 350) {
-        var b = sim.bitAt(press.x, press.y, 30);
-        if (b) b.star = !b.star;
-      }
-      press = null; sim.state.finger = null;
+    function slide(p) {
+      var half = thumb.offsetWidth / 2;
+      sim.state.target = Math.max(0, Math.min(1, (p.x - half) / (track.clientWidth - 2 * half)));
+      placeThumb();
     }
-    on(model, 'pointerup', lift);
-    on(model, 'pointercancel', lift);
+    offs.push(BQ.touch(track, {
+      down: function (p) { dragging = true; slide(p); },
+      move: function (p) { if (dragging) slide(p); },
+      up: function () { dragging = false; }
+    }));
+    offs.push(BQ.touch(model.c, {
+      down: function (p) { sim.state.finger = toPot(p); },
+      move: function (p) { sim.state.finger = toPot(p); },
+      up: function () { sim.state.finger = null; },
+      tap: function (p) {
+        var q = toPot(p), b = sim.bitAt(q.x, q.y, 30);
+        if (b) { b.star = !b.star; BQ.sound.squeak(); }
+      }
+    }));
+    root.addEventListener('resize', placeThumb);
+    offs.push(function () { root.removeEventListener('resize', placeThumb); });
 
-    on(el.querySelector('.wt-reset'), 'click', reset);
-    on(root, 'resize', fit);
-    on(document, 'visibilitychange', function () {
-      if (document.hidden) pause(); else resume();
-    });
-    fit(); placeThumb(); resume();
-  }
-
-  function slide(e) {
-    var r = track.getBoundingClientRect(), half = thumb.offsetWidth / 2;
-    var v = (e.clientX - r.left - half) / (r.width - 2 * half);
-    sim.state.target = Math.max(0, Math.min(1, v));
+    phase = 'cold'; clock = 0;
     placeThumb();
+    frame.caption(CAPTIONS.model);
+    loop = BQ.loop(tick);
   }
+
+  function toPot(p) { var v = model.toView(p); return { x: v.x - PX, y: v.y - PY }; }
   function placeThumb() {
-    var span = track.clientWidth - thumb.offsetWidth;
-    thumb.style.transform = 'translateX(' + (sim.state.target * span) + 'px)';
+    if (!thumb) return;
+    thumb.style.transform = 'translateX(' + (sim.state.target * (track.clientWidth - thumb.offsetWidth)) + 'px)';
   }
 
-  function toSim(e) {
-    var r = model.getBoundingClientRect(), v = view(model);
-    return { x: (e.clientX - r.left - v.ox) / v.k, y: (e.clientY - r.top - v.oy) / v.k };
-  }
-  /* scale and offset that fit the pot inside a canvas, in CSS pixels */
-  function view(c) {
-    var w = c.clientWidth, h = c.clientHeight;
-    // room above for the lid and knob, below for the flames
-    var k = Math.min((w - 2 * PAD) / (S.W + 24), (h - 2 * PAD) / (S.H + 52));
-    return { k: k, ox: (w - S.W * k) / 2, oy: (h - (S.H + 52) * k) / 2 + 24 * k };
-  }
-  function fit() {
-    [eyes, model].forEach(function (c) {
-      var d = Math.min(root.devicePixelRatio || 1, 2);
-      c.width = Math.round(c.clientWidth * d); c.height = Math.round(c.clientHeight * d);
-    });
-    if (sim) placeThumb();
+  function tick(dt) {
+    for (var left = dt; left > 1e-6; left -= STEP) sim.step(Math.min(STEP, left));
+    clock += dt;
+    var c = sim.census(), next = phase;
+    if (c.ice >= 30) next = 'cold'; else if (c.liquid >= 24) next = 'warm'; else if (c.gas >= 24) next = 'hot';
+    if (next !== phase) {
+      phase = next; frame.caption(CAPTIONS[phase]);
+      if (phase === 'cold') BQ.sound.lock(); else if (phase === 'hot') BQ.sound.whoosh();
+    }
+    if (sim.state.T > 0.58 && c.liquid > 3) {          // bubbling
+      blupDue -= dt;
+      if (blupDue <= 0) { BQ.sound.blup(); blupDue = 0.12 + Math.random() * 0.3; }
+    }
     draw();
-  }
-
-  function resume() {
-    if (running) return;
-    running = true; last = 0; raf = requestAnimationFrame(frame);
-  }
-  function pause() { running = false; cancelAnimationFrame(raf); }
-  function frame(t) {
-    if (!running) return;
-    var dt = last ? Math.min((t - last) / 1000, 1 / 20) : 1 / 60;
-    last = t;
-    advance(dt);
-    raf = requestAnimationFrame(frame);
-  }
-  /* also called directly by tests, where requestAnimationFrame may be frozen */
-  function advance(seconds) {
-    for (var left = seconds; left > 1e-6; left -= STEP) sim.step(Math.min(STEP, left));
-    clock += seconds;
-    draw();
-  }
-
-  function begin(c) {
-    var g = c.getContext('2d'), d = c.width / c.clientWidth, v = view(c);
-    g.setTransform(d, 0, 0, d, 0, 0);
-    g.clearRect(0, 0, c.clientWidth, c.clientHeight);
-    g.translate(v.ox, v.oy); g.scale(v.k, v.k);
-    return g;
-  }
-  function pot(g, stroke, width) {
-    g.lineWidth = width; g.strokeStyle = stroke; g.lineJoin = 'round';
-    g.beginPath(); g.moveTo(0, 0); g.lineTo(0, S.H); g.lineTo(S.W, S.H); g.lineTo(S.W, 0); g.stroke();
-    g.beginPath(); g.moveTo(-10, -3); g.lineTo(S.W + 10, -3); g.stroke();      // lid
-    g.beginPath(); g.arc(S.W / 2, -12, 7, 0, 6.283); g.stroke();               // knob
   }
 
   function draw() {
-    if (!sim || !model.width) return;
+    if (!sim || !model || !eyes) return;
     drawModel(); drawEyes();
   }
 
+  /* ----- the model: crayon on paper ----- */
   function drawModel() {
-    var g = begin(model), bits = sim.state.bits, R = S.R;
-    pot(g, '#8a7f6a', 3);
-    for (var i = 0; i < bits.length; i++) {
-      var b = bits[i];
-      g.fillStyle = '#4a90d9';
-      g.beginPath(); g.arc(b.x, b.y, R, 0, 6.283); g.fill();
-      for (var s = -1; s <= 1; s += 2) {          // two small bumps: the outline of a water bit
-        g.beginPath();
-        g.arc(b.x + Math.cos(b.ang + s * 0.91) * R * 0.95, b.y + Math.sin(b.ang + s * 0.91) * R * 0.95,
-              R * 0.48, 0, 6.283);
-        g.fill();
-      }
-      if (b.star) star(g, b.x, b.y, R * 0.9);
+    var g = model.begin(VW, VH), bits = sim.state.bits, sites = sim.state.sites, i;
+    D.glasses(g, 22, 12, 13);
+    g.translate(PX, PY);
+    g.strokeStyle = '#8a7f6a'; g.lineWidth = 3.5;           // pot, drawn twice a little off, like crayon
+    for (i = 0; i < 2; i++) {
+      g.globalAlpha = i ? 0.45 : 1;
+      g.beginPath(); g.moveTo(-i, -i); g.lineTo(i, S.H + i); g.lineTo(S.W - i, S.H - i); g.lineTo(S.W + i, i); g.stroke();
+      g.beginPath(); g.moveTo(-10, -4 + i); g.lineTo(S.W + 10, -4 - i); g.stroke();
     }
+    g.globalAlpha = 1;
+    g.beginPath(); g.arc(S.W / 2, -13, 7, 0, 6.283); g.stroke();
+
+    g.strokeStyle = INK.bitEdge; g.lineWidth = 2.5;         // the holds between neighbours in ice
+    for (i = 0; i < sim.links.length; i++) {
+      var a = sites[sim.links[i][0]], b = sites[sim.links[i][1]];
+      var h = Math.min(a.hold, b.hold);
+      if (h <= 0 || a.bit < 0 || b.bit < 0) continue;
+      var p = bits[a.bit], q = bits[b.bit];
+      if (Math.hypot(p.x - q.x, p.y - q.y) > 34) continue;
+      g.globalAlpha = 0.4 * h;
+      g.beginPath(); g.moveTo(p.x, p.y); g.lineTo(q.x, q.y); g.stroke();
+    }
+    g.globalAlpha = 1;
+    for (i = 0; i < bits.length; i++) D.bit(g, bits[i].x, bits[i].y, S.R, bits[i].ang, bits[i].star);
+
     var f = sim.state.finger;
     if (f) {
-      g.strokeStyle = 'rgba(0,0,0,.25)'; g.lineWidth = 2;
+      g.strokeStyle = 'rgba(0,0,0,.22)'; g.lineWidth = 2;
       g.beginPath(); g.arc(f.x, f.y, 26, 0, 6.283); g.stroke();
     }
   }
-  function star(g, x, y, r) {
-    g.fillStyle = '#ffd23f'; g.strokeStyle = '#a66a00'; g.lineWidth = 1;
-    g.beginPath();
-    for (var k = 0; k < 10; k++) {
-      var a = -Math.PI / 2 + k * Math.PI / 5, q = k % 2 ? r * 0.45 : r;
-      g.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
-    }
-    g.closePath(); g.fill(); g.stroke();
-  }
 
-  /* What eyes would see, drawn from the same bits via census(). No white cloud:
-   * steam is invisible, so a hot pot just looks nearly empty. */
+  /* ----- what eyes see: a clear pot on a hob. No white cloud: steam is invisible,
+   * so a hot pot just looks nearly empty. Drawn from census() so it never disagrees. ----- */
   function drawEyes() {
-    var g = begin(eyes), c = sim.census(), T = sim.state.T, N = S.N, W = S.W, H = S.H;
-    var iceF = c.ice / N, liqF = c.liquid / N, gasF = c.gas / N;
-
+    var g = eyes.begin(VW, VH), c = sim.census(), T = sim.state.T, N = S.N, W = S.W, H = S.H;
+    var iceF = c.ice / N, liqF = c.liquid / N, gasF = c.gas / N, k, calm = BQ.calm();
     var heat = Math.max(0, sim.state.target - 0.45) / 0.55;
-    if (heat > 0) {
-      g.fillStyle = '#ff8a3c';
-      for (var k = 0; k < 7; k++) {
-        var fx = 30 + k * (W - 60) / 6, fh = (10 + 22 * heat) * (0.75 + 0.25 * Math.sin(clock * 9 + k * 2));
-        g.beginPath(); g.moveTo(fx - 9, H + 26); g.quadraticCurveTo(fx, H + 26 - 2 * fh, fx + 9, H + 26); g.fill();
-      }
-    }
     var cold = Math.max(0, 0.3 - sim.state.target) / 0.3;
-    if (cold > 0) { g.fillStyle = 'rgba(150,200,255,' + (0.35 * cold) + ')'; g.fillRect(-14, -24, W + 28, H + 52); }
+    g.translate(PX, PY);
 
+    // bench and hob
+    g.fillStyle = '#cdbfa8'; g.fillRect(-PX, H + 30, VW, 12);
+    g.fillStyle = '#5b5750'; D.round(g, 10, H + 8, W - 20, 24, 8); g.fill();
+    if (heat > 0) {
+      for (k = 0; k < 9; k++) {
+        var fx = 26 + k * (W - 52) / 8;
+        var fh = (7 + 13 * heat) * (calm ? 1 : 0.75 + 0.25 * Math.sin(clock * 9 + k * 2));
+        g.fillStyle = INK.warm;
+        g.beginPath(); g.moveTo(fx - 7, H + 12); g.quadraticCurveTo(fx, H + 12 - 2 * fh, fx + 7, H + 12); g.fill();
+        g.fillStyle = INK.sun;
+        g.beginPath(); g.moveTo(fx - 3, H + 12); g.quadraticCurveTo(fx, H + 12 - fh, fx + 3, H + 12); g.fill();
+      }
+    }
+    if (cold > 0) {                                         // a cold plate with frost stars
+      g.strokeStyle = 'rgba(190,225,255,' + (0.5 + 0.5 * cold) + ')'; g.lineWidth = 2;
+      for (k = 0; k < 7; k++) {
+        var sx = 30 + k * (W - 60) / 6;
+        for (var r = 0; r < 3; r++) {
+          var an = r * Math.PI / 3;
+          g.beginPath(); g.moveTo(sx - Math.cos(an) * 6, H + 20 - Math.sin(an) * 6);
+          g.lineTo(sx + Math.cos(an) * 6, H + 20 + Math.sin(an) * 6); g.stroke();
+        }
+      }
+    }
+
+    // inside the pot
     var bw = 190 * Math.sqrt(iceF), bh = 98 * Math.sqrt(iceF);
-    var waterH = 64 * liqF + (iceF > 0 ? 0.9 * bw * bh / W * Math.min(1, liqF * 6) : 0);
-    if (waterH > 0.5) { g.fillStyle = '#7ec4ee'; g.fillRect(2, H - waterH, W - 4, waterH - 2); }
-
-    if (iceF > 0.01) {                       // the block floats once there is water to float in
-      var by = H - 2 - bh - Math.max(0, waterH - 0.9 * bh);
-      g.fillStyle = '#e8f6ff'; g.strokeStyle = '#9cc9e6'; g.lineWidth = 2;
-      g.beginPath(); g.rect((W - bw) / 2, by, bw, bh); g.fill(); g.stroke();
+    var waterH = 64 * liqF + (iceF > 0.01 ? 0.9 * bw * bh / W * Math.min(1, liqF * 6) : 0);
+    if (waterH > 0.5) {
+      var wob = calm ? 0 : Math.sin(clock * 2.2) * 1.2 * Math.min(1, heat * 2 + 0.3);
+      g.fillStyle = INK.water;
+      g.beginPath(); g.moveTo(3, H - 3); g.lineTo(3, H - waterH + wob);
+      g.quadraticCurveTo(W / 2, H - waterH - wob * 2, W - 3, H - waterH + wob); g.lineTo(W - 3, H - 3); g.closePath(); g.fill();
+      g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(8, H - waterH + wob + 3); g.quadraticCurveTo(W / 2, H - waterH - wob * 2 + 3, W - 8, H - waterH + wob + 3); g.stroke();
     }
-    if (T > 0.58 && liqF > 0.05) {           // bubbles while it boils
+    if (iceF > 0.01) {                                      // the block floats once there is water
+      var by = H - 3 - bh - Math.max(0, waterH - 0.9 * bh), bx = (W - bw) / 2, rr = Math.min(10, bh / 3);
+      g.fillStyle = INK.ice; D.round(g, bx, by, bw, bh, rr); g.fill();
+      g.strokeStyle = INK.iceEdge; g.lineWidth = 2.5; D.round(g, bx, by, bw, bh, rr); g.stroke();
+      g.strokeStyle = '#fff'; g.lineWidth = 3;
+      g.beginPath(); g.moveTo(bx + bw * 0.12, by + bh * 0.25); g.lineTo(bx + bw * 0.3, by + bh * 0.25); g.stroke();
+      g.strokeStyle = 'rgba(156,201,230,.6)'; g.lineWidth = 1.5;
+      g.beginPath(); g.moveTo(bx + bw * 0.55, by + bh * 0.8); g.lineTo(bx + bw * 0.7, by + bh * 0.45); g.lineTo(bx + bw * 0.82, by + bh * 0.6); g.stroke();
+    }
+    if (T > 0.58 && liqF > 0.05) {                          // bubbles while it boils
       g.strokeStyle = '#fff'; g.lineWidth = 1.5;
-      for (var n = 0; n < 9; n++) {
-        var ph = (clock * (0.9 + n * 0.13) + n * 0.37) % 1;
-        g.beginPath(); g.arc(20 + ((n * 53) % (W - 40)), H - 4 - ph * (waterH - 6), 2 + (n % 3), 0, 6.283); g.stroke();
+      for (k = 0; k < 9; k++) {
+        var ph = (clock * (0.9 + k * 0.13) + k * 0.37) % 1;
+        g.beginPath(); g.arc(20 + ((k * 53) % (W - 40)), H - 5 - ph * Math.max(0, waterH - 8), 2 + (k % 3), 0, 6.283); g.stroke();
       }
     }
-    if (gasF > 0.03 && T < S.T_BOIL) {       // cooling steam turns back into drops on the lid
-      g.fillStyle = '#7ec4ee';
+    if (gasF > 0.03 && T < S.T_BOIL && T > 0.42) {          // cooling steam: drops on the lid, running down
+      g.fillStyle = INK.water;
       var drops = Math.round(gasF * 18);
-      for (var d = 0; d < drops; d++) {
-        var dx = 12 + ((d * 97) % (W - 24));
-        g.beginPath(); g.arc(dx, 3 + (d % 3), 3, 0, 6.283); g.fill();
+      for (k = 0; k < drops; k++) {
+        var run = (clock * 0.35 + k * 0.29) % 1;
+        var dx = k % 2 ? 4 : W - 4, dy = 4 + run * (H - waterH - 10);
+        if (k % 3 === 0) { dx = 14 + ((k * 97) % (W - 28)); dy = 3 + (k % 2); }
+        g.beginPath(); g.arc(dx, dy, 3, 0, 6.283); g.fill();
       }
     }
-    pot(g, '#555', 5);
+    if (cold > 0.3) {                                       // frost on the glass
+      g.fillStyle = 'rgba(255,255,255,' + (0.35 * cold) + ')';
+      g.fillRect(0, 0, 14, H); g.fillRect(W - 14, 0, 14, H);
+    }
+
+    // the pot itself, on top: clear walls, lid, knob, handles
+    var rattle = (!calm && T > 0.62) ? Math.sin(clock * 31) * 1.2 : 0;
+    g.strokeStyle = '#59636b'; g.lineWidth = 5;
+    g.beginPath(); g.moveTo(0, 0); g.lineTo(0, H - 8); g.quadraticCurveTo(0, H, 8, H);
+    g.lineTo(W - 8, H); g.quadraticCurveTo(W, H, W, H - 8); g.lineTo(W, 0); g.stroke();
+    g.lineWidth = 4;
+    g.beginPath(); g.moveTo(0, 30); g.lineTo(-13, 30); g.lineTo(-13, 44); g.lineTo(0, 44); g.stroke();
+    g.beginPath(); g.moveTo(W, 30); g.lineTo(W + 13, 30); g.lineTo(W + 13, 44); g.lineTo(W, 44); g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,.75)'; g.lineWidth = 3;
+    g.beginPath(); g.moveTo(9, 14); g.lineTo(9, 70); g.stroke();
+    g.save(); g.translate(W / 2, -4); g.rotate(rattle * 0.006); g.translate(-W / 2, 4 + Math.abs(rattle) * -0.5);
+    g.strokeStyle = '#59636b'; g.lineWidth = 5;
+    g.beginPath(); g.moveTo(-10, -4); g.lineTo(W + 10, -4); g.stroke();
+    g.fillStyle = '#59636b'; g.beginPath(); g.arc(W / 2, -13, 7, 0, 6.283); g.fill();
+    g.restore();
   }
 
   function reset() {
     if (!sim) return;
-    sim.reset(); press = null; placeThumb(); draw();
+    sim.reset(); phase = 'cold'; placeThumb(); frame.caption(CAPTIONS.model); draw();
   }
   function cleanup() {
-    pause();
-    listeners.forEach(function (off) { off(); }); listeners = [];
+    if (loop) loop.destroy();
+    offs.forEach(function (off) { off(); }); offs = [];
+    if (eyes) eyes.destroy();
+    if (model) model.destroy();
     if (el) el.innerHTML = '';
-    el = sim = eyes = model = track = thumb = null;
+    el = sim = loop = eyes = model = track = thumb = null;
   }
 
   BQ.scenes = BQ.scenes || {};
   BQ.scenes.warmthToy = {
     start: start, reset: reset, cleanup: cleanup,
     // test hooks
-    advance: advance, pause: pause, resume: resume,
-    sim: function () { return sim; }
+    loop: function () { return loop; }, sim: function () { return sim; },
+    setWarmth: function (v) { sim.state.target = v; placeThumb(); }
   };
 })(window);

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>What is everything made of?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  /* cover */
+  .cover { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 12px 12px; }
+  .cover h1 { margin: 0; font-size: clamp(22px, 4.6vw, 44px); font-weight: 800; text-align: center; }
+  .cover-art { flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; text-decoration: none; }
+  .cover-art svg { height: 100%; max-width: 100%; border-radius: 22px; border: 4px solid var(--ink); background: var(--sky); }
+  .cube { transform-origin: 150px 120px; animation: bob 3.4s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(6deg); } 50% { transform: translateY(7px) rotate(-3deg); } }
+  .shelf-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .tile { width: clamp(74px, 13vw, 104px); display: grid; justify-items: center; gap: 2px; padding: 8px 4px 6px;
+          border-radius: 18px; border: 3px solid var(--ink); background: #fff; color: var(--ink);
+          text-decoration: none; font-size: 13px; font-weight: 600; text-align: center; position: relative;
+          touch-action: manipulation; cursor: pointer; font-family: inherit; }
+  .tile svg { width: 46px; height: 46px; }
+  .tile:active { transform: scale(.95); }
+  .tile.grown { background: var(--bg); border-style: dashed; color: var(--soft); }
+  .tile.grown::after { content: ""; position: absolute; left: 0; bottom: 0; height: 6px; width: 0; background: var(--bit); border-radius: 0 0 0 14px; }
+  .tile.grown.holding::after { width: 100%; transition: width 1.2s linear; }
+  @media (max-height: 430px) {
+    .cover { flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; }
+    .cover h1 { width: 100%; font-size: 20px; }
+    .cover-art { flex: none; width: auto; height: 68%; }
+    .shelf-row { max-width: 52%; }
+    .tile { width: 70px; font-size: 11px; padding: 4px; } .tile svg { width: 34px; height: 34px; }
+  }
+
+  /* the warmth toy */
+  .stage { --thumb: clamp(60px, 13vh, 84px); }
+  .wt-panels { position: absolute; inset: 0 0 calc(var(--thumb) + 16px) 0; display: flex; gap: 8px; }
+  .wt-panel { flex: 1; min-width: 0; position: relative; border-radius: 16px; overflow: hidden; }
+  .wt-eyes { background: var(--sky); }
+  /* the model is on paper: a different kind of picture, not a closer look */
+  .wt-model { background: var(--paper) repeating-linear-gradient(transparent 0 21px, rgba(120,150,190,.16) 21px 22px);
+              outline: 3px dashed var(--paper-edge); outline-offset: -6px; }
+  .wt-bar { position: absolute; left: 0; right: 0; bottom: 0;
+            display: flex; align-items: center; gap: 10px; padding: 8px 4px; }
+    .wt-end { flex: none; width: calc(var(--thumb) * .6); height: calc(var(--thumb) * .6); background: center / contain no-repeat; }
+  .wt-snow { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235aa9dc' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 3.5l3 3 3-3M9 20.5l3-3 3 3'/%3E%3C/svg%3E"); }
+  .wt-flame { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-4 2-7 2 1 3 2 4-5z' fill='%23ff8a5c'/%3E%3Cpath d='M12 12c1 2 3 3 3 5a3 3 0 0 1-6 0c0-2 2-3 3-5z' fill='%23ffd23f'/%3E%3C/svg%3E"); }
+  .wt-track { flex: 1; height: var(--thumb); border-radius: 999px; touch-action: none; cursor: pointer;
+              background: linear-gradient(90deg, var(--cold), var(--mid) 50%, var(--warm)); border: 3px solid var(--ink); }
+  .wt-thumb { width: calc(var(--thumb) - 6px); height: calc(var(--thumb) - 6px); border-radius: 50%; background: #fff;
+              border: 4px solid var(--ink); box-shadow: 0 2px 6px rgba(0,0,0,.3); pointer-events: none; }
+  @media (orientation: portrait) { .wt-panels { flex-direction: column; } }
+
+  /* reading pages */
+  .page h1 { font-size: clamp(24px, 4vw, 34px); margin: 4px auto 12px; }
+  .page h2 { font-size: 20px; margin: 26px auto 8px; }
+  .page p, .page li { font-size: 18px; line-height: 1.5; }
+  .big li { font-size: clamp(20px, 3vw, 28px); margin: 16px 0; list-style: none; padding-left: 0; }
+  .big { padding-left: 0; }
+  .steps li { margin: 8px 0; }
+  .card { background: #fff; border: 3px solid var(--ink); border-radius: 18px; padding: 14px 18px; }
+  .grown { -webkit-user-select: text; user-select: text; }
+  .grown li { margin: 10px 0; font-size: 16px; }
+  .grown p { font-size: 16px; }
+  .grown a { color: #1f5fa8; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+         padding: 2px 8px; border-radius: 999px; margin-right: 6px; vertical-align: 2px; white-space: nowrap; }
+  .fact { background: #d6efd8; color: #1d5a27; }
+  .simp { background: #ffe9a8; color: #6b4a00; }
+  .unsure { background: #e4dcf7; color: #47307a; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>What is everything made of?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="A glass of cordial with an ice cube">
+      <ellipse cx="60" cy="46" rx="38" ry="12" fill="#fff"/><ellipse cx="236" cy="70" rx="44" ry="13" fill="#fff"/>
+      <rect x="0" y="204" width="300" height="36" fill="#d9c9a8"/><rect x="0" y="204" width="300" height="5" fill="#c4b28e"/>
+      <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1"/>
+      <g class="cube ambient">
+        <rect x="124" y="84" width="52" height="52" rx="14" fill="#eaf7ff" stroke="#9cc9e6" stroke-width="3"/>
+        <path d="M134 98h16" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1" opacity=".35"/>
+      <path d="M88 52 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L212 52" fill="none" stroke="#7b8a93" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M103 74l9 86" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><rect x="11" y="11" width="26" height="26" rx="7" transform="rotate(10 24 24)" fill="#eaf7ff" stroke="#3b3a36" stroke-width="3"/></svg>Ice cube</a>
+    <a class="tile" href="#puddle">
+      <svg viewBox="0 0 48 48"><circle cx="14" cy="13" r="7" fill="#ffd23f"/><ellipse cx="26" cy="34" rx="18" ry="7" fill="#7ec4ee" stroke="#3b3a36" stroke-width="3"/></svg>Puddle</a>
+    <a class="tile" href="#kettle">
+      <svg viewBox="0 0 48 48"><path d="M30 20l11-9" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/><rect x="9" y="16" width="24" height="24" rx="7" fill="#8fb5d6" stroke="#3b3a36" stroke-width="3"/><path d="M15 12h12" stroke="#3b3a36" stroke-width="4" stroke-linecap="round"/></svg>Kettle</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><rect x="5" y="16" width="38" height="18" rx="5" fill="#fff" stroke="#3b3a36" stroke-width="3"/><rect x="10" y="20" width="8" height="10" rx="2" fill="#7ec4ee"/><rect x="20" y="20" width="8" height="10" rx="2" fill="#7ec4ee"/><rect x="30" y="20" width="8" height="10" rx="2" fill="#7ec4ee"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="puddle" hidden><div class="stage"></div></section>
+<section class="part" data-part="kettle" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: ice, water, ice</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Hold an ice cube over a bowl until it melts in your hands.</li>
+      <li>Pour the water into the ice tray.</li>
+      <li>Put the tray back in the freezer.</li>
+      <li>Look again after dinner. Is it the same water?</li>
+    </ol>
+  </div>
+  <h2>For a warm day</h2>
+  <p>Paint pictures on the footpath with a brush and plain water. Watch them disappear. Where did the bits go?</p>
+  <p style="color:var(--soft);font-size:15px">You need: an ice cube, a bowl, an ice tray, a paintbrush. Kettles and steam stay with the grown-up.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">If you were as small as a water bit, what would you see?</li>
+    <li class="card">Where do you think the puddle's bits are right now?</li>
+    <li class="card">Is there anything that is <em>not</em> made of tiny bits?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not yet known.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>Water is made of molecules, each one two hydrogen atoms joined to an oxygen atom (H₂O). On screen they are called "bits".</li>
+    <li><span class="tag fact">Fact</span>Ice, water and steam are the same molecules. What changes is how much they move and how they are arranged.</li>
+    <li><span class="tag fact">Fact</span>In ice the molecules are held in an open, six-sided framework and jiggle on the spot. In liquid water they stay close but slide past one another. In steam they are far apart and fast.</li>
+    <li><span class="tag fact">Fact</span>That open framework makes ice about 8% less dense than water (0.917 against 1.000 g/cm³ at 0 °C), which is why ice floats. The toy draws the ice pattern with gaps for this reason.</li>
+    <li><span class="tag fact">Fact</span>At sea level ice melts at 0 °C and water boils at 100 °C. Water also turns to gas well below boiling. That is evaporation, and it is how a puddle dries.</li>
+    <li><span class="tag fact">Fact</span>Steam, meaning water as a gas, is invisible. The white cloud above a kettle is tiny drops of liquid water that formed when the steam met cooler air. Look for the clear gap right at the spout of a real kettle.</li>
+    <li><span class="tag fact">Fact</span>The molecules never stop moving, even in ice. Colder means slower, not still.</li>
+    <li><span class="tag fact">Fact</span>When a floating ice cube melts, the level of the drink does not change. The cube was already pushing aside its own weight of liquid. The opening scene keeps the level still for this reason.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>Size and number.</b> One drop of water holds more than a thousand billion billion molecules (about 1.7 × 10²¹). The toy draws 36.</li>
+    <li><span class="tag simp">Model</span><b>Colour and shape.</b> Molecules have no colour. The blob with two bumps is roughly the outline of a water molecule, drawn as a cartoon.</li>
+    <li><span class="tag simp">Model</span><b>Speed.</b> Real water molecules in air move at hundreds of metres a second. The toy slows them enormously.</li>
+    <li><span class="tag simp">Model</span><b>Flat.</b> Real ice is three-dimensional and each molecule holds on to four neighbours. The flat honeycomb shows three.</li>
+    <li><span class="tag simp">Model</span><b>Spacing in steam.</b> Steam at 100 °C takes up about 1,600 times the room of the water it came from. The toy cannot show a gap that large.</li>
+    <li><span class="tag simp">Model</span><b>Only water.</b> A real pot also has air in it. The toy's lid keeps every bit in so she can see that none are lost.</li>
+    <li><span class="tag simp">Model</span><b>Steered.</b> The bits are nudged to behave like water. The toy is not a calculation from first principles.</li>
+    <li><span class="tag simp">Model</span><b>The puddle.</b> In shade a puddle dries more slowly; it does not stop. Real rain comes from clouds that formed somewhere else, not the same bits dropping straight back.</li>
+    <li><span class="tag simp">Model</span><b>The kettle card.</b> Ordinary room air holds some water as gas too, so the card shows a couple of bits there.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Can we see a bit?</b> <span class="tag fact">Fact</span>Not with eyes or an ordinary microscope: a bit is far smaller than light can show. Since 2009 scientists have made pictures of single molecules with an instrument that feels its way across them with an extremely fine tip.</li>
+    <li><b>What are bits made of?</b> <span class="tag fact">Fact</span>Even smaller pieces called atoms. A water bit is three atoms stuck together.</li>
+    <li><b>Is everything made of bits?</b> <span class="tag fact">Fact</span>Everything you can touch is: air, juice, the table, you. Different stuff has different bits. Light is not made of them.
+        <span class="tag unsure">Unsure</span>Out in space there is about five times more "dark matter" than ordinary stuff, and nobody knows yet what it is.</li>
+    <li><b>Why does ice float?</b> <span class="tag fact">Fact</span>The bits in ice hold each other in a pattern with gaps, so ice takes up more room than the water it came from and is lighter for its size.</li>
+    <li><b>Where does rain come from?</b> <span class="tag simp">Model</span>Water bits in the air gather into tiny drops, and lots of tiny drops make a cloud. When the drops get big enough they fall.</li>
+    <li><b>Do the bits ever stop?</b> <span class="tag fact">Fact</span>No. Colder is slower, but they never sit completely still.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Bits</b>: the tiny pieces water is made of. <b>Steam</b>: water when its bits have flown apart; you cannot see it.
+     <b>Model</b>: a pretend picture that helps us think about something we cannot see.</p>
+
+  <h2>Go further</h2>
+  <p><i>A Drop of Water: A Book of Science and Wonder</i> by Walter Wick (Scholastic, 1997). Close-up photographs of
+     water doing surprising things. The author suggests ages 7 and up, so it is one to look through together.
+     Try your library first. <a href="https://www.walterwick.com/books/a-drop-of-water" target="_blank" rel="noopener">About the book</a>.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/15:_Water/15.02:_Structure_of_Ice" target="_blank" rel="noopener">LibreTexts, "Structure of Ice"</a>: the open six-sided framework and the densities of ice and water.</li>
+    <li><a href="https://www.usgs.gov/special-topics/water-science-school/science/evaporation-and-water-cycle" target="_blank" rel="noopener">US Geological Survey, "Evaporation and the Water Cycle"</a>: evaporation at ordinary temperatures.</li>
+    <li><a href="https://www.scientificamerican.com/article/how-does-bathwater-give-off-steam/" target="_blank" rel="noopener">Scientific American, "How does bathwater give off steam?"</a>: visible "steam" is liquid droplets.</li>
+    <li><a href="https://doi.org/10.1126/science.1176210" target="_blank" rel="noopener">Gross and others, <i>Science</i>, 2009</a>: the first picture showing the structure of a single molecule.</li>
+    <li><a href="https://science.nasa.gov/dark-matter/" target="_blank" rel="noopener">NASA, "Dark Matter"</a>: most matter in the universe is of an unknown kind.</li>
+  </ul>
+  <p style="color:var(--soft)">Melting and boiling points, the number of molecules in a drop, molecular speeds, the volume of steam
+     and the floating-ice result are standard textbook values, worked out or recalled rather than taken from a linked page.
+     Checked November 2026.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="scenes/warmth-sim.js"></script>
+<script src="scenes/warmth-toy.js"></script>
+<script src="scenes/opening.js"></script>
+<script src="scenes/puddle.js"></script>
+<script src="scenes/kettle.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.warmthToy, opening: BQ.scenes.opening, puddle: BQ.scenes.puddle, kettle: BQ.scenes.kettle }
+  });
+</script>
+</body>
+</html>

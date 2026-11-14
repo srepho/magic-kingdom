@@ -1,0 +1,56 @@
+/* Big Questions — shared look. Palette and rules are described in STYLE.md. */
+:root {
+  --bg: #f3efe6; --ink: #3b3a36; --soft: #6d6a61;
+  --paper: #fbf6e3; --paper-edge: #c9bb92;
+  --sky: #dfeef5; --water: #7ec4ee; --bit: #4a90d9;
+  --cold: #9fd0ff; --mid: #ffe9a8; --warm: #ff8a5c; --sun: #ffd23f;
+  --btn: 60px; --top: 72px;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; overscroll-behavior: none; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent; overflow: hidden;
+}
+[hidden] { display: none !important; }
+
+/* corner buttons and the caption */
+.bq-chrome {
+  position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: var(--top);
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px max(8px, env(safe-area-inset-right)) 6px max(8px, env(safe-area-inset-left));
+  pointer-events: none;
+}
+.bq-btn {
+  pointer-events: auto; flex: none; width: var(--btn); height: var(--btn); padding: 12px;
+  border-radius: 50%; border: 3px solid var(--ink); background: #fff; color: var(--ink);
+  touch-action: manipulation; cursor: pointer;
+}
+.bq-btn:active { transform: scale(.94); }
+.bq-btn svg { width: 100%; height: 100%; display: block; }
+.bq-caption {
+  flex: 1; min-width: 0; margin: 0; align-self: center; text-align: center;
+  font-size: clamp(15px, 2.4vw, 24px); line-height: 1.25; font-weight: 500;
+}
+.bq-caption b { font-weight: 800; background: linear-gradient(transparent 62%, var(--sun) 62%); }
+.bq-chrome .bq-caption[hidden] { display: block !important; visibility: hidden; }
+.bq-nudge { animation: bq-wiggle 1.6s ease-in-out infinite; border-color: var(--bit); }
+@keyframes bq-wiggle {
+  0%, 60%, 100% { transform: rotate(0); }
+  68% { transform: rotate(-14deg) scale(1.08); } 76% { transform: rotate(12deg) scale(1.08); }
+  84% { transform: rotate(-8deg); } 92% { transform: rotate(5deg); }
+}
+
+/* parts of a guide */
+.part { position: fixed; inset: var(--top) 0 0 0;
+        padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+.stage { position: absolute; inset: 0 8px 8px; border-radius: 16px; overflow: hidden; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
+.page { overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding: 8px 20px 40px; }
+.page > * { max-width: 760px; margin-left: auto; margin-right: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bq-nudge, .ambient { animation: none !important; }
+}
