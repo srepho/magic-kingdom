@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>What is inside me?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .beat { transform-origin: 158px 128px; animation: beat 1.1s ease-in-out infinite; }
+  @keyframes beat { 0%, 30%, 100% { transform: scale(1); } 12% { transform: scale(1.22); } }
+
+  /* the body toy: picture above, layer slider and run button below */
+  .stage { --thumb: clamp(60px, 13vh, 84px); }
+  .bd-view { position: absolute; inset: 0 0 calc(var(--thumb) + 16px) 0; border-radius: 16px; overflow: hidden; }
+  .bd-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 8px 4px; }
+  .bd-end { flex: none; width: calc(var(--thumb) * .62); height: calc(var(--thumb) * .62); }
+  .bd-end svg, .bd-run svg { width: 100%; height: 100%; display: block; }
+  .bd-track { flex: 1; height: var(--thumb); border-radius: 999px; touch-action: none; cursor: pointer;
+              background: linear-gradient(90deg, #57b5a6, #f7c1c8 50%, #fffdf4); border: 3px solid var(--ink); }
+  .bd-thumb { width: calc(var(--thumb) - 6px); height: calc(var(--thumb) - 6px); border-radius: 50%; background: #fff;
+              border: 4px solid var(--ink); box-shadow: 0 2px 6px rgba(0,0,0,.3); pointer-events: none; }
+  .bd-run { flex: none; width: calc(var(--thumb) * 1.25); height: var(--thumb); padding: 8px 14px; margin-left: 6px;
+            border-radius: 999px; border: 3px solid var(--ink); background: #fff; touch-action: none; cursor: pointer; }
+  .bd-run.on { background: var(--sun); transform: scale(.95); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>What is inside me?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="A child with a beating heart showing in their chest">
+      <ellipse cx="58" cy="44" rx="38" ry="12" fill="#fff"/><ellipse cx="246" cy="66" rx="34" ry="11" fill="#fff"/>
+      <rect x="0" y="206" width="300" height="34" fill="#e6d9c3"/>
+      <path d="M118 112L96 168M182 112l22 56" stroke="#e2ad84" stroke-width="16" stroke-linecap="round"/>
+      <path d="M134 176v40M166 176v40" stroke="#e2ad84" stroke-width="18" stroke-linecap="round"/>
+      <rect x="116" y="170" width="68" height="30" rx="10" fill="#5b6ea8"/>
+      <rect x="112" y="98" width="76" height="84" rx="16" fill="#57b5a6"/>
+      <circle cx="150" cy="128" r="27" fill="#f8e9dc" stroke="#3b3a36" stroke-width="3" stroke-dasharray="5 6"/>
+      <g class="beat ambient">
+        <path d="M158 142c-16-9-15-24-7-27 5-2 8 2 8 4 1-3 5-6 9-3 7 5 3 18-10 26z" fill="#d8394a" stroke="#a12c3c" stroke-width="2"/>
+      </g>
+      <circle cx="150" cy="62" r="34" fill="#e2ad84"/>
+      <path d="M116 60a34 34 0 0 1 68 0c-20-16-48-16-68 0z" fill="#5a4030"/>
+      <circle cx="138" cy="64" r="3.5" fill="#3b3a36"/><circle cx="162" cy="64" r="3.5" fill="#3b3a36"/>
+      <path d="M140 76a11 11 0 0 0 20 0" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="13" r="8" fill="#e2ad84" stroke="#3b3a36" stroke-width="3"/><rect x="14" y="23" width="20" height="20" rx="6" fill="#57b5a6" stroke="#3b3a36" stroke-width="3"/></svg>Hello, body</a>
+    <a class="tile" href="#bones">
+      <svg viewBox="0 0 48 48"><path d="M13 29l14-14a5 5 0 1 1 7 0 5 5 0 1 1 0 7L20 36a5 5 0 1 1-7 0 5 5 0 1 1 0-7z" fill="#fffdf4" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/></svg>Bones</a>
+    <a class="tile" href="#boss">
+      <svg viewBox="0 0 48 48"><ellipse cx="24" cy="22" rx="17" ry="13" fill="#f4aebb" stroke="#3b3a36" stroke-width="3"/><path d="M14 20c3-5 6-5 9 0M25 20c3-5 6-5 9 0M19 28c3-4 6-4 9 0" fill="none" stroke="#3b3a36" stroke-width="2" stroke-linecap="round"/><path d="M24 35v8" stroke="#f5b942" stroke-width="4" stroke-linecap="round"/></svg>Brain</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><path d="M24 40C8 30 8 16 16 13c4-1 7 2 8 5 1-3 4-6 8-5 8 3 8 17-8 27z" fill="#d8394a" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="bones" hidden><div class="stage"></div></section>
+<section class="part" data-part="boss" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: find your heartbeat</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Sit still. Put your hand flat on the middle of your chest. Can you feel a beat?</li>
+      <li>Now do twenty star jumps, as fast as you can.</li>
+      <li>Hand on your chest again. What has changed?</li>
+      <li>Sit quietly and keep feeling. What happens to the beat?</li>
+    </ol>
+  </div>
+  <h2>And your bones</h2>
+  <p>Gently feel your elbow, your knee and the bumps down your back. Those hard parts are bones.
+     Find a soft part with no bone underneath. How does it feel different?</p>
+  <p style="color:var(--soft);font-size:15px">You need: nothing at all. A grown-up can help find the beat with two fingers at the side of the neck.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">What do you think your heart does while you are asleep?</li>
+    <li class="card">If you had no bones, how would you get to the kitchen?</li>
+    <li class="card">How does your hand know when you want it to move?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not settled.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>The heart is a muscle that pumps blood around the body. It is about the size of your own closed fist and sits behind the breastbone, a little to the left.</li>
+    <li><span class="tag fact">Fact</span>When you run, your muscles need more of what blood carries, so the heart beats faster and you breathe faster. When you rest, both slow down again.</li>
+    <li><span class="tag fact">Fact</span>A healthy five-year-old's heart at rest beats somewhere between about 75 and 150 times a minute, faster than an adult's. The toy rests at 90 and runs at 150.</li>
+    <li><span class="tag fact">Fact</span>The lungs sit either side of the heart. The left lung is a little smaller, leaving room for the heart.</li>
+    <li><span class="tag fact">Fact</span>Bones give the body its shape and hold it up. An adult has about 206. A baby is born with closer to 300 pieces, many of them still soft cartilage, and they join together as the child grows.</li>
+    <li><span class="tag fact">Fact</span>The brain sends messages to the body along nerves, and the body sends messages back.</li>
+    <li><span class="tag fact">Fact</span>Blood is always red. It is a brighter red on the way out from the heart and lungs and a darker red on the way back. Veins only look blue through skin.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>"The brain is the boss."</b> True for moving on purpose, as in the brain scene. But the heart starts each beat by itself, using its own built-in pacemaker; the brain only speeds it up or slows it down. And some quick reactions, such as the knee jerk, are handled by the spinal cord without waiting for the brain.</li>
+    <li><span class="tag simp">Model</span><b>Message speed.</b> Real nerve messages travel at up to about 100 metres a second. The sparks are slowed enormously so she can watch them.</li>
+    <li><span class="tag simp">Model</span><b>Nerves and blood vessels.</b> The yellow and red lines stand for thousands of fine branches that reach every part of the body.</li>
+    <li><span class="tag simp">Model</span><b>Fewer bones.</b> The skeleton is drawn with one bone in each forearm and lower leg, where there are really two, and with simple hands, feet, ribs and backbone.</li>
+    <li><span class="tag simp">Model</span><b>Fewer organs.</b> Only the brain, lungs, heart, stomach and intestines are drawn. The liver, kidneys and others are left out, and muscles are not shown as a layer.</li>
+    <li><span class="tag simp">Model</span><b>The heart's shape.</b> It is drawn as a rounded lump with two tubes. A real heart has four chambers inside.</li>
+    <li><span class="tag simp">Model</span><b>The floppy puddle.</b> Without bones you could not stand, but muscles and skin would still hold some shape. The puddle is exaggerated for fun.</li>
+    <li><span class="tag simp">Model</span><b>Pulse.</b> The caption calls the heart's beat your pulse. Strictly, the pulse is the push of blood you can feel in an artery, at the wrist or neck, each time the heart beats.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Does my heart ever stop for a rest?</b> <span class="tag fact">Fact</span>No. It beats all day and all night, even while you sleep. It rests for a tiny moment between each beat.</li>
+    <li><b>Why is blood red?</b> <span class="tag fact">Fact</span>Blood carries a red stuff with iron in it that picks up air from your lungs and takes it round your body.</li>
+    <li><b>Do bones grow?</b> <span class="tag fact">Fact</span>Yes. Bones are alive. They grow as you grow, and if one breaks it can mend itself.</li>
+    <li><b>What is the tummy rumble?</b> <span class="tag fact">Fact</span>Your stomach and intestines squeezing food, liquid and air along.</li>
+    <li><b>Can I see inside a real person?</b> <span class="tag fact">Fact</span>Doctors can, with an X-ray, which makes a picture of your bones, or with other scanners that show the soft parts.</li>
+    <li><b>Is everyone the same inside?</b> <span class="tag fact">Fact</span>Very nearly. People look different outside, but everyone has the same bones and organs in the same places, with small differences.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Skeleton</b>: all your bones together. <b>Lungs</b>: the two soft bags in your chest that breathe air in and out.
+     <b>Pulse</b>: the beat you can feel when your heart pumps.</p>
+
+  <h2>Go further</h2>
+  <p><i>See Inside Your Body</i> by Katie Daynes, illustrated by Colin King (Usborne). A lift-the-flap book with more than
+     a hundred flaps, which suits the same "lift a layer away" idea. Australian booksellers list it and a newer 2024
+     board-book edition; try your library first.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.healthdirect.gov.au/heart" target="_blank" rel="noopener">healthdirect (Australian Government), "Heart"</a>: size, position and job of the heart.</li>
+    <li><a href="https://www.rch.org.au/clinicalguide/guideline_index/Normal_Ranges_for_Physiological_Variables/" target="_blank" rel="noopener">The Royal Children's Hospital Melbourne, "Acceptable ranges for physiological variables"</a>: heart and breathing rates for children aged four and six.</li>
+    <li><a href="https://www.livescience.com/32212-if-blood-is-red-why-are-veins-blue.html" target="_blank" rel="noopener">Live Science, "If blood is red, why do veins look bluish?"</a>: blood is never blue.</li>
+    <li><a href="https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2020.00170/text" target="_blank" rel="noopener">Frontiers in Physiology (2020), review of the sinoatrial node</a>: the heart starts its own beat.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. The bone counts, nerve speed, the smaller left lung and the answers to her questions
+     are standard anatomy and physiology, confirmed by search results or recalled, not each taken from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="../../shared/cast.js"></script>
+<script src="scenes/body-sim.js"></script>
+<script src="scenes/body.js"></script>
+<script src="scenes/inside.js"></script>
+<script src="scenes/hello.js"></script>
+<script src="scenes/bones.js"></script>
+<script src="scenes/boss.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.inside, opening: BQ.scenes.hello, bones: BQ.scenes.bones, boss: BQ.scenes.boss }
+  });
+</script>
+</body>
+</html>

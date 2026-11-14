@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Why is there day and night?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .turny { transform-origin: 196px 122px; animation: turny 7s ease-in-out infinite; }
+  @keyframes turny { 0%, 100% { transform: rotate(-16deg); } 50% { transform: rotate(16deg); } }
+  /* the spin toy: what eyes see beside the model */
+  .dn-panels { position: absolute; inset: 0; display: flex; gap: 8px; }
+  .dn-panel { flex: 1; min-width: 0; min-height: 0; position: relative; border-radius: 16px; overflow: hidden; }
+  .dn-eyes { background: var(--sky); }
+  /* the model is on paper: a different kind of picture, not a closer look */
+  .dn-model { background: var(--paper) repeating-linear-gradient(transparent 0 21px, rgba(120,150,190,.16) 21px 22px);
+              outline: 3px dashed var(--paper-edge); outline-offset: -6px; }
+  @media (orientation: portrait) { .dn-panels { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>Why is there day and night?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="The Sun shining on one half of the Earth">
+      <rect width="300" height="240" fill="#fbf6e3"/>
+      <path d="M40 92 L196 44 L196 200 L40 152 Z" fill="#ffd23f" opacity=".18"/>
+      <g stroke="#ffd23f" stroke-width="5" stroke-linecap="round">
+        <path d="M40 72v-14M40 172v14M68 122h14M60 102l10-10M60 142l10 10M20 102l-10-10M20 142l-10 10"/>
+      </g>
+      <circle cx="40" cy="122" r="30" fill="#ffd23f" stroke="#a66a00" stroke-width="3"/>
+      <clipPath id="disc"><circle cx="196" cy="122" r="78"/></clipPath>
+      <g clip-path="url(#disc)">
+        <rect x="118" y="44" width="156" height="156" fill="#6fb6d9"/>
+        <g class="turny ambient">
+          <path d="M132 150 q-8 -26 12 -40 q18 -6 26 8 q4 16 -6 30 q-14 12 -32 2z" fill="#8fc97a" stroke="#5da24c" stroke-width="2"/>
+          <path d="M232 70 q18 4 22 22 q-6 10 -18 4 q-10 -10 -4 -26z" fill="#8fc97a" stroke="#5da24c" stroke-width="2"/>
+          <circle cx="196" cy="122" r="24" fill="#fff" stroke="#c9dbe6" stroke-width="2"/>
+          <circle cx="146" cy="128" r="8" fill="#fff" stroke="#3b3a36" stroke-width="2"/><circle cx="146" cy="128" r="5" fill="#e4534a"/>
+        </g>
+        <rect x="196" y="44" width="80" height="156" fill="#161e46" opacity=".6"/>
+      </g>
+      <circle cx="196" cy="122" r="78" fill="none" stroke="#2f6fb5" stroke-width="4"/>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><path d="M8 20h12l4 14H4z" fill="#ffe9a8" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/><circle cx="33" cy="26" r="11" fill="#fff" stroke="#3b3a36" stroke-width="3"/><path d="M33 15a11 11 0 0 1 0 22z" fill="#39406b"/></svg>Ball and lamp</a>
+    <a class="tile" href="#other">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="#6fb6d9" stroke="#3b3a36" stroke-width="3"/><path d="M24 8a16 16 0 0 1 0 32z" fill="#161e46" opacity=".6"/><circle cx="13" cy="24" r="4" fill="#e4534a"/><circle cx="35" cy="24" r="4" fill="#3fa66b"/></svg>Other side</a>
+    <a class="tile" href="#shadow">
+      <svg viewBox="0 0 48 48"><circle cx="36" cy="11" r="7" fill="#ffd23f"/><circle cx="20" cy="20" r="8" fill="#aeb5bd" stroke="#3b3a36" stroke-width="3"/><ellipse cx="14" cy="38" rx="13" ry="4" fill="#3b3a36" opacity=".4"/></svg>Shadows</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><rect x="4" y="19" width="18" height="10" rx="3" fill="#8b7355" stroke="#3b3a36" stroke-width="3"/><path d="M22 18l8-4v20l-8-4z" fill="#ffd23f" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/><circle cx="39" cy="24" r="6" fill="#fff" stroke="#3b3a36" stroke-width="3"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="other" hidden><div class="stage"></div></section>
+<section class="part" data-part="shadow" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: make day and night</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Find a ball, a torch or lamp, and a sticker. The sticker is your house.</li>
+      <li>Make the room dark. Stand the torch on a table so it shines on the ball. Don't move the torch.</li>
+      <li>Turn the ball slowly. When is it day at your house? When is it night?</li>
+      <li>Stop turning. What happens to your house now?</li>
+    </ol>
+  </div>
+  <h2>For a sunny day</h2>
+  <p>Stand on the footpath after breakfast and ask a grown-up to draw round your shadow with chalk.
+     Stand on the same spot after lunch and draw it again. What changed?</p>
+  <p style="color:var(--soft);font-size:15px">You need: a ball, a torch or lamp, a sticker; chalk for the shadow. Never look straight at the Sun.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">Who do you think is fast asleep on the other side of the world right now?</li>
+    <li class="card">What would it be like if the Earth stopped turning?</li>
+    <li class="card">Why can't we feel the Earth spinning?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not settled.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>The Earth is a ball that turns right round about once every 24 hours.</li>
+    <li><span class="tag fact">Fact</span>The Sun lights only the half of the Earth that faces it. It is day where you are when your part of the Earth faces the Sun, and night when it has turned away.</li>
+    <li><span class="tag fact">Fact</span>The Sun does not go round the Earth. It looks as if it crosses the sky from east to west because the ground under us is turning from west to east.</li>
+    <li><span class="tag fact">Fact</span>Seen from above the North Pole the Earth turns anticlockwise. The toy looks down on the South Pole, so that Australia is in view, and from there the same turning is clockwise. The grey arrow beside the Earth shows the real direction.</li>
+    <li><span class="tag fact">Fact</span>From Sydney the midday Sun is in the northern sky. The Sydney picture looks north, so the Sun travels from the right (east) to the left (west).</li>
+    <li><span class="tag fact">Fact</span>The green dot in "Other side" is Rio de Janeiro in Brazil. When it is midday in Sydney it is about ten or eleven o'clock the night before in Rio.</li>
+    <li><span class="tag fact">Fact</span>The Moon does not make night. It shines by reflecting sunlight and is in the sky in the daytime about as often as at night, which is why the toy shows it on some afternoons.</li>
+    <li><span class="tag fact">Fact</span>The ground at Sydney is carried east at roughly 1,400 kilometres an hour. We feel nothing because the turning is smooth and everything around us moves along with us.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>Not to scale.</b> The Sun is about 109 Earths wide and nearly 12,000 Earth-widths away. On this scale it would be a ball several houses tall, far down the street.</li>
+    <li><span class="tag simp">Model</span><b>No tilt.</b> The real Earth leans over by about 23 degrees. That makes summer days long and winter days short, and gives us seasons. The toy leaves it out, so every day is half light and half dark, as it really is in Sydney in late March and late September.</li>
+    <li><span class="tag simp">Model</span><b>She can turn it backwards.</b> The real Earth only ever turns one way. Turning it back by hand is like rewinding. Let go and the toy only ever coasts the real way.</li>
+    <li><span class="tag simp">Model</span><b>She can stop it.</b> The real Earth does not stop. Stopping it in the toy shows that with no turning, the time of day would never change.</li>
+    <li><span class="tag simp">Model</span><b>The Moon is held still</b> a quarter of the way round from the Sun, as a half Moon. The real Moon goes round the Earth about once a month, so it rises later each day and its shape changes.</li>
+    <li><span class="tag simp">Model</span><b>One spin, one day.</b> Measured against the Sun a day is 24 hours. Measured against the stars the Earth turns once in 23 hours 56 minutes; the extra four minutes come from the Earth moving along its path round the Sun.</li>
+    <li><span class="tag simp">Model</span><b>The still Sun.</b> The Sun is itself moving through our galaxy and carries the Earth with it. It does not move round us.</li>
+    <li><span class="tag simp">Model</span><b>Rough drawing.</b> The land shapes are cartoons, the sky colours are simplified, and the stars do not drift.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Where does the Sun go at night?</b> <span class="tag fact">Fact</span>Nowhere. It is still shining, on the other side of the world. We have turned away from it.</li>
+    <li><b>Why can't we feel the Earth spinning?</b> <span class="tag fact">Fact</span>Because it turns smoothly and never speeds up or slows down. In a car on a smooth road you only feel it when the car starts, stops or turns a corner.</li>
+    <li><b>Will we fall off?</b> <span class="tag fact">Fact</span>No. The Earth pulls everything towards its middle, so "down" means towards the middle wherever you stand.</li>
+    <li><b>Why can I see the Moon in the daytime?</b> <span class="tag fact">Fact</span>The Moon is up for about half of every day, and it is bright enough to see against a blue sky.</li>
+    <li><b>Why is it still light at bedtime in summer?</b> <span class="tag fact">Fact</span>Because the Earth leans. In summer our half leans towards the Sun and spends more of each turn in the light. That is a story for another day.</li>
+    <li><b>Why does the Earth spin at all?</b> <span class="tag fact">Fact</span>It has been spinning since it formed, and there is nothing in space to rub against and slow it much.
+        <span class="tag unsure">Unsure</span>Exactly how the young Earth came to spin the way it does is not settled. A leading idea is a giant collision long ago that also made the Moon.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Earth</b>: the huge ball we all live on. <b>Spin</b>: to turn round and round on the spot.
+     <b>Sunrise</b>: the moment our part of the Earth turns to face the Sun.</p>
+
+  <h2>Go further</h2>
+  <p><b>Sydney Observatory</b> on Observatory Hill, Millers Point, runs guided tours with telescopes, and has family tours for
+     ages six and up. Tours must be booked, and conservation works may close some areas, so check
+     <a href="https://powerhouse.com.au/visit/sydney-observatory" target="_blank" rel="noopener">the Observatory's page</a>
+     before you go. The park around it is free and is a good place to watch a sunset.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://spaceplace.nasa.gov/days/en/" target="_blank" rel="noopener">NASA Space Place, "How Long Is One Day on Other Planets?"</a>: a day against the Sun is about 24 hours; against the stars, 23 hours 56 minutes.</li>
+    <li><a href="https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question31.html" target="_blank" rel="noopener">NASA StarChild, "Why do we have day and night?"</a>: the Earth turns us towards and away from the Sun.</li>
+    <li><a href="https://en.wikipedia.org/wiki/Earth%27s_rotation" target="_blank" rel="noopener">Wikipedia, "Earth's rotation"</a>: eastward turning, anticlockwise seen from the north, and about 1,675 km/h at the equator.</li>
+    <li><a href="https://powerhouse.com.au/visit/sydney-observatory" target="_blank" rel="noopener">Powerhouse, Sydney Observatory</a>: visiting.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. The speed at Sydney, the height of the midday Sun, the Rio time difference and the
+     Sun's size and distance are worked out from standard figures rather than taken from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="../../shared/cast.js"></script>
+<script src="scenes/daynight-sim.js"></script>
+<script src="scenes/draw.js"></script>
+<script src="scenes/spin.js"></script>
+<script src="scenes/ball.js"></script>
+<script src="scenes/other.js"></script>
+<script src="scenes/shadow.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.spin, opening: BQ.scenes.ball, other: BQ.scenes.other, shadow: BQ.scenes.shadow }
+  });
+</script>
+</body>
+</html>

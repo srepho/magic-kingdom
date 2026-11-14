@@ -8,66 +8,198 @@
 <link rel="stylesheet" href="shared/base.css">
 <style>
   body { overflow: auto; }
-  main { min-height: 100%; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 18px; padding: 24px; }
-  h1 { width: 100%; text-align: center; }
-  .coin { transform-origin: 232px 110px; animation: bob 3.2s ease-in-out infinite reverse; }
-  h1 { margin: 0; font-size: clamp(26px, 5vw, 44px); font-weight: 800; }
-  .book { width: min(78vw, 320px); display: grid; gap: 10px; padding: 14px 14px 16px; border-radius: 26px;
+  main { min-height: 100%; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 16px; padding: 20px; }
+  h1 { width: 100%; text-align: center; margin: 0; font-size: clamp(26px, 5vw, 44px); font-weight: 800; }
+  .book { width: min(44vw, 230px); display: grid; align-content: start; gap: 8px; padding: 10px 10px 12px; border-radius: 22px;
           border: 4px solid var(--ink); background: #fff; color: var(--ink); text-decoration: none;
-          font-size: clamp(18px, 3vw, 24px); font-weight: 700; text-align: center; }
+          font-size: clamp(15px, 2.4vw, 19px); font-weight: 700; text-align: center; }
   .book:active { transform: scale(.97); }
-  .book svg { width: 100%; border-radius: 16px; background: var(--sky); }
-  .cube { transform-origin: 150px 120px; animation: bob 3.4s ease-in-out infinite; }
-  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(6deg); } 50% { transform: translateY(7px) rotate(-3deg); } }
+  .book svg { width: 100%; border-radius: 14px; background: var(--sky); }
+  /* covers keep still on the shelf except for one gentle bob */
+  .book svg .ambient { animation: shelf-bob 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .book:nth-child(2n) svg .ambient { animation-delay: -1.7s; }
+  @keyframes shelf-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 </style>
 </head>
 <body>
 <main>
   <h1>Big Questions</h1>
-  <!-- the shelf: one animated cover per guide -->
+  <!-- the shelf: one cover per guide. Rebuilt from each guide's own cover art. -->
   <a class="book" href="guides/01-made-of/index.html">
     <svg viewBox="0 30 300 190" role="img" aria-label="A glass of cordial with an ice cube">
-      <ellipse cx="60" cy="56" rx="38" ry="12" fill="#fff"/><ellipse cx="236" cy="80" rx="44" ry="13" fill="#fff"/>
-      <rect x="0" y="204" width="300" height="36" fill="#d9c9a8"/>
-      <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1"/>
-      <g class="cube ambient">
-        <rect x="124" y="84" width="52" height="52" rx="14" fill="#eaf7ff" stroke="#9cc9e6" stroke-width="3"/>
-        <path d="M134 98h16" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-      </g>
-      <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1" opacity=".35"/>
-      <path d="M88 52 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L212 52" fill="none" stroke="#7b8a93" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="60" cy="46" rx="38" ry="12" fill="#fff"/><ellipse cx="236" cy="70" rx="44" ry="13" fill="#fff"/>
+    <rect x="0" y="204" width="300" height="36" fill="#d9c9a8"/><rect x="0" y="204" width="300" height="5" fill="#c4b28e"/>
+    <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1"/>
+    <g class="cube ambient">
+    <rect x="124" y="84" width="52" height="52" rx="14" fill="#eaf7ff" stroke="#9cc9e6" stroke-width="3"/>
+    <path d="M134 98h16" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <path d="M98 100 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L202 100 Z" fill="#ffb3a1" opacity=".35"/>
+    <path d="M88 52 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L212 52" fill="none" stroke="#7b8a93" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M103 74l9 86" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
     </svg>
     What is everything made of?
   </a>
   <a class="book" href="guides/02-money/index.html">
     <svg viewBox="0 30 300 190" role="img" aria-label="A market stall and a gold coin">
-      <rect x="0" y="196" width="300" height="44" fill="#b9dca8"/>
-      <path d="M52 78v120M168 78v120" stroke="#8b7355" stroke-width="7" stroke-linecap="round"/>
-      <rect x="40" y="52" width="140" height="30" rx="9" fill="#f2788f" stroke="#3b3a36" stroke-width="4"/>
-      <path d="M62 55v24M96 55v24M130 55v24M160 55v24" stroke="#fff" stroke-width="12" opacity=".55"/>
-      <rect x="44" y="150" width="132" height="56" rx="9" fill="#d9b98a" stroke="#8b7355" stroke-width="4"/>
-      <circle cx="84" cy="138" r="13" fill="#e4534a" stroke="#3b3a36" stroke-width="3"/>
-      <rect x="110" y="126" width="44" height="26" rx="12" fill="#d9a25f" stroke="#3b3a36" stroke-width="3"/>
-      <g class="coin ambient">
-        <circle cx="232" cy="110" r="34" fill="#ffd23f" stroke="#a66a00" stroke-width="5"/>
-        <circle cx="232" cy="110" r="21" fill="none" stroke="#a66a00" stroke-width="3" opacity=".5"/>
-      </g>
+    <ellipse cx="62" cy="40" rx="38" ry="12" fill="#fff"/>
+    <rect x="0" y="196" width="300" height="44" fill="#b9dca8"/>
+    <path d="M52 78v120M168 78v120" stroke="#8b7355" stroke-width="7" stroke-linecap="round"/>
+    <rect x="40" y="52" width="140" height="30" rx="9" fill="#f2788f" stroke="#3b3a36" stroke-width="4"/>
+    <path d="M62 55v24M96 55v24M130 55v24M160 55v24" stroke="#fff" stroke-width="12" opacity=".55"/>
+    <rect x="44" y="150" width="132" height="56" rx="9" fill="#d9b98a" stroke="#8b7355" stroke-width="4"/>
+    <circle cx="84" cy="138" r="13" fill="#e4534a" stroke="#3b3a36" stroke-width="3"/>
+    <rect x="110" y="126" width="44" height="26" rx="12" fill="#d9a25f" stroke="#3b3a36" stroke-width="3"/>
+    <g class="bobber ambient">
+    <circle cx="232" cy="110" r="34" fill="#ffd23f" stroke="#a66a00" stroke-width="5"/>
+    <circle cx="232" cy="110" r="21" fill="none" stroke="#a66a00" stroke-width="3" opacity=".5"/>
+    <path d="M214 98a22 22 0 0 1 14-9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    </g>
     </svg>
     What is money?
   </a>
   <a class="book" href="guides/03-in-charge/index.html">
-    <svg viewBox="0 30 300 190" role="img" aria-label="A ballot box and two flags">
-      <rect x="0" y="190" width="300" height="50" fill="#b9dca8"/>
-      <path d="M52 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
-      <path d="M52 96l42 14-42 16z" fill="#f5a742" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M248 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
-      <path d="M248 96l-42 14 42 16z" fill="#5aa9dc" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
-      <rect x="134" y="66" width="32" height="44" rx="4" fill="#fff" stroke="#3b3a36" stroke-width="4" transform="rotate(-8 150 96)"/>
-      <rect x="96" y="112" width="108" height="86" rx="14" fill="#8a7fd1" stroke="#3b3a36" stroke-width="5"/>
-      <rect x="122" y="122" width="56" height="9" rx="4" fill="#3b3a36"/>
-      <path d="M130 162l14 13 28-30" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg viewBox="0 30 300 190" role="img" aria-label="A ballot box with a vote dropping in, and two flags">
+    <ellipse cx="236" cy="42" rx="40" ry="12" fill="#fff"/>
+    <rect x="0" y="190" width="300" height="50" fill="#b9dca8"/>
+    <path d="M52 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52 96l42 14-42 16z" fill="#f5a742" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M248 196V96" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/>
+    <path d="M248 96l-42 14 42 16z" fill="#5aa9dc" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+    <g class="slip ambient"><rect x="134" y="66" width="32" height="44" rx="4" fill="#fff" stroke="#3b3a36" stroke-width="4"/></g>
+    <rect x="96" y="112" width="108" height="86" rx="14" fill="#8a7fd1" stroke="#3b3a36" stroke-width="5"/>
+    <rect x="122" y="122" width="56" height="9" rx="4" fill="#3b3a36"/>
+    <path d="M130 162l14 13 28-30" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     Who is in charge?
+  </a>
+  <a class="book" href="guides/05-people/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="A branching family tree with many tips" style="background:#fbf6e3">
+    <g fill="none" stroke="#2f6fb5" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 226V190"/><path d="M60 190H224"/><path d="M60 190V60"/><path d="M224 190V150"/>
+    <path d="M150 150H264"/><path d="M264 150V60"/><path d="M150 150V118"/><path d="M110 118H196"/>
+    <path d="M110 118V60"/><path d="M196 118V92"/><path d="M172 92H220"/><path d="M172 92V60"/><path d="M220 92V60"/>
+    </g>
+    <g fill="#fff" stroke="#2f6fb5" stroke-width="4">
+    <circle cx="150" cy="190" r="7"/><circle cx="224" cy="150" r="7"/><circle cx="150" cy="118" r="7"/><circle cx="196" cy="92" r="7"/>
+    </g>
+    <g class="tips ambient" stroke="#3b3a36" stroke-width="4">
+    <circle cx="60" cy="46" r="17" fill="#8fb89a"/><circle cx="110" cy="46" r="17" fill="#7cc36a"/>
+    <circle cx="172" cy="46" r="17" fill="#d49b72"/><circle cx="220" cy="46" r="17" fill="#c79a6b"/>
+    <circle cx="264" cy="46" r="17" fill="#efe3cf"/>
+    </g>
+    </svg>
+    Where did people come from?
+  </a>
+  <a class="book" href="guides/06-long-ago/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="A long winding path going back in time, past a castle, a pyramid and a dinosaur">
+    <rect x="0" y="150" width="300" height="90" fill="#b9dca8"/>
+    <ellipse cx="70" cy="40" rx="36" ry="11" fill="#fff"/>
+    <path d="M286 206 C 200 214, 150 176, 196 150 S 150 112, 96 110 S 58 92, 40 78" fill="none" stroke="#3b3a36" stroke-width="26" stroke-linecap="round"/>
+    <path d="M286 206 C 200 214, 150 176, 196 150 S 150 112, 96 110 S 58 92, 40 78" fill="none" stroke="#fbf6e3" stroke-width="19" stroke-linecap="round"/>
+    <path d="M286 206 C 262 208, 244 206, 228 200" fill="none" stroke="#f2788f" stroke-width="19" stroke-linecap="round"/>
+    <!-- castle -->
+    <g stroke="#3b3a36" stroke-width="3" stroke-linejoin="round">
+    <rect x="204" y="106" width="36" height="28" fill="#c9c5bd"/><rect x="196" y="94" width="14" height="40" fill="#b9b4aa"/><rect x="234" y="94" width="14" height="40" fill="#b9b4aa"/>
+    <path d="M222 106V84l14 5-14 6" fill="#f2788f"/>
+    </g>
+    <!-- pyramid -->
+    <path d="M118 62l26 38H92z" fill="#e8c77a" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/>
+    <!-- dinosaur, far away -->
+    <g stroke="#3b3a36" stroke-width="2.5" stroke-linecap="round" fill="#7cc36a">
+    <path d="M30 52q-8-12-4-26" fill="none" stroke-width="7"/><path d="M30 52q-8-12-4-26" fill="none" stroke="#7cc36a" stroke-width="3.5"/>
+    <ellipse cx="40" cy="56" rx="15" ry="9"/><path d="M33 62v9M46 62v9" stroke-width="4"/>
+    </g>
+    <g class="twinkle ambient"><path d="M262 132l5.5 11.5 12.5 1.5-9.200 8.600 2.400 12.600L262 160.500l-11.200 6.200 2.400-12.600-9.200-8.600 12.5-1.5z" fill="#ffd23f" stroke="#a66a00" stroke-width="3" stroke-linejoin="round"/></g>
+    </svg>
+    How long ago is long ago?
+  </a>
+  <a class="book" href="guides/07-where-are-we/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="The Earth from space, with a red dot on Australia's east coast">
+    <g fill="#fff"><circle cx="30" cy="40" r="1.6"/><circle cx="262" cy="30" r="2"/><circle cx="280" cy="150" r="1.4"/><circle cx="22" cy="190" r="1.8"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="212" r="1.5"/><circle cx="96" cy="18" r="1.3"/></g>
+    <circle cx="150" cy="125" r="95" fill="#7ec4ee"/>
+    <g fill="#9ccf8a">
+    <path d="M120 130L123 150L129 151L136 147L143 145L150 146L155 150L159 155L165 156L171 154L177 143L178 135L173 128L169 124L168 117L163 110L161 120L155 118L153 112L145 112L142 117L136 115L131 122Z"/>
+    <path d="M164 159L167 160L167 164L164 163Z"/><path d="M145 94L162 97L171 103L176 110L165 107L157 105L148 99Z"/>
+    <path d="M110 94L122 83L125 92L121 100L111 100Z"/><path d="M199 156L202 162L198 165L197 162Z"/><path d="M194 164L195 166L189 171L186 170Z"/>
+    <path d="M70 75L96 52L140 36L186 40L214 60L196 66L176 58L160 70L150 62L132 72L122 66L104 80L96 74L84 86Z"/>
+    </g>
+    <path d="M96 204a95 95 0 0 0 108 0q-54-14-108 0z" fill="#f4f8fb"/>
+    <circle cx="150" cy="125" r="95" fill="none" stroke="#2f6fb5" stroke-width="3" opacity=".6"/>
+    <circle class="here ambient" cx="173" cy="149" r="6" fill="none" stroke="#e4534a" stroke-width="2"/>
+    <circle cx="173" cy="149" r="6" fill="#e4534a" stroke="#fff" stroke-width="2.5"/>
+    </svg>
+    Where are we?
+  </a>
+  <a class="book" href="guides/08-inside-me/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="A child with a beating heart showing in their chest">
+    <ellipse cx="58" cy="44" rx="38" ry="12" fill="#fff"/><ellipse cx="246" cy="66" rx="34" ry="11" fill="#fff"/>
+    <rect x="0" y="206" width="300" height="34" fill="#e6d9c3"/>
+    <path d="M118 112L96 168M182 112l22 56" stroke="#e2ad84" stroke-width="16" stroke-linecap="round"/>
+    <path d="M134 176v40M166 176v40" stroke="#e2ad84" stroke-width="18" stroke-linecap="round"/>
+    <rect x="116" y="170" width="68" height="30" rx="10" fill="#5b6ea8"/>
+    <rect x="112" y="98" width="76" height="84" rx="16" fill="#57b5a6"/>
+    <circle cx="150" cy="128" r="27" fill="#f8e9dc" stroke="#3b3a36" stroke-width="3" stroke-dasharray="5 6"/>
+    <g class="beat ambient">
+    <path d="M158 142c-16-9-15-24-7-27 5-2 8 2 8 4 1-3 5-6 9-3 7 5 3 18-10 26z" fill="#d8394a" stroke="#a12c3c" stroke-width="2"/>
+    </g>
+    <circle cx="150" cy="62" r="34" fill="#e2ad84"/>
+    <path d="M116 60a34 34 0 0 1 68 0c-20-16-48-16-68 0z" fill="#5a4030"/>
+    <circle cx="138" cy="64" r="3.5" fill="#3b3a36"/><circle cx="162" cy="64" r="3.5" fill="#3b3a36"/>
+    <path d="M140 76a11 11 0 0 0 20 0" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    What is inside me?
+  </a>
+  <a class="book" href="guides/09-food/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="A road from a farm to a slice of toast on a plate">
+    <ellipse cx="150" cy="40" rx="40" ry="12" fill="#fff"/>
+    <rect x="0" y="150" width="300" height="90" fill="#b9dca8"/>
+    <rect x="0" y="176" width="300" height="34" fill="#b4afa6"/>
+    <path d="M8 193h284" stroke="#fff" stroke-width="3" stroke-dasharray="12 12"/>
+    <!-- barn -->
+    <rect x="26" y="104" width="62" height="56" fill="#d9534a" stroke="#3b3a36" stroke-width="4"/>
+    <path d="M20 104 L57 72 L94 104 Z" fill="#b8413a" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="45" y="126" width="24" height="34" fill="#f6e7d0" stroke="#3b3a36" stroke-width="3"/>
+    <!-- wheat -->
+    <path d="M108 160 q0-24 4-34 M122 160 q0-26 0-38 M136 160 q0-24-4-34" stroke="#b98a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="113" cy="118" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+    <ellipse cx="122" cy="112" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+    <ellipse cx="131" cy="118" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+    <!-- house -->
+    <rect x="226" y="112" width="54" height="48" fill="#f6d7d2" stroke="#3b3a36" stroke-width="4"/>
+    <path d="M218 112 L253 82 L288 112 Z" fill="#b8413a" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="246" y="134" width="14" height="26" fill="#8b7355" stroke="#3b3a36" stroke-width="3"/>
+    <!-- the toast, rolling back toward the farm -->
+    <g class="roller ambient">
+    <circle cx="222" cy="193" r="26" fill="#fff" stroke="#3b3a36" stroke-width="4"/>
+    <rect x="206" y="177" width="32" height="32" rx="9" fill="#e9c489" stroke="#a8703a" stroke-width="5"/>
+    <rect x="217" y="188" width="10" height="9" rx="2" fill="#ffe37a"/>
+    </g>
+    </svg>
+    Where does food come from?
+  </a>
+  <a class="book" href="guides/10-day-night/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="The Sun shining on one half of the Earth">
+    <rect width="300" height="240" fill="#fbf6e3"/>
+    <path d="M40 92 L196 44 L196 200 L40 152 Z" fill="#ffd23f" opacity=".18"/>
+    <g stroke="#ffd23f" stroke-width="5" stroke-linecap="round">
+    <path d="M40 72v-14M40 172v14M68 122h14M60 102l10-10M60 142l10 10M20 102l-10-10M20 142l-10 10"/>
+    </g>
+    <circle cx="40" cy="122" r="30" fill="#ffd23f" stroke="#a66a00" stroke-width="3"/>
+    <clipPath id="disc"><circle cx="196" cy="122" r="78"/></clipPath>
+    <g clip-path="url(#disc)">
+    <rect x="118" y="44" width="156" height="156" fill="#6fb6d9"/>
+    <g class="turny ambient">
+    <path d="M132 150 q-8 -26 12 -40 q18 -6 26 8 q4 16 -6 30 q-14 12 -32 2z" fill="#8fc97a" stroke="#5da24c" stroke-width="2"/>
+    <path d="M232 70 q18 4 22 22 q-6 10 -18 4 q-10 -10 -4 -26z" fill="#8fc97a" stroke="#5da24c" stroke-width="2"/>
+    <circle cx="196" cy="122" r="24" fill="#fff" stroke="#c9dbe6" stroke-width="2"/>
+    <circle cx="146" cy="128" r="8" fill="#fff" stroke="#3b3a36" stroke-width="2"/><circle cx="146" cy="128" r="5" fill="#e4534a"/>
+    </g>
+    <rect x="196" y="44" width="80" height="156" fill="#161e46" opacity=".6"/>
+    </g>
+    <circle cx="196" cy="122" r="78" fill="none" stroke="#2f6fb5" stroke-width="4"/>
+    </svg>
+    Why is there day and night?
   </a>
 </main>
 <script>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Where are we?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .cover-art svg { background: #232a52; }
+  .here { transform-origin: 173px 149px; animation: here 2.4s ease-out infinite; }
+  @keyframes here { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(3.2); opacity: 0; } }
+
+  /* the zoom toy: picture above, one big slider below */
+  .stage { --thumb: clamp(60px, 13vh, 84px); }
+  .zm-view { position: absolute; inset: 0 0 calc(var(--thumb) + 16px) 0; }
+  .zm-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 8px 4px; }
+  .zm-end { flex: none; width: calc(var(--thumb) * .66); height: calc(var(--thumb) * .66); background: center / contain no-repeat; }
+  .zm-house { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 12l9-8 9 8v9H3z' fill='%23f6efe0' stroke='%233b3a36' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M2 12l10-9 10 9' fill='none' stroke='%23c96f52' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='10' y='14' width='4' height='7' fill='%236fb6d9'/%3E%3C/svg%3E"); }
+  .zm-planet { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='7' fill='%23ead9a2' stroke='%233b3a36' stroke-width='1.6'/%3E%3Cellipse cx='12' cy='12' rx='11' ry='3.2' fill='none' stroke='%23b59a55' stroke-width='1.8' transform='rotate(-18 12 12)'/%3E%3C/svg%3E"); }
+  .zm-track { flex: 1; height: var(--thumb); border-radius: 999px; touch-action: none; cursor: pointer;
+              background: linear-gradient(90deg, #b9dca8, var(--sky) 45%, #5a6aa8 75%, #232a52); border: 3px solid var(--ink); }
+  .zm-thumb { width: calc(var(--thumb) - 6px); height: calc(var(--thumb) - 6px); border-radius: 50%; background: #fff;
+              border: 4px solid var(--ink); box-shadow: 0 2px 6px rgba(0,0,0,.3); pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>Where are we?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="The Earth from space, with a red dot on Australia's east coast">
+      <g fill="#fff"><circle cx="30" cy="40" r="1.6"/><circle cx="262" cy="30" r="2"/><circle cx="280" cy="150" r="1.4"/><circle cx="22" cy="190" r="1.8"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="212" r="1.5"/><circle cx="96" cy="18" r="1.3"/></g>
+      <circle cx="150" cy="125" r="95" fill="#7ec4ee"/>
+      <g fill="#9ccf8a">
+        <path d="M120 130L123 150L129 151L136 147L143 145L150 146L155 150L159 155L165 156L171 154L177 143L178 135L173 128L169 124L168 117L163 110L161 120L155 118L153 112L145 112L142 117L136 115L131 122Z"/>
+        <path d="M164 159L167 160L167 164L164 163Z"/><path d="M145 94L162 97L171 103L176 110L165 107L157 105L148 99Z"/>
+        <path d="M110 94L122 83L125 92L121 100L111 100Z"/><path d="M199 156L202 162L198 165L197 162Z"/><path d="M194 164L195 166L189 171L186 170Z"/>
+        <path d="M70 75L96 52L140 36L186 40L214 60L196 66L176 58L160 70L150 62L132 72L122 66L104 80L96 74L84 86Z"/>
+      </g>
+      <path d="M96 204a95 95 0 0 0 108 0q-54-14-108 0z" fill="#f4f8fb"/>
+      <circle cx="150" cy="125" r="95" fill="none" stroke="#2f6fb5" stroke-width="3" opacity=".6"/>
+      <circle class="here ambient" cx="173" cy="149" r="6" fill="none" stroke="#e4534a" stroke-width="2"/>
+      <circle cx="173" cy="149" r="6" fill="#e4534a" stroke="#fff" stroke-width="2.5"/>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><path d="M24 30q4 6 0 14" fill="none" stroke="#3b3a36" stroke-width="2"/><ellipse cx="24" cy="17" rx="11" ry="13" fill="#f2788f" stroke="#3b3a36" stroke-width="3"/></svg>Balloon</a>
+    <a class="tile" href="#globe">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="#7ec4ee" stroke="#3b3a36" stroke-width="3"/><path d="M17 24l3 7 8 1 5-6-3-6-5 2-3-2z" fill="#9ccf8a"/><circle cx="30" cy="27" r="2.5" fill="#e4534a"/></svg>Spin the Earth</a>
+    <a class="tile" href="#parade">
+      <svg viewBox="0 0 48 48"><circle cx="2" cy="24" r="12" fill="#ffd23f"/><circle cx="21" cy="24" r="3" fill="#7ec4ee" stroke="#3b3a36" stroke-width="1.5"/><circle cx="36" cy="24" r="8" fill="#dcb48a" stroke="#3b3a36" stroke-width="2.5"/></svg>Planets</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><circle cx="15" cy="26" r="11" fill="#fff" stroke="#3b3a36" stroke-width="3"/><path d="M15 15v22M5 23l10 5 10-5" fill="none" stroke="#3b3a36" stroke-width="2"/><circle cx="41" cy="30" r="2.5" fill="#3b3a36"/><path d="M28 34h9" stroke="#3b3a36" stroke-width="2" stroke-dasharray="2 3"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="globe" hidden><div class="stage"></div></section>
+<section class="part" data-part="parade" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: a peppercorn Earth</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Find a ball about as big as a soccer ball, and one peppercorn.</li>
+      <li>Put the ball down outside, on the footpath or in the park. That is the Sun.</li>
+      <li>Walk away together for 25 big grown-up steps.</li>
+      <li>Hold up the peppercorn. That is the Earth, and you are standing on it.</li>
+      <li>Look back at the ball. That is how far away the Sun is, and how big.</li>
+    </ol>
+  </div>
+  <p style="color:var(--soft);font-size:15px">You need: a ball about 23 cm across, a peppercorn, and somewhere to walk about 25 metres.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">If you flew straight up from our roof, what would you see first?</li>
+    <li class="card">People live all the way round the Earth. Which way is down for them?</li>
+    <li class="card">What do you think is further away than the planets?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not yet known.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>Every place sits inside a bigger one: home in a street, the street in a city, the city in a country, the country on a planet, and the planet among others going around a star.</li>
+    <li><span class="tag fact">Fact</span>Sydney is on Australia's east coast, towards the south. It is Australia's biggest city, with about 5.6 million people.</li>
+    <li><span class="tag fact">Fact</span>All of Australia is south of the equator. It is the sixth-largest country in the world, about 7.7 million square kilometres.</li>
+    <li><span class="tag fact">Fact</span>Earth is a ball about 12,700 km across.</li>
+    <li><span class="tag fact">Fact</span>Eight planets go around the Sun. In order: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Earth is the third.</li>
+    <li><span class="tag fact">Fact</span>Jupiter is about 11 times as wide as Earth, and the Sun about 109 times as wide.</li>
+    <li><span class="tag fact">Fact</span>The Sun is about 150 million km away. Its light takes about eight minutes to reach us.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>Even steps.</b> The slider gives each place the same room, but the jumps are wildly different. Street to city is about a hundred times bigger; Earth out to Neptune is about 350,000 Earth-widths.</li>
+    <li><span class="tag simp">Model</span><b>The planets picture is not to scale.</b> The planets are drawn far too big and far too close together, and they stand still. If Earth were a peppercorn, the Sun would be a soccer ball 25 metres away and Neptune a small marble about 750 metres away. The "Try it" walk shows this.</li>
+    <li><span class="tag simp">Model</span><b>The planet parade.</b> There the sizes are true compared with each other, including the edge of the Sun. The gaps are not, and real planets are never lined up in a row like that.</li>
+    <li><span class="tag simp">Model</span><b>The home, street and city are made up.</b> They are a typical Sydney house and street, not a real address. The city picture is a sketch of Sydney's shape: sea to the east, the harbour running west into a river, a bay to the south. The red dot's spot in the city is arbitrary.</li>
+    <li><span class="tag simp">Model</span><b>Coastlines are rough.</b> The lands on the globe are drawn with a few dozen corners each. Small islands are left out.</li>
+    <li><span class="tag simp">Model</span><b>The Earth has no clouds, no night side and no Moon here.</b> The Moon is left out because, at this size, it would sit more than ten screens away.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Why don't people fall off the bottom?</b> <span class="tag fact">Fact</span>The Earth pulls everything towards its middle. "Down" means towards the middle of the Earth, wherever you are standing. Space has no top or bottom; maps put north at the top only out of habit.</li>
+    <li><b>What about Pluto?</b> <span class="tag fact">Fact</span>Pluto is still there. Since 2006 astronomers have called it a dwarf planet, because it is small (smaller than our Moon) and shares its part of space with many other icy bodies.</li>
+    <li><b>Is the Sun a planet?</b> <span class="tag fact">Fact</span>No. The Sun is a star: a huge ball of glowing hot gas. The stars at night are suns too, very much further away.</li>
+    <li><b>What is past the planets?</b> <span class="tag fact">Fact</span>Other stars, a very long way off. Our Sun is one of an enormous number of stars in a group called the Milky Way.</li>
+    <li><b>Does space end?</b> <span class="tag unsure">Unsure</span>Nobody knows yet.</li>
+    <li><b>Does anyone live on the other planets?</b> <span class="tag fact">Fact</span>No people do. <span class="tag unsure">Unsure</span>Whether anything at all lives anywhere else, nobody knows yet.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>City</b>: lots and lots of streets and homes together. <b>Country</b>: a big piece of the world with its own name, like Australia.
+     <b>Planet</b>: a huge ball that goes around the Sun. We live on one.</p>
+
+  <h2>Go further</h2>
+  <p><b>Sydney Observatory</b>, on Observatory Hill near the Harbour Bridge. The grounds are free to walk around by day. Going inside and
+     looking through the telescopes is by booked tour, and there are family tours for younger children. Conservation work is under way,
+     so check <a href="https://powerhouse.com.au/visit/sydney-observatory" target="_blank" rel="noopener">the Observatory's page</a> for
+     what is running before you go.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/planet_table_ratio.html" target="_blank" rel="noopener">NASA, "Planetary Fact Sheet: Ratio to Earth Values"</a>: planet order, sizes and distances.</li>
+    <li><a href="https://science.nasa.gov/sun/facts" target="_blank" rel="noopener">NASA, "Sun: Facts"</a>: the Sun's size and distance.</li>
+    <li><a href="https://www.ga.gov.au/scientific-topics/national-location-information/dimensions/australias-size-compared" target="_blank" rel="noopener">Geoscience Australia, "Australia's size compared"</a>: area and world ranking.</li>
+    <li><a href="https://www.abs.gov.au/statistics/people/population/regional-population/latest-release" target="_blank" rel="noopener">Australian Bureau of Statistics, "Regional population"</a>: Sydney's population.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. The peppercorn figures are arithmetic from the NASA table. The answers about gravity,
+     Pluto, stars and the Milky Way are standard astronomy, not taken from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="scenes/where-sim.js"></script>
+<script src="scenes/atlas.js"></script>
+<script src="scenes/zoom.js"></script>
+<script src="scenes/balloon.js"></script>
+<script src="scenes/globe.js"></script>
+<script src="scenes/parade.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.zoom, opening: BQ.scenes.balloon, globe: BQ.scenes.globe, parade: BQ.scenes.parade }
+  });
+</script>
+</body>
+</html>

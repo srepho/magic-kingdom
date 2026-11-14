@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Where does food come from?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .roller { animation: roll 5s ease-in-out infinite; }
+  @keyframes roll { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-96px); } }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>Where does food come from?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="A road from a farm to a slice of toast on a plate">
+      <ellipse cx="150" cy="40" rx="40" ry="12" fill="#fff"/>
+      <rect x="0" y="150" width="300" height="90" fill="#b9dca8"/>
+      <rect x="0" y="176" width="300" height="34" fill="#b4afa6"/>
+      <path d="M8 193h284" stroke="#fff" stroke-width="3" stroke-dasharray="12 12"/>
+      <!-- barn -->
+      <rect x="26" y="104" width="62" height="56" fill="#d9534a" stroke="#3b3a36" stroke-width="4"/>
+      <path d="M20 104 L57 72 L94 104 Z" fill="#b8413a" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="45" y="126" width="24" height="34" fill="#f6e7d0" stroke="#3b3a36" stroke-width="3"/>
+      <!-- wheat -->
+      <path d="M108 160 q0-24 4-34 M122 160 q0-26 0-38 M136 160 q0-24-4-34" stroke="#b98a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="113" cy="118" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+      <ellipse cx="122" cy="112" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+      <ellipse cx="131" cy="118" rx="5" ry="12" fill="#e9b949" stroke="#3b3a36" stroke-width="2.5"/>
+      <!-- house -->
+      <rect x="226" y="112" width="54" height="48" fill="#f6d7d2" stroke="#3b3a36" stroke-width="4"/>
+      <path d="M218 112 L253 82 L288 112 Z" fill="#b8413a" stroke="#3b3a36" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="246" y="134" width="14" height="26" fill="#8b7355" stroke="#3b3a36" stroke-width="3"/>
+      <!-- the toast, rolling back toward the farm -->
+      <g class="roller ambient">
+        <circle cx="222" cy="193" r="26" fill="#fff" stroke="#3b3a36" stroke-width="4"/>
+        <rect x="206" y="177" width="32" height="32" rx="9" fill="#e9c489" stroke="#a8703a" stroke-width="5"/>
+        <rect x="217" y="188" width="10" height="9" rx="2" fill="#ffe37a"/>
+      </g>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><ellipse cx="24" cy="36" rx="20" ry="7" fill="#fff" stroke="#3b3a36" stroke-width="3"/><rect x="13" y="12" width="22" height="22" rx="7" fill="#e9c489" stroke="#a8703a" stroke-width="4"/></svg>Breakfast</a>
+    <a class="tile" href="#farm">
+      <svg viewBox="0 0 48 48"><rect x="10" y="22" width="28" height="20" fill="#d9534a" stroke="#3b3a36" stroke-width="3"/><path d="M6 22 L24 7 L42 22 Z" fill="#b8413a" stroke="#3b3a36" stroke-width="3" stroke-linejoin="round"/><rect x="19" y="30" width="10" height="12" fill="#f6e7d0" stroke="#3b3a36" stroke-width="2"/></svg>The farm</a>
+    <a class="tile" href="#sandwich">
+      <svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="9" rx="4" fill="#e9c489" stroke="#a8703a" stroke-width="3"/><path d="M6 23 q4-5 8 0 q4-5 8 0 q4-5 8 0 q4-5 8 0 q3-4 5 0" fill="none" stroke="#5da24c" stroke-width="4" stroke-linecap="round"/><rect x="8" y="27" width="32" height="5" rx="2" fill="#ffd23f" stroke="#3b3a36" stroke-width="2"/><rect x="7" y="34" width="34" height="9" rx="4" fill="#e9c489" stroke="#a8703a" stroke-width="3"/></svg>Sandwich</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="12" fill="#fff" stroke="#3b3a36" stroke-width="3"/><path d="M30 30l11 11" stroke="#3b3a36" stroke-width="5" stroke-linecap="round"/><circle cx="21" cy="21" r="5" fill="#e4534a"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="farm" hidden><div class="stage"></div></section>
+<section class="part" data-part="sandwich" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: plate detectives</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>At your next meal, pick three things on your plate.</li>
+      <li>For each one, guess together: did it start as a plant or an animal?</li>
+      <li>Go to the kitchen and find its packet, sticker or label. Where was it grown or made?</li>
+      <li>Tell the story backwards: plate, shop, truck, farm.</li>
+    </ol>
+  </div>
+  <h2>For the windowsill</h2>
+  <p>Next time you cut up a carrot, keep the top. Stand it in a saucer with a little water and put it in the light.
+     In about a week, new green leaves grow. The carrot is a plant, and it is still alive.</p>
+  <p style="color:var(--soft);font-size:15px">You need: a meal, whatever packets are in the kitchen, a carrot top and a saucer.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">What did you eat today that grew under the ground?</li>
+    <li class="card">How many people helped your toast get to you?</li>
+    <li class="card">Is there any food that is not from a plant or an animal?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not settled.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>Nearly everything we eat starts as a plant or an animal, grown or raised on a farm or caught in the sea, and travels to reach the plate.</li>
+    <li><span class="tag fact">Fact</span><b>Bread.</b> Wheat grain is crushed into flour at a mill. A bakery mixes flour with water, yeast and salt and bakes it.</li>
+    <li><span class="tag fact">Fact</span><b>Milk.</b> Cows are generally milked twice a day. The milk is chilled on the farm, collected by tanker, and at the factory it is pasteurised: heated to 72 °C for at least 15 seconds to kill harmful germs. Refrigerated trucks take it to the shops.</li>
+    <li><span class="tag fact">Fact</span><b>Eggs.</b> Hens lay them. On egg farms they are collected at least once a day, then cleaned, checked for cracks, sorted by weight and packed into cartons.</li>
+    <li><span class="tag fact">Fact</span><b>Apples.</b> They grow on trees and are picked by hand, then washed, graded and packed. Cold storage is why Australian apples are in the shops all year.</li>
+    <li><span class="tag fact">Fact</span><b>Chips.</b> Potatoes grow underground. At a factory they are washed, peeled, cut, cooked for about a minute, frozen and bagged.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>"A plant or an animal"</b> covers nearly all food, not quite all. Mushrooms, and the yeast in bread, are fungi, which are neither. Salt is a mineral. The third "Wonder more" question is there for this.</li>
+    <li><span class="tag simp">Model</span><b>One farm, one truck.</b> Real journeys have more steps: grain silos, milk tankers, warehouses and several trucks. The toy shows one of each.</li>
+    <li><span class="tag simp">Model</span><b>Milk.</b> The toy goes from cow to factory. In between, the milk waits in a chilled vat on the farm and travels in a tanker.</li>
+    <li><span class="tag simp">Model</span><b>Apples.</b> In the toy they go straight to the shop. Many spend months in cold storage first.</li>
+    <li><span class="tag simp">Model</span><b>Cooking at home.</b> Toasting the bread, boiling the egg and heating the chips are left out.</li>
+    <li><span class="tag simp">Model</span><b>The farm scene</b> puts wheat, cows, hens, apples and potatoes on one farm. Most real farms grow one or two things.</li>
+    <li><span class="tag simp">Model</span><b>No meat in the toy.</b> It was left out to keep the toy to five foods, not to hide it. A calm answer is below.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Where does meat come from?</b> <span class="tag fact">Fact</span>Meat is the body of an animal that was raised on a farm and killed for food. Families make different choices about eating it.</li>
+    <li><b>Is there a chick in my egg?</b> <span class="tag fact">Fact</span>No. The eggs in shops were never going to become chicks, because there is no rooster with the hens.</li>
+    <li><b>Why does a cow make milk?</b> <span class="tag fact">Fact</span>To feed her calf, the same way all mother mammals do. Dairy cows give milk after they have had a calf.</li>
+    <li><b>Is a mushroom a plant?</b> <span class="tag fact">Fact</span>No. Mushrooms are fungi, a group of living things that is neither plant nor animal.</li>
+    <li><b>Do all foods come from farms near us?</b> <span class="tag fact">Fact</span>No. Some travel a long way, even by ship from other countries. The label on the packet says where it is from.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Farm</b>: a place where plants and animals are raised for food. <b>Crop</b>: plants a farmer grows.
+     <b>Factory</b>: a place where food is made ready and packed.</p>
+
+  <h2>Go further</h2>
+  <p><b>Calmsley Hill City Farm</b> in Abbotsbury, western Sydney, is a working farm open to visitors, with cow milking,
+     sheep shearing and animals to feed. Check
+     <a href="https://www.calmsleyhill.com.au/" target="_blank" rel="noopener">the farm's website</a> for hours, show times and prices before you go.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.dairy.com.au/education/students/about-australian-dairy/dairy-production" target="_blank" rel="noopener">Dairy Australia, "How Milk is Made"</a>: milking, chilling, tankers, pasteurisation and refrigerated delivery.</li>
+    <li><a href="https://australianeggs.org.au/farming/collecting-grading-sizing" target="_blank" rel="noopener">Australian Eggs, "Collecting, Grading &amp; Sizing Eggs"</a>: daily collection, checking, sizing and cartons.</li>
+    <li><a href="https://apal.org.au/consumer/" target="_blank" rel="noopener">Apple and Pear Australia</a>: cold storage and year-round Australian apples.</li>
+    <li><a href="https://lambweston.eu/emea/news/the-process-from-potato-to-fries" target="_blank" rel="noopener">Lamb Weston, "The process from potato to fries"</a>: the factory steps for frozen chips (a European maker; the steps are the same).</li>
+    <li><a href="https://www.aegic.org.au/grains/wheat/" target="_blank" rel="noopener">Australian Export Grains Innovation Centre, wheat</a>: Australian wheat growing.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. Milling and baking, potatoes growing underground, unfertilised shop eggs,
+     why cows make milk and what fungi are come from standard knowledge, not from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="../../shared/cast.js"></script>
+<script src="scenes/food-art.js"></script>
+<script src="scenes/food-sim.js"></script>
+<script src="scenes/journey.js"></script>
+<script src="scenes/breakfast.js"></script>
+<script src="scenes/farm.js"></script>
+<script src="scenes/sandwich.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.journey, opening: BQ.scenes.breakfast, farm: BQ.scenes.farm, sandwich: BQ.scenes.sandwich }
+  });
+</script>
+</body>
+</html>
