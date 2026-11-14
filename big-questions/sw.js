@@ -1,7 +1,7 @@
 /* Big Questions — offline support. After the first visit everything here opens with no network.
  * Serves from the cache straight away and refreshes the cached copy in the background,
  * so a change shows up on the visit after next. Bump VERSION when files are added or renamed. */
-var VERSION = 'bq-2026-11-14e';
+var VERSION = 'bq-2026-11-14-1947';
 var FILES = [
   './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js', 'guides/01-made-of/',
   'guides/01-made-of/index.html', 'guides/01-made-of/scenes/warmth-sim.js',
@@ -12,10 +12,13 @@ var FILES = [
   'guides/02-money/scenes/jar.js', 'guides/03-in-charge/', 'guides/03-in-charge/index.html',
   'guides/03-in-charge/scenes/town-sim.js', 'guides/03-in-charge/scenes/town.js',
   'guides/03-in-charge/scenes/hands.js', 'guides/03-in-charge/scenes/levels.js',
-  'guides/05-people/', 'guides/05-people/index.html', 'guides/05-people/scenes/tree-sim.js',
-  'guides/05-people/scenes/tree.js', 'guides/05-people/scenes/family.js',
-  'guides/05-people/scenes/generations.js', 'guides/05-people/scenes/spread.js',
-  'guides/06-long-ago/', 'guides/06-long-ago/index.html',
+  'guides/04-australia/', 'guides/04-australia/index.html',
+  'guides/04-australia/scenes/story-sim.js', 'guides/04-australia/scenes/ausmap.js',
+  'guides/04-australia/scenes/story.js', 'guides/04-australia/scenes/beach.js',
+  'guides/04-australia/scenes/sea.js', 'guides/05-people/', 'guides/05-people/index.html',
+  'guides/05-people/scenes/tree-sim.js', 'guides/05-people/scenes/tree.js',
+  'guides/05-people/scenes/family.js', 'guides/05-people/scenes/generations.js',
+  'guides/05-people/scenes/spread.js', 'guides/06-long-ago/', 'guides/06-long-ago/index.html',
   'guides/06-long-ago/scenes/long-ago-sim.js', 'guides/06-long-ago/scenes/pics.js',
   'guides/06-long-ago/scenes/timeline.js', 'guides/06-long-ago/scenes/candles.js',
   'guides/06-long-ago/scenes/roll.js', 'guides/07-where-are-we/',
