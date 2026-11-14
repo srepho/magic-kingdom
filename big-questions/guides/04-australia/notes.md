@@ -29,7 +29,7 @@ Checked 14 November 2026.
 - **Darug.** The council for the family's area names "the Darug (Darag, Dharug, Daruk, Dharuk)
   People" as Traditional Custodians on its website and in recent meeting minutes (found by
   search, 14 November 2026). A 2021 council planning document also names Gweagal, Bidjigal and
-  Eora for the wider area. Stephen should confirm this matches what the family hears locally.
+  Eora for the wider area. Stephen confirmed on 14 November 2026 that this matches.
 - The suburb and council are deliberately not named in any published file.
 
 ## Kept out on purpose
