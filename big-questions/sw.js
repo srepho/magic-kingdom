@@ -1,7 +1,7 @@
 /* Big Questions — offline support. After the first visit everything here opens with no network.
  * Serves from the cache straight away and refreshes the cached copy in the background,
  * so a change shows up on the visit after next. Bump VERSION when files are added or renamed. */
-var VERSION = 'bq-2026-11-14-1947';
+var VERSION = 'bq-2026-11-14-1950';
 var FILES = [
   './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js', 'guides/01-made-of/',
   'guides/01-made-of/index.html', 'guides/01-made-of/scenes/warmth-sim.js',

@@ -3,9 +3,10 @@
 **Built** 14 November 2026 without a review stop. The brief asks for extra care here, so the
 choices that most need Stephen's eye are listed at the end. Fact checks are in `notes.md`.
 
-**Not yet done: the local Country.** The brief says to name it only once Stephen supplies it,
-and never to guess. The guide names no local Country or people. The grown-up notes ask the
-parent to find it; the try-it activity is built around saying it aloud.
+**The local Country: Darug.** Stephen supplied where the family lives on 14 November 2026, and the
+local council's own Acknowledgement names the Darug people as Traditional Custodians. It is named
+in the try-it activity and the grown-up notes only, not on the map or in any caption. The suburb
+and council are not named anywhere in the published files.
 
 ## The guide in one line
 
@@ -61,7 +62,7 @@ How each brief rule is met:
 | Begin with the First peoples, not ships | The guide opens on footprints, and the strip starts 65,000 years back. No ship appears until she stretches the last sliver. A test checks that the first four captions mention no ships |
 | Present tense; living cultures | The last caption is "are still here… are alive and strong". The patchwork never loses all its colour, and a test checks that |
 | Many peoples | About 290 tiles of many colours, plus the Torres Strait Islands. The caption says "many peoples… its own Country and its own language" |
-| Local Country only from Stephen | None is named |
+| Local Country only from Stephen | Darug, from the council for the place Stephen gave. Named in try-it and the notes |
 | 1788 is not first contact | The 1606 Dutch landing and the Makassan boats (from 1700) both come before the British ships, in that order, and a test checks it |
 | The hard sentence, calmly | The brief's own words, 15 words: "The newcomers took land that was already someone's home. That hurt the people living there." |
 | Plainly, not a toy | After 1788 nothing responds to a tap, nothing hops and there are no sounds. Only the time handle works |
@@ -99,7 +100,7 @@ Captions: *"When the sea was low, people could walk to Tasmania and New Guinea."
 
 ## Try it · Wonder more
 
-Find out whose Country you live on and say it aloud; hear "hello" in a First language from
+Say aloud that you live on Darug Country; hear "hello" in a First language from
 speakers (50 Words Project); listen for the name at the next Acknowledgement of Country.
 
 ## Decisions that most need a second look
