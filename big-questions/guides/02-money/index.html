@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>What is money?</title>
+<link rel="stylesheet" href="../../shared/base.css">
+<style>
+  .bobber { transform-origin: 214px 92px; animation: bob 3.2s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(8px) rotate(6deg); } }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="part cover" data-part="cover">
+  <h1>What is money?</h1>
+  <a class="cover-art" href="#toy" aria-label="Play">
+    <svg viewBox="0 0 300 240" role="img" aria-label="A market stall and a gold coin">
+      <ellipse cx="62" cy="40" rx="38" ry="12" fill="#fff"/>
+      <rect x="0" y="196" width="300" height="44" fill="#b9dca8"/>
+      <path d="M52 78v120M168 78v120" stroke="#8b7355" stroke-width="7" stroke-linecap="round"/>
+      <rect x="40" y="52" width="140" height="30" rx="9" fill="#f2788f" stroke="#3b3a36" stroke-width="4"/>
+      <path d="M62 55v24M96 55v24M130 55v24M160 55v24" stroke="#fff" stroke-width="12" opacity=".55"/>
+      <rect x="44" y="150" width="132" height="56" rx="9" fill="#d9b98a" stroke="#8b7355" stroke-width="4"/>
+      <circle cx="84" cy="138" r="13" fill="#e4534a" stroke="#3b3a36" stroke-width="3"/>
+      <rect x="110" y="126" width="44" height="26" rx="12" fill="#d9a25f" stroke="#3b3a36" stroke-width="3"/>
+      <g class="bobber ambient">
+        <circle cx="232" cy="110" r="34" fill="#ffd23f" stroke="#a66a00" stroke-width="5"/>
+        <circle cx="232" cy="110" r="21" fill="none" stroke="#a66a00" stroke-width="3" opacity=".5"/>
+        <path d="M214 98a22 22 0 0 1 14-9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </a>
+  <nav class="shelf-row">
+    <a class="tile" href="#opening">
+      <svg viewBox="0 0 48 48"><ellipse cx="24" cy="36" rx="20" ry="7" fill="#f6d7d2" stroke="#3b3a36" stroke-width="3"/><circle cx="15" cy="20" r="8" fill="#f5d033" stroke="#3b3a36" stroke-width="3"/><circle cx="33" cy="20" r="8" fill="#d6a868" stroke="#3b3a36" stroke-width="3"/></svg>Picnic swap</a>
+    <a class="tile" href="#jar">
+      <svg viewBox="0 0 48 48"><rect x="13" y="12" width="22" height="30" rx="6" fill="#fff" stroke="#3b3a36" stroke-width="3"/><rect x="16" y="6" width="16" height="6" rx="3" fill="#8b7355"/><circle cx="20" cy="34" r="4.5" fill="#ffd23f" stroke="#a66a00" stroke-width="1.5"/><circle cx="28" cy="34" r="4.5" fill="#ffd23f" stroke="#a66a00" stroke-width="1.5"/><circle cx="24" cy="26" r="4.5" fill="#ffd23f" stroke="#a66a00" stroke-width="1.5"/></svg>Coin jar</a>
+    <a class="tile" href="#tryit">
+      <svg viewBox="0 0 48 48"><rect x="6" y="20" width="36" height="20" rx="5" fill="#d9b98a" stroke="#3b3a36" stroke-width="3"/><rect x="4" y="8" width="40" height="10" rx="4" fill="#6fb6d9" stroke="#3b3a36" stroke-width="3"/></svg>Try it</a>
+    <a class="tile" href="#wonder">
+      <svg viewBox="0 0 48 48"><ellipse cx="25" cy="20" rx="17" ry="13" fill="#fff" stroke="#3b3a36" stroke-width="3"/><circle cx="12" cy="38" r="3.5" fill="#fff" stroke="#3b3a36" stroke-width="2.5"/><path d="M21 17a4.5 4.5 0 1 1 6 4c-1.5 .8-2 1.5-2 3" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="28" r="1.8" fill="#3b3a36"/></svg>Wonder</a>
+    <button class="tile grown" data-hold="#grownups">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#6d6a61" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="13" r="5"/><path d="M8 40V29a9 9 0 0 1 18 0v11"/><circle cx="34" cy="20" r="4"/><path d="M28 40v-7a6 6 0 0 1 12 0v7"/></svg>Grown-ups: hold</button>
+  </nav>
+</section>
+
+<!-- SCENES -->
+<section class="part" data-part="toy" hidden><div class="stage"></div></section>
+<section class="part" data-part="opening" hidden><div class="stage"></div></section>
+<section class="part" data-part="jar" hidden><div class="stage"></div></section>
+
+<!-- TRY IT -->
+<section class="part page" data-part="tryit" hidden>
+  <h1>Try it: a shop at home</h1>
+  <div class="card">
+    <ol class="steps">
+      <li>Each choose three things for your stall: toys, fruit, pencils.</li>
+      <li>First, no coins. Try to swap. What happens when you don't want what the other one has?</li>
+      <li>Now share out ten buttons or bottle tops. These are your coins.</li>
+      <li>Make price tags with dots: one dot, two dots, three dots.</li>
+      <li>Go shopping at each other's stalls. Where do the coins end up?</li>
+    </ol>
+  </div>
+  <p style="color:var(--soft);font-size:15px">You need: a few things from around the house, ten buttons or bottle tops, paper and a pencil.</p>
+</section>
+
+<!-- WONDER MORE -->
+<section class="part page" data-part="wonder" hidden>
+  <h1>Wonder more</h1>
+  <ul class="big">
+    <li class="card">If there were no coins, what could we use for money?</li>
+    <li class="card">If you had three coins, what would you do with them?</li>
+    <li class="card">What is something you cannot buy with money?</li>
+  </ul>
+</section>
+
+<!-- GROWN-UP NOTES -->
+<section class="part page grown" data-part="grownups" hidden>
+  <h1>Grown-up notes</h1>
+  <p>Each line is marked <span class="tag fact">Fact</span> well established,
+     <span class="tag simp">Model</span> a deliberate simplification, or
+     <span class="tag unsure">Unsure</span> not settled.</p>
+
+  <h2>The idea</h2>
+  <ul>
+    <li><span class="tag fact">Fact</span>Money is anything that people widely accept as payment. It does three jobs: paying for things, comparing prices, and keeping value for later.</li>
+    <li><span class="tag fact">Fact</span>A swap only works when each person wants what the other has. Money removes that need: you can sell to anyone who wants your thing and buy from anyone who has what you want.</li>
+    <li><span class="tag fact">Fact</span>Money works because people trust that the next person will accept it. That is what "everyone takes coins" means in the market.</li>
+    <li><span class="tag fact">Fact</span>Most money today is not coins or notes. It is numbers in bank accounts.</li>
+    <li><span class="tag fact">Fact</span>Australia's coins are made at the Royal Australian Mint in Canberra.</li>
+  </ul>
+
+  <h2>What the pictures simplify</h2>
+  <ul>
+    <li><span class="tag simp">Model</span><b>It is not a history.</b> The market shows why money is useful. It does not show how money began, and the guide never says people swapped first and invented coins later.</li>
+    <li><span class="tag unsure">Unsure</span><b>How money began</b> is argued over. Anthropologists have not found societies that ran on swapping alone before they had money; many kept track of gifts, favours and debts instead. Some economists reply that missing evidence does not settle it.</li>
+    <li><span class="tag simp">Model</span><b>A perfect jam.</b> The three stallholders are arranged so that no swap can ever work. In real life some swaps do work, as at the picnic.</li>
+    <li><span class="tag simp">Model</span><b>One coin for everything.</b> In the market every food costs one coin and no stall runs out. Real prices differ and change.</li>
+    <li><span class="tag simp">Model</span><b>Coins from a jar.</b> In the market the coins are simply handed out. People mostly get money by earning it, which is what the apple tree in the coin-jar scene shows.</li>
+    <li><span class="tag simp">Model</span><b>Spend, save, share.</b> The coin-jar scene treats all three as good choices and does not rank them.</li>
+  </ul>
+
+  <h2>Questions she may ask</h2>
+  <ul>
+    <li><b>Why can't we just make lots more money?</b> <span class="tag simp">Model</span>If everyone had twice as many coins but there were still the same number of apples, the stallholders would ask for more coins for each apple. More coins does not make more apples.</li>
+    <li><b>Is a card money?</b> <span class="tag fact">Fact</span>Tapping a card tells the bank to move numbers from one account to another. It is the same idea without the coins.</li>
+    <li><b>Where does money come from?</b> <span class="tag fact">Fact</span>Coins are made at the Mint. Most money, though, exists only as numbers that banks keep track of.</li>
+    <li><b>Why do some things cost more?</b> <span class="tag simp">Model</span>Usually because they take more work or more materials to make, or because lots of people want them and there are not many.</li>
+    <li><b>Why do some people have more money than others?</b> <span class="tag fact">Fact</span>People get different amounts for many reasons: the work they do, where they live, what their family had, and luck. People disagree about how fair that is, and countries make different rules about it. It is easiest to talk about people in general rather than anyone she knows.</li>
+  </ul>
+
+  <h2>Words this guide teaches</h2>
+  <p><b>Swap</b>: I give you mine and you give me yours. <b>Money</b>: something everyone will take when you pay.
+     <b>Price</b>: how many coins something costs.</p>
+
+  <h2>Go further</h2>
+  <p>The <b>Royal Australian Mint</b> in Canberra has a gallery where you can watch coins being made, and entry is free.
+     Its public areas were rebuilt recently, so check
+     <a href="https://www.ramint.gov.au/" target="_blank" rel="noopener">the Mint's website</a> for opening hours before you go.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rba.gov.au/education/resources/explainers/what-is-money.html" target="_blank" rel="noopener">Reserve Bank of Australia, "What is Money?"</a>: the three jobs of money, why swapping works badly, and bank deposits as the largest share of money.</li>
+    <li>Caroline Humphrey, "Barter and Economic Disintegration", <i>Man</i>, 1985: no society running on barter alone has been described.</li>
+    <li><a href="https://www.ramint.gov.au/" target="_blank" rel="noopener">Royal Australian Mint</a>: visiting.</li>
+  </ul>
+  <p style="color:var(--soft)">Checked November 2026. The answers about prices, printing more money and why incomes differ are
+     simplified standard economics, not taken from a linked page.</p>
+</section>
+
+<script src="../../shared/kit.js"></script>
+<script src="scenes/cast.js"></script>
+<script src="scenes/market-sim.js"></script>
+<script src="scenes/market.js"></script>
+<script src="scenes/picnic.js"></script>
+<script src="scenes/jar.js"></script>
+<script>
+  BQ.frame.init({
+    shelf: '../../index.html',
+    sw: '../../sw.js',
+    scenes: { toy: BQ.scenes.market, opening: BQ.scenes.picnic, jar: BQ.scenes.jar }
+  });
+</script>
+</body>
+</html>

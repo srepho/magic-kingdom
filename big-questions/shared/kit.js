@@ -129,6 +129,8 @@
     drip: function () { blip(1300, 520, 0.11, 'sine', 0.09); },
     plop: function () { blip(320, 110, 0.2, 'sine', 0.14); },
     whoosh: function () { blip(300, 900, 0.25, 'sine', 0.05); },
+    nope: function () { blip(300, 210, 0.16, 'triangle', 0.08); },
+    coin: function () { blip(1650, 2150, 0.09, 'triangle', 0.09); blip(2300, 2500, 0.08, 'triangle', 0.05, 0.06); },
     muted: function () { return muted; },
     toggle: function () {
       muted = !muted;

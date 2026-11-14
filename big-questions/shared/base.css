@@ -54,3 +54,46 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .bq-nudge, .ambient { animation: none !important; }
 }
+
+/* ---------- guide cover, tiles and reading pages (shared by every guide) ---------- */
+/* cover */
+.cover { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 12px 12px; }
+.cover h1 { margin: 0; font-size: clamp(22px, 4.6vw, 44px); font-weight: 800; text-align: center; }
+.cover-art { flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; text-decoration: none; }
+.cover-art svg { height: 100%; max-width: 100%; border-radius: 22px; border: 4px solid var(--ink); background: var(--sky); }
+.shelf-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.tile { width: clamp(74px, 13vw, 104px); display: grid; justify-items: center; gap: 2px; padding: 8px 4px 6px;
+        border-radius: 18px; border: 3px solid var(--ink); background: #fff; color: var(--ink);
+        text-decoration: none; font-size: 13px; font-weight: 600; text-align: center; position: relative;
+        touch-action: manipulation; cursor: pointer; font-family: inherit; }
+.tile svg { width: 46px; height: 46px; }
+.tile:active { transform: scale(.95); }
+.tile.grown { background: var(--bg); border-style: dashed; color: var(--soft); }
+.tile.grown::after { content: ""; position: absolute; left: 0; bottom: 0; height: 6px; width: 0; background: var(--bit); border-radius: 0 0 0 14px; }
+.tile.grown.holding::after { width: 100%; transition: width 1.2s linear; }
+@media (max-height: 430px) {
+  .cover { flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; }
+  .cover h1 { width: 100%; font-size: 20px; }
+  .cover-art { flex: none; width: auto; height: 68%; }
+  .shelf-row { max-width: 52%; }
+  .tile { width: 70px; font-size: 11px; padding: 4px; } .tile svg { width: 34px; height: 34px; }
+}
+
+
+/* reading pages */
+.page h1 { font-size: clamp(24px, 4vw, 34px); margin: 4px auto 12px; }
+.page h2 { font-size: 20px; margin: 26px auto 8px; }
+.page p, .page li { font-size: 18px; line-height: 1.5; }
+.big li { font-size: clamp(20px, 3vw, 28px); margin: 16px 0; list-style: none; padding-left: 0; }
+.big { padding-left: 0; }
+.steps li { margin: 8px 0; }
+.card { background: #fff; border: 3px solid var(--ink); border-radius: 18px; padding: 14px 18px; }
+.grown { -webkit-user-select: text; user-select: text; }
+.grown li { margin: 10px 0; font-size: 16px; }
+.grown p { font-size: 16px; }
+.grown a { color: #1f5fa8; }
+.tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+       padding: 2px 8px; border-radius: 999px; margin-right: 6px; vertical-align: 2px; white-space: nowrap; }
+.fact { background: #d6efd8; color: #1d5a27; }
+.simp { background: #ffe9a8; color: #6b4a00; }
+.unsure { background: #e4dcf7; color: #47307a; }

@@ -8,9 +8,11 @@
 <link rel="stylesheet" href="shared/base.css">
 <style>
   body { overflow: auto; }
-  main { min-height: 100%; display: grid; place-content: center; justify-items: center; gap: 18px; padding: 24px; }
+  main { min-height: 100%; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 18px; padding: 24px; }
+  h1 { width: 100%; text-align: center; }
+  .coin { transform-origin: 232px 110px; animation: bob 3.2s ease-in-out infinite reverse; }
   h1 { margin: 0; font-size: clamp(26px, 5vw, 44px); font-weight: 800; }
-  .book { width: min(78vw, 360px); display: grid; gap: 10px; padding: 14px 14px 16px; border-radius: 26px;
+  .book { width: min(78vw, 320px); display: grid; gap: 10px; padding: 14px 14px 16px; border-radius: 26px;
           border: 4px solid var(--ink); background: #fff; color: var(--ink); text-decoration: none;
           font-size: clamp(18px, 3vw, 24px); font-weight: 700; text-align: center; }
   .book:active { transform: scale(.97); }
@@ -36,6 +38,22 @@
       <path d="M88 52 L106 196 Q107 204 116 204 L184 204 Q193 204 194 196 L212 52" fill="none" stroke="#7b8a93" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     What is everything made of?
+  </a>
+  <a class="book" href="guides/02-money/index.html">
+    <svg viewBox="0 30 300 190" role="img" aria-label="A market stall and a gold coin">
+      <rect x="0" y="196" width="300" height="44" fill="#b9dca8"/>
+      <path d="M52 78v120M168 78v120" stroke="#8b7355" stroke-width="7" stroke-linecap="round"/>
+      <rect x="40" y="52" width="140" height="30" rx="9" fill="#f2788f" stroke="#3b3a36" stroke-width="4"/>
+      <path d="M62 55v24M96 55v24M130 55v24M160 55v24" stroke="#fff" stroke-width="12" opacity=".55"/>
+      <rect x="44" y="150" width="132" height="56" rx="9" fill="#d9b98a" stroke="#8b7355" stroke-width="4"/>
+      <circle cx="84" cy="138" r="13" fill="#e4534a" stroke="#3b3a36" stroke-width="3"/>
+      <rect x="110" y="126" width="44" height="26" rx="12" fill="#d9a25f" stroke="#3b3a36" stroke-width="3"/>
+      <g class="coin ambient">
+        <circle cx="232" cy="110" r="34" fill="#ffd23f" stroke="#a66a00" stroke-width="5"/>
+        <circle cx="232" cy="110" r="21" fill="none" stroke="#a66a00" stroke-width="3" opacity=".5"/>
+      </g>
+    </svg>
+    What is money?
   </a>
 </main>
 <script>
