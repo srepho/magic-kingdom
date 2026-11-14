@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Rough toy — warmth</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overscroll-behavior: none; }
+  body { background: #f3efe6; font-family: system-ui, sans-serif;
+         -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  #toy { height: 100dvh; display: flex; flex-direction: column;
+         padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .wt-panels { flex: 1; min-height: 0; display: flex; gap: 10px; padding: 10px 10px 0; }
+  .wt-panel { flex: 1; min-width: 0; min-height: 0; position: relative; border-radius: 14px; overflow: hidden; }
+  .wt-eyes { background: #dfe9ee; }
+  /* the model is on paper: a different kind of picture, not a closer look */
+  .wt-model { background: #fbf6e3; outline: 3px dashed #c9bb92; outline-offset: -6px; }
+  .wt-panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+  .wt-tag { position: absolute; top: 6px; left: 10px; font-size: 26px; z-index: 1; pointer-events: none; }
+  .wt-bar { --thumb: clamp(60px, 14vh, 88px); display: flex; align-items: center; gap: 10px; padding: 10px; }
+  .wt-end { font-size: calc(var(--thumb) * .5); }
+  .wt-track { flex: 1; height: var(--thumb); border-radius: 999px; touch-action: none; cursor: pointer;
+              background: linear-gradient(90deg, #9fd0ff, #ffe9a8 50%, #ff8a5c); }
+  .wt-thumb { width: var(--thumb); height: var(--thumb); border-radius: 50%; background: #fff;
+              border: 4px solid #444; box-shadow: 0 2px 6px rgba(0,0,0,.3); pointer-events: none; }
+  .wt-reset { width: var(--thumb); height: var(--thumb); border-radius: 50%; border: 3px solid #444;
+              background: #fff; font-size: calc(var(--thumb) * .45); touch-action: manipulation; }
+  @media (orientation: portrait) { .wt-panels { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div id="toy"></div>
+<script src="scenes/warmth-sim.js"></script>
+<script src="scenes/warmth-toy.js"></script>
+<script>BQ.scenes.warmthToy.start(document.getElementById('toy'));</script>
+</body>
+</html>

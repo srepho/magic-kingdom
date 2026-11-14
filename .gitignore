@@ -9,3 +9,8 @@ credentials.json
 
 # OS noise
 .DS_Store
+
+# Big Questions: personal/internal docs (repo is public)
+big-questions/BRIEF.md
+big-questions/CLAUDE.md
+big-questions/FEEDBACK.md
