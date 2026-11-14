@@ -47,14 +47,16 @@
       'Agreed playground by the ' + plans[s.agreed] + '. Last count: ' + s.tally[0] + ' for the hill, ' + s.tally[1] + ' for the river.');
     D.paper(g, 4, 4, 472, 237); D.glasses(g, 28, 23, 9);
     [80, 240, 400].forEach(function (x, i) {
-      BQ.cast.critter(g, kinds[i], x, 73, 26, 'meh', 0);
+      // calm until the count; then pleased if their plan was agreed, a little flat if not
+      var mood = s.agreed === null ? 'want' : s.choices[i] === s.agreed ? 'happy' : 'meh';
+      BQ.cast.critter(g, kinds[i], x, 73, 26, mood, 0);
       g.fillStyle = colours[s.choices[i]]; g.strokeStyle = BQ.ink.line; g.lineWidth = 2;
       D.round(g, x - 24, 114, 48, 34, 6); g.fill(); g.stroke();
       g.strokeStyle = '#fff'; g.lineWidth = 4; g.beginPath();
       if (s.choices[i] === 0) { g.moveTo(x - 16, 140); g.lineTo(x, 121); g.lineTo(x + 16, 140); }
       else { g.moveTo(x - 17, 129); g.quadraticCurveTo(x - 8, 118, x, 129); g.quadraticCurveTo(x + 8, 140, x + 17, 129); }
       g.stroke();
-      if (i === 0) { g.fillStyle = BQ.ink.line; g.font = '600 13px system-ui'; g.textAlign = 'center'; g.fillText('Leader', x, 30); }
+      if (i === 0) { D.star(g, x - 30, 25, 8); g.fillStyle = BQ.ink.line; g.font = '600 13px system-ui'; g.textAlign = 'center'; g.fillText('Leader', x + 6, 30); }
     });
     g.strokeStyle = BQ.ink.line; g.lineWidth = 2; g.beginPath(); g.moveTo(30, 159); g.lineTo(450, 159); g.stroke();
     g.textAlign = 'center'; g.font = '600 17px system-ui'; g.fillStyle = BQ.ink.line;

@@ -2,9 +2,10 @@
  * Installation downloads every listed file before the release is usable offline.
  * Updates wait for all open guide tabs to close, so active scenes keep their own release.
  * Run tools/build_shelf.py after any published file changes to rebuild VERSION. */
-var VERSION = 'bq-5e5d8ebb8683eca8';
+var VERSION = 'bq-3c6b723201374077';
 var FILES = [
-  './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js', 'guides/01-made-of/',
+  './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js', 'manifest.webmanifest',
+  'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'guides/01-made-of/',
   'guides/01-made-of/index.html', 'guides/01-made-of/scenes/warmth-sim.js',
   'guides/01-made-of/scenes/warmth-toy.js', 'guides/01-made-of/scenes/opening.js',
   'guides/01-made-of/scenes/puddle.js', 'guides/01-made-of/scenes/kettle.js', 'guides/02-money/',

@@ -253,7 +253,10 @@
         '<p class="bq-caption" aria-live="polite" hidden></p>' +
         '<button class="bq-btn" data-act="toy" aria-label="The toy">' + svg('toy') + '</button>' +
         '<button class="bq-btn" data-act="reset" aria-label="Start again">' + svg('reset') + '</button>' +
-        '<button class="bq-btn" data-act="sound" aria-label="Sound"></button>';
+        '<button class="bq-btn" data-act="sound" aria-label="Sound"></button>' +
+        // shown briefly, by CSS only, when a scene opens on a narrow upright screen
+        '<div class="bq-turn" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect class="bq-turn-phone" x="15" y="6" width="18" height="32" rx="4"/><path d="M8 40a18 18 0 0 0 30 4M38 44l1-7M38 44l-7-1"/></svg></div>';
       document.body.appendChild(bar);
       cap = bar.querySelector('.bq-caption');
       if (root.ResizeObserver) new root.ResizeObserver(fitChrome).observe(bar);
@@ -291,6 +294,7 @@
       caption(''); nudgeToy(false);
       parts.forEach(function (p) { p.hidden = p.dataset.part !== n; });
       document.body.dataset.at = n;
+      document.body.dataset.scene = scenes[n] ? 'yes' : 'no';
       var sc = scenes[n], part = parts.filter(function (p) { return p.dataset.part === n; })[0];
       btn.toy.hidden = n === 'cover' || n === 'toy';
       btn.reset.hidden = !sc;

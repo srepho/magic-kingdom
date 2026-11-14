@@ -16,7 +16,8 @@ books, files, seen = [], [], set()
 def add(p):
     if p not in seen:
         seen.add(p); files.append(p)
-for p in ['./', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js']:
+for p in ['./', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js',
+          'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png']:
     add(p)
 for d in guides:
     page = f'guides/{d}/index.html'

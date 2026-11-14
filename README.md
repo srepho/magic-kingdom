@@ -30,6 +30,15 @@ take effect after all Big Questions tabs are closed and the site is reopened.
 Existing open guides keep using their current release. External source links
 still need an internet connection.
 
+On a tablet or phone, open the shelf and choose **Add to Home Screen**. It then
+opens full screen, without the browser's bars, like an app. The icons are drawn
+by `big-questions/tools/make_icons.py`.
+
+`big-questions/tests/brief-rules.test.js` checks every guide against the house
+rules: the parts each guide needs, captions of 15 words or fewer, at most three
+taught words, no outside links or emoji on a child's screen, and labelled
+grown-up notes.
+
 ## How to play
 
 **Play online from any computer or tablet:**
