@@ -1,5 +1,13 @@
 # Guide 01 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Added an optional cold-cup comparison, checked against the [American Chemical Society's Condensation Station](https://www.acs.org/education/whatischemistry/adventures-in-chemistry/experiments/condenstation-station.html) (page read). The comparison uses cold and room-temperature water, not hot water. Moisture depends on humidity; it is an observation, not a promised result. Qualified the floating-ice explanation to fresh water, explicitly identifying the cordial picture as a simplification. Removed the claim that molecular imaging began in 2009; the cited 2009 result was not the first image of any molecule.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked, so the page can be trusted and updated.
 

@@ -1,5 +1,13 @@
 # Guide 03 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Added the interactive Decide together scene and a parent prompt for keeping the leader's preference fixed while the other two outvote it. [PEO, Making a law](https://peo.gov.au/understand-our-parliament/how-parliament-works/bills-and-laws/making-a-law) was read: debate, votes in both houses and assent are part of federal lawmaking. The three-member council is explicitly invented; it does not reproduce all council or parliamentary procedures. Modified the town captions to identify its single-decision-maker rule as a model, and replaced the unrestricted afternoon-leader activity with an agreed limited choice and listening exercise. The new scene distinguishes choosing a preference from adopting a plan.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part).
 
 Checked 14 November 2026.

@@ -1,5 +1,13 @@
 # Guide 07 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Added nested-picture play and prompts contrasting relative sizes with distances. Specified that 25 steps is only an estimate of 25 metres. Replaced the categorical claim that planets can “never” line up with a statement that the parade is a comparison of sizes, not actual positions. The child's planet definition now includes worlds around stars other than the Sun. No new astronomical measurements were added.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked.
 

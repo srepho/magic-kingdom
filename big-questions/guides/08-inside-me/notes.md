@@ -1,5 +1,13 @@
 # Guide 08 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Read [RCH's physiological-variable ranges](https://www.rch.org.au/clinicalguide/guideline_index/normal_ranges_for_physiological_variables/) and [healthdirect's resting-heart-rate page](https://www.healthdirect.gov.au/symptoms/resting-heart-rate). RCH explicitly describes unwell children in a clinical context. Removed its use as a healthy five-year-old's resting range. The toy's rates remain illustrative model parameters, not health thresholds. Replaced maximum-effort star jumps with comfortable optional movement and wrist-pulse/breathing observation. Corrected “air in blood” to oxygen, and removed the universal claim that everyone has identical organs in identical places. Real-device audio and whether a child finds the pulse activity easy remain untested.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked.
 

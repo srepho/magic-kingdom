@@ -49,6 +49,7 @@
         if (st.swaps === 1) frame.caption('A <b>swap</b>: I give you mine, and you give me yours.');
         if (st.swaps === 2) frame.nudgeToy();
       },
+      cancel: function () { st.drag = null; },
       tap: function (q) {
         var p = surf.toView(q);
         for (var i = 0; i < 2; i++) if (Math.hypot(p.x - WHO[i].x, p.y - WHO[i].y) < 40) { st.hop[i] = 1; BQ.sound.squeak(); }

@@ -101,3 +101,29 @@ then vote again.
 7. **Votes are visible** so she can see the count. Secret ballots are in the notes.
 8. **New South Wales and Sydney are used on the map** as the family's state and city. No suburb is shown.
 9. **Place to visit: NSW Parliament House**, with a note to check tour times.
+
+## Review addition — Decide together (14 November 2026)
+
+This supersedes decision 4's choice to leave shared decision-making only in notes.
+
+| Field | Interaction |
+| --- | --- |
+| Insight | A leader cannot make a shared decision just by wanting it; other elected people have votes too. |
+| Action | Tap each of three animal representatives to choose the hill or river plan, then tap the ballot box. |
+| Response | Each animal's picture ballot changes immediately. When counted, the plan with two or three votes appears. |
+| Variation | Keep the leader's choice fixed, change the other two, and compare the decision. Change a vote without counting: the agreed plan stays until the next vote. |
+| Misconception to avoid | That a leader's vote counts extra, that an election is held for every decision, or that a majority can disregard people's rights. |
+| Boundaries | This is a made-up council with three already-elected members and two plans. It does not model Parliament's two houses, legal procedures, parties or every council's voting rules. |
+| Check | A leader can be outvoted, each member has one vote, preferences change independently of decisions, every state resets, and no plan is scored as better. |
+
+Captions stay under 15 words; no new deliberately taught terms. The existing three
+terms remain vote, leader and government. The new scene is the third supporting
+moment (alongside Hands up and Three governments).
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

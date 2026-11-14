@@ -1,5 +1,13 @@
 # Guide 10 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Read [NASA's Earth–Moon explanation](https://science.nasa.gov/solar-system/moon/10-things-what-we-learn-about-earth-by-studying-the-moon/): tides slowly alter Earth's rotation. Removed “never speeds up or slows down”. Clarified that freezing day when the toy stops is a consequence of omitting the yearly orbit, not a claim about a real non-rotating Earth (geometrical inference). Qualified exact equal-day/night wording as a no-tilt model. Added a two-sticker ball-and-torch variation and a prompt noticing the daytime Moon. Orbital motion and seasons remain outside the simulation.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked.
 

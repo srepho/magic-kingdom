@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Rebuild the shelf (index.html) and the offline file list (sw.js) from the guides.
 
-Run from big-questions/ after adding a guide or a file:   python3 tools/build_shelf.py
+Run after changing any published file: python3 big-questions/tools/build_shelf.py
 It copies each guide's cover art and title onto the shelf, lists every script and
-stylesheet the pages load, and bumps the offline cache version so devices pick up the change.
+stylesheet the pages load, and derives the offline version from the release content.
 """
-import os, re, datetime
+import os, re, hashlib
+from pathlib import Path
+
+# Work the same way from the repository root or from big-questions/.
+os.chdir(Path(__file__).resolve().parents[1])
 
 guides = sorted(d for d in os.listdir('guides') if os.path.exists(f'guides/{d}/index.html'))
 books, files, seen = [], [], set()
@@ -44,7 +48,16 @@ for f in files:
     row += item
 rows.append(row.rstrip().rstrip(','))
 sw = sw[:a] + 'var FILES = [\n' + '\n'.join(rows) + '\n];' + sw[b:]
-stamp = datetime.datetime.now().strftime('bq-%Y-%m-%d-%H%M')
+# Hash the actual release, including worker logic, rather than the wall clock.
+# Consecutive edits in the same minute must not reuse an offline cache.
+digest = hashlib.sha256()
+for f in files:
+    path = Path(f)
+    if path.is_dir():
+        path /= 'index.html'
+    digest.update(f.encode() + b'\0' + path.read_bytes() + b'\0')
+digest.update(re.sub(r"var VERSION = '[^']+';", "var VERSION = '';", sw).encode())
+stamp = 'bq-' + digest.hexdigest()[:16]
 sw = re.sub(r"var VERSION = '[^']+';", f"var VERSION = '{stamp}';", sw)
 open('sw.js', 'w').write(sw)
 print(f'{len(guides)} guides on the shelf; {len(files)} files cached offline; version {stamp}')

@@ -1,5 +1,13 @@
 # Guide 05 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Read [UC Berkeley's misconceptions guide](https://evolution.berkeley.edu/teach-evolution/misconceptions-about-evolution/) and [Smithsonian's introduction](https://humanorigins.si.edu/education/introduction-human-evolution). Replaced the directed trait ramp with a reproducible invented lineage of fixed individuals. Independent small trait changes go in both directions; there is no ranking or target phenotype. This illustrates resemblance and accumulated variation, not natural selection or a population-genetics calculation. The parent notes say so. Corrected the ancestry wording to distinguish living chimp/monkey species from shared ancestors, and explicitly place humans among apes. The older split-date and migration-date limitations still apply; this review did not calibrate those dates.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part).
 
 Checked 14 November 2026.

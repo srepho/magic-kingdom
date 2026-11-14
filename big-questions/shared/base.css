@@ -18,9 +18,9 @@ body {
 
 /* corner buttons and the caption */
 .bq-chrome {
-  position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: var(--top);
+  position: fixed; z-index: 5; top: 0; left: 0; right: 0; min-height: 72px;
   display: flex; align-items: center; gap: 8px;
-  padding: 6px max(8px, env(safe-area-inset-right)) 6px max(8px, env(safe-area-inset-left));
+  padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 6px max(8px, env(safe-area-inset-left));
   pointer-events: none;
 }
 .bq-btn {
@@ -46,10 +46,22 @@ body {
 /* parts of a guide */
 .part { position: fixed; inset: var(--top) 0 0 0;
         padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-.stage { position: absolute; inset: 0 8px 8px; border-radius: 16px; overflow: hidden; }
+.stage { position: absolute; inset: 0 max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); border-radius: 16px; overflow: hidden; }
 .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
 .page { overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding: 8px 20px 40px; }
 .page > * { max-width: 760px; margin-left: auto; margin-right: auto; }
+
+/* Give captions their own row when four large controls would squeeze the words. */
+@media (max-width: 560px) {
+  .bq-chrome { display: grid; grid-template-columns: repeat(4, var(--btn)); justify-content: space-between; }
+  .bq-btn[data-act="home"] { grid-column: 1; grid-row: 1; }
+  .bq-btn[data-act="toy"] { grid-column: 2; grid-row: 1; }
+  .bq-btn[data-act="reset"] { grid-column: 3; grid-row: 1; }
+  .bq-btn[data-act="sound"] { grid-column: 4; grid-row: 1; }
+  .bq-caption { grid-column: 1 / -1; grid-row: 2; font-size: 16px; }
+  .bq-chrome .bq-caption[hidden] { display: none !important; }
+}
+:focus-visible { outline: 4px solid var(--bit); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
   .bq-nudge, .ambient { animation: none !important; }
@@ -57,7 +69,7 @@ body {
 
 /* ---------- guide cover, tiles and reading pages (shared by every guide) ---------- */
 /* cover */
-.cover { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 12px 12px; }
+.cover { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); overflow-y: auto; }
 .cover h1 { margin: 0; font-size: clamp(22px, 4.6vw, 44px); font-weight: 800; text-align: center; }
 .cover-art { flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; text-decoration: none; }
 .cover-art svg { height: 100%; max-width: 100%; border-radius: 22px; border: 4px solid var(--ink); background: var(--sky); }

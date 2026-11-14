@@ -131,3 +131,11 @@ about nineteen for the bridge, the whole roll for castles. Then roll it up again
 13. **The human figures** (her, the babies) are simple peg people with a yellow face, in no
     particular likeness. The pictures live in `scenes/pics.js`; they would suit `shared/` if
     guides 4 or 5 reuse the timeline.
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

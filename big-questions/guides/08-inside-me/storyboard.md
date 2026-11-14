@@ -123,3 +123,11 @@ Then find hard bony parts and soft parts. Needs nothing.
     strict meaning.
 11. **A book rather than a place** for going further: no Sydney exhibit could be confirmed.
 12. The thought bubble and its pictures come from the shared cast (`shared/cast.js`).
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

@@ -48,6 +48,7 @@
         }
         else if (d.from === 'jar' && Math.abs(p.x - HAND.x) < 80 && Math.abs(p.y - HAND.y) < 50 && st.hand < MAX) { st.jar--; st.hand++; BQ.sound.coin(); }
       },
+      cancel: function () { st.drag = null; },
       tap: function (q) {
         var p = surf.toView(q), i;
         for (i = 0; i < APPLES.length; i++) {

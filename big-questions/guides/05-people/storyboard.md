@@ -114,3 +114,27 @@ ends "Nobody knows yet."
 7. **Arrival dates on the map** (thousand years ago): out of Africa 65, Australia 55, Europe 45, the Americas 17, New Zealand 0.75. The notes give the dispute over Australia.
 8. **Other human species are left out.**
 9. **Neutral wording about beliefs** is in the notes and nowhere on a child's screen.
+
+## Review change — Many babies (14 November 2026)
+
+Keep the interaction: tap for a new generation; scrub to compare a distant
+ancestor with a later descendant. Replace the preset march towards longer legs,
+longer ears and shorter tails with independent, wandering inherited traits.
+Every individual has a fixed appearance. Adjacent generations resemble each
+other; across many generations traits can increase, decrease or stay similar.
+The comparison cards are model paper, and each shows a whole individual rather
+than an animal morphing as fractional slider positions change.
+
+This is an invented lineage illustrating resemblance and accumulated variation,
+not a genetic simulation or an explanation of natural selection. There is no
+better animal, intended endpoint or target. The main tree still supplies the
+branching picture. Verify fixed identities on rewind, small successive changes,
+and changes in both directions for each trait.
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

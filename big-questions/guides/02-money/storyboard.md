@@ -109,3 +109,11 @@ dot price tags.
 7. **Prices are shown as coin dots, not numerals**, so she counts pictures rather than reads.
 8. **Plain gold coins**, not copies of real Australian coins.
 9. **Place to visit: the Royal Australian Mint**, with a note to check opening hours.
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

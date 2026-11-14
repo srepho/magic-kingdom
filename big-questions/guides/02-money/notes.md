@@ -1,5 +1,13 @@
 # Guide 02 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Added coin-tracing and comparison prompts, a second home-shop variation using large paper tokens, and a link to the food guide. These are activity designs using the existing model, not new claims about money's history. A swap working at the picnic is deliberately contrasted with the market's engineered deadlock. No spending, saving or sharing choice is scored as better.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked.
 

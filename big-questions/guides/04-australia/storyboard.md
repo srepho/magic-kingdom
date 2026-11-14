@@ -115,3 +115,11 @@ speakers (50 Words Project); listen for the name at the next Acknowledgement of 
 8. **Two books by First Nations authors** are named; no place to visit is named.
 9. **The beach scene is a metaphor.** The real 20,000-year-old footprints were uncovered by wind.
 10. **The answer to "Is it my fault?"** in the notes is unlabelled, as it is not a fact claim.
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

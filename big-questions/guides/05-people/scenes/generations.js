@@ -3,23 +3,19 @@
  * and the baby looks just like its parent. Slide the handle to go through many, many
  * generations at once. The row always looks alike; but compare the long-ago one (left card)
  * with the one now (right card). No animal ever changes: only each new baby is a tiny bit
- * different. The animal is invented, and the change is shown steady and one-way: see notes.
+ * different. Traits wander independently, with no better or intended final animal.
  */
 (function (root) {
   'use strict';
   var BQ = root.BQ, D = BQ.draw, INK = BQ.ink;
-  var VW = 480, VH = 300, GENS = 4000, ROW = 5;
+  var VW = 480, VH = 300, GENS = BQ.generationsSim.GENS, ROW = 5;
   var TRACK = { x0: 60, x1: 420, y: 268 };
 
   var frame, surf, loop, off, st;
 
   function fresh() { return { gen: 0, drag: false, pop: 1, clock: 0, told: {} }; }
   function rowX(k) { return 96 + k * 72; }
-  /* how one animal looks: p runs 0 (long ago) to 1 (now). A little wobble makes siblings differ. */
-  function look(gen) {
-    var p = Math.max(0, Math.min(1, gen / GENS)), w = Math.sin(gen * 12.9898) * 0.5 + Math.sin(gen * 4.1) * 0.5;
-    return { p: p, leg: 5 + 15 * p + w * 0.8, ear: 4 + 13 * p + w * 0.6, tail: 22 - 15 * p - w, size: 1 + w * 0.03 };
-  }
+  var look = BQ.generationsSim.look;
   function mix(a, b, t) { return Math.round(a + (b - a) * t); }
   function fur(p) { return 'rgb(' + mix(217, 122, p) + ',' + mix(179, 152, p) + ',' + mix(128, 178, p) + ')'; }
 
@@ -43,7 +39,7 @@
   }
   function slide(p) {
     st.gen = Math.max(0, Math.min(1, (p.x - TRACK.x0) / (TRACK.x1 - TRACK.x0))) * GENS;
-    if (st.gen > GENS * 0.6 && !st.told.far) { st.told.far = true; frame.caption('Every baby looked like its parents. But tiny changes add up.'); }
+    if (st.gen > GENS * 0.6 && !st.told.far) { st.told.far = true; frame.caption('Small differences add up. There is no plan for how babies will look.'); }
   }
   function tick(dt) { st.clock += dt; st.pop = Math.min(1, st.pop + dt * 3.5); draw(); }
 
@@ -67,8 +63,8 @@
 
     // two cards to compare: the long-ago one, and the one now
     [[90, 0], [390, gen]].forEach(function (c, n) {
-      g.fillStyle = '#fff'; g.strokeStyle = n ? '#a66a00' : INK.line; g.lineWidth = 3;
-      D.round(g, c[0] - 78, 14, 156, 104, 14); g.fill(); g.stroke();
+      D.paper(g, c[0] - 78, 14, 156, 104);
+      D.glasses(g, c[0] - 57, 29, 8);
       animal(g, c[0], 66 - look(c[1]).leg * 0.6, 1.5, look(c[1]), calm ? 0 : st.clock * 2 + n);
     });
     // between them: many, many dots of time

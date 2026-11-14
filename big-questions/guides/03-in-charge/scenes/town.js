@@ -54,13 +54,14 @@
     if (r.type === 'jam') {
       st.shout = 1.6; st.cardShake = 1; BQ.sound.nope();
       for (var i = 0; i < 7; i++) st.hop[i] = 0.6 + (i % 3) * 0.2;
-      frame.caption('Everyone wants something different. Who decides?');
+      frame.caption('This town has not agreed how to decide. Try choosing someone.');
     } else if (r.type === 'built') {
       st.pop.push({ index: sim.state.built.length - 1, t: 0 });
       BQ.sound.plop();
       sim.state.voters.forEach(function (v, i) { if (v.pref === r.side) st.hop[i] = 1; });
-      if (!st.told.decide) { st.told.decide = true; frame.caption('The <b>leader</b> decides for everyone. Nobody has to shout.'); }
-      else if (sim.state.decisions === 3) frame.caption('Leaders we choose are a <b>government</b>. And we can choose again.');
+      if (!st.told.decide) { st.told.decide = true; frame.caption('In this pretend town, the chosen <b>leader</b> picks a plan.'); }
+      else if (sim.state.decisions === 2) frame.caption('Real leaders decide with others. Try “Decide together” on the cover.');
+      else if (sim.state.decisions === 3) frame.caption('A <b>government</b> runs public services. Its leaders must follow rules too.');
     }
   }
   function election() {

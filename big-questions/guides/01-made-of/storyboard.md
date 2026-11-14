@@ -214,3 +214,11 @@ Each statement will carry a label: **fact**, **simplified model** or **still unc
    the model card over a spoon and the air, which widens the guide.
 3. The five design decisions under the centrepiece, especially 1 and 2.
 4. Is **model** the right third term for her, or would you rather spend it on **melt** or **freeze**?
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

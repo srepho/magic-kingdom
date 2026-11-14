@@ -17,9 +17,9 @@
       var dt = last ? Math.min((t - last) / 1000, 0.05) : 1 / 60;
       last = t;
       tick(BQ.calm() ? dt * 0.5 : dt);
-      raf = requestAnimationFrame(frame);
+      if (on) raf = requestAnimationFrame(frame);
     }
-    function go() { if (on || !wanted) return; on = true; last = 0; raf = requestAnimationFrame(frame); }
+    function go() { if (on || !wanted || document.hidden) return; on = true; last = 0; raf = requestAnimationFrame(frame); }
     function halt() { on = false; cancelAnimationFrame(raf); }
     function vis() { if (document.hidden) halt(); else go(); }
     document.addEventListener('visibilitychange', vis);
@@ -56,7 +56,10 @@
       return g;
     };
     s.toView = function (p) { return { x: (p.x - s.ox) / s.k, y: (p.y - s.oy) / s.k }; };
-    s.destroy = function () { root.removeEventListener('resize', s.fit); c.remove(); };
+    // Captions can resize the stage without a window resize.
+    var observer = root.ResizeObserver ? new root.ResizeObserver(s.fit) : null;
+    if (observer) observer.observe(c);
+    s.destroy = function () { if (observer) observer.disconnect(); root.removeEventListener('resize', s.fit); c.remove(); };
     root.addEventListener('resize', s.fit);
     s.fit();
     return s;
@@ -67,33 +70,53 @@
     var p = null;
     function pt(e) { var r = el.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
     function down(e) {
+      if (p || e.isPrimary === false || (e.button != null && e.button !== 0)) return;
       try { el.setPointerCapture(e.pointerId); } catch (_) {}
-      var q = pt(e); p = { x: q.x, y: q.y, t: performance.now(), moved: false };
+      var q = pt(e); p = { id: e.pointerId, x: q.x, y: q.y, last: q, t: performance.now(), moved: false };
       if (h.down) h.down(q);
       e.preventDefault();
     }
     function move(e) {
-      if (!p) return;
+      if (!p || e.pointerId !== p.id) return;
       var q = pt(e);
+      p.last = q;
       if (Math.hypot(q.x - p.x, q.y - p.y) > 10) p.moved = true;
       if (h.move) h.move(q);
     }
     function up(e) {
-      if (!p) return;
-      var q = pt(e), tap = !p.moved && performance.now() - p.t < 400;
+      if (!p || e.pointerId !== p.id) return;
+      var q = pt(e), tap = !p.moved && Math.hypot(q.x - p.x, q.y - p.y) <= 10 && performance.now() - p.t < 400;
+      var id = p.id;
       p = null;
+      try { el.releasePointerCapture(id); } catch (_) {}
       if (h.up) h.up(q);
       if (tap && h.tap) h.tap(q);
     }
+    function cancel(e) {
+      if (!p || (e && e.pointerId != null && e.pointerId !== p.id)) return;
+      var q = p.last, id = p.id;
+      p = null;
+      try { el.releasePointerCapture(id); } catch (_) {}
+      // Most scenes only release a held control. Drop-to-act scenes supply cancel.
+      if (h.cancel) h.cancel(q); else if (h.up) h.up(q);
+    }
+    function hidden() { if (document.hidden) cancel(); }
     el.addEventListener('pointerdown', down);
     el.addEventListener('pointermove', move);
     el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
+    el.addEventListener('pointercancel', cancel);
+    el.addEventListener('lostpointercapture', cancel);
+    root.addEventListener('blur', cancel);
+    document.addEventListener('visibilitychange', hidden);
     return function off() {
+      cancel();
       el.removeEventListener('pointerdown', down);
       el.removeEventListener('pointermove', move);
       el.removeEventListener('pointerup', up);
-      el.removeEventListener('pointercancel', up);
+      el.removeEventListener('pointercancel', cancel);
+      el.removeEventListener('lostpointercapture', cancel);
+      root.removeEventListener('blur', cancel);
+      document.removeEventListener('visibilitychange', hidden);
     };
   };
 
@@ -215,11 +238,15 @@
   }
 
   BQ.frame = (function () {
-    var opts, scenes, parts, current = null, btn = {}, cap;
+    var opts, scenes, parts, current = null, btn = {}, cap, bar;
+
+    function fitChrome() {
+      document.documentElement.style.setProperty('--top', Math.ceil(bar.getBoundingClientRect().height) + 'px');
+    }
 
     function init(o) {
       opts = o; scenes = o.scenes || {};
-      var bar = document.createElement('div');
+      bar = document.createElement('div');
       bar.className = 'bq-chrome';
       bar.innerHTML =
         '<button class="bq-btn" data-act="home" aria-label="Back">' + svg('home') + '</button>' +
@@ -229,6 +256,8 @@
         '<button class="bq-btn" data-act="sound" aria-label="Sound"></button>';
       document.body.appendChild(bar);
       cap = bar.querySelector('.bq-caption');
+      if (root.ResizeObserver) new root.ResizeObserver(fitChrome).observe(bar);
+      root.addEventListener('resize', fitChrome);
       [].forEach.call(bar.querySelectorAll('.bq-btn'), function (b) { btn[b.dataset.act] = b; });
       btn.home.onclick = function () {
         if (name() === 'cover') root.location.href = opts.shelf; else root.location.hash = '#cover';
@@ -247,10 +276,14 @@
         navigator.serviceWorker.register(opts.sw).catch(function () {});
       }
     }
-    function paintSound() { btn.sound.innerHTML = svg(BQ.sound.muted() ? 'quiet' : 'sound'); }
+    function paintSound() {
+      var muted = BQ.sound.muted();
+      btn.sound.innerHTML = svg(muted ? 'quiet' : 'sound');
+      btn.sound.setAttribute('aria-label', muted ? 'Turn sound on' : 'Turn sound off');
+    }
     function name() {
       var n = (root.location.hash || '#cover').slice(1);
-      return document.querySelector('[data-part="' + n + '"]') ? n : 'cover';
+      return parts.some(function (p) { return p.dataset.part === n; }) ? n : 'cover';
     }
     function route() {
       var n = name();
@@ -258,30 +291,44 @@
       caption(''); nudgeToy(false);
       parts.forEach(function (p) { p.hidden = p.dataset.part !== n; });
       document.body.dataset.at = n;
-      var sc = scenes[n], part = document.querySelector('[data-part="' + n + '"]');
+      var sc = scenes[n], part = parts.filter(function (p) { return p.dataset.part === n; })[0];
       btn.toy.hidden = n === 'cover' || n === 'toy';
       btn.reset.hidden = !sc;
+      btn.home.setAttribute('aria-label', n === 'cover' ? 'All guides' : 'Back to cover');
+      fitChrome();
       part.scrollTop = 0;
       if (sc) { sc.start(part.querySelector('.stage') || part, api); current = sc; }
     }
     function caption(html) {
       cap.innerHTML = html || '';
       cap.hidden = !html;
+      fitChrome();
     }
     function nudgeToy(on) { btn.toy.classList.toggle('bq-nudge', on !== false); }
 
     /* grown-up door: press and hold. Keeps small fingers on the child's side. */
     function hold(el) {
-      var timer = 0;
-      function open() { root.location.hash = el.dataset.hold; }
-      function start(e) { el.classList.add('holding'); timer = setTimeout(open, 1200); e.preventDefault(); }
-      function stop() { el.classList.remove('holding'); clearTimeout(timer); }
+      var timer = 0, pointer = null;
+      function open() { stop(); root.location.hash = el.dataset.hold; }
+      function start(e) {
+        if (pointer !== null || e.isPrimary === false || (e.button != null && e.button !== 0)) return;
+        pointer = e.pointerId; el.classList.add('holding'); timer = setTimeout(open, 1200); e.preventDefault();
+      }
+      function stop(e) {
+        if (e && e.pointerId != null && e.pointerId !== pointer) return;
+        pointer = null; el.classList.remove('holding'); clearTimeout(timer); timer = 0;
+      }
       el.addEventListener('pointerdown', start);
       el.addEventListener('pointerup', stop);
       el.addEventListener('pointerleave', stop);
       el.addEventListener('pointercancel', stop);
+      root.addEventListener('blur', stop);
+      root.addEventListener('hashchange', function () { stop(); });
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); });
       el.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-      el.addEventListener('keydown', function (e) { if (e.key === 'Enter') open(); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!e.repeat) open(); }
+      });
     }
 
     var api = { init: init, caption: caption, nudgeToy: nudgeToy, current: function () { return current; } };

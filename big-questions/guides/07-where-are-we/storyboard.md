@@ -113,3 +113,11 @@ A peppercorn Earth: a soccer ball for the Sun, 25 big steps, a peppercorn for th
 8. **The planets stand still** in the zoom so that Earth is where the zoom lands.
 9. **No Moon.** At the globe's size it would sit more than ten screens away.
 10. **Place to visit: Sydney Observatory**, with a note to check what is running.
+
+## Parent-led exploration additions — 14 November 2026
+
+Three optional invitations in the grown-up notes encourage prediction, comparison
+and revisiting. A related-guide link connects the idea to another lesson. An
+extra household activity stays on the existing Try it page. None adds a quiz,
+score, required sequence or extra deliberately taught term. The invitations and
+activity wording live in index.html; source checks and remaining limits are in notes.md.

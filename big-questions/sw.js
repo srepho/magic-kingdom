@@ -1,7 +1,8 @@
-/* Big Questions — offline support. After the first visit everything here opens with no network.
- * Serves from the cache straight away and refreshes the cached copy in the background,
- * so a change shows up on the visit after next. Bump VERSION when files are added or renamed. */
-var VERSION = 'bq-2026-11-14-1950';
+/* Big Questions — one complete offline release at a time.
+ * Installation downloads every listed file before the release is usable offline.
+ * Updates wait for all open guide tabs to close, so active scenes keep their own release.
+ * Run tools/build_shelf.py after any published file changes to rebuild VERSION. */
+var VERSION = 'bq-5e5d8ebb8683eca8';
 var FILES = [
   './', 'index.html', 'shared/base.css', 'shared/kit.js', 'shared/cast.js', 'guides/01-made-of/',
   'guides/01-made-of/index.html', 'guides/01-made-of/scenes/warmth-sim.js',
@@ -11,14 +12,16 @@ var FILES = [
   'guides/02-money/scenes/market.js', 'guides/02-money/scenes/picnic.js',
   'guides/02-money/scenes/jar.js', 'guides/03-in-charge/', 'guides/03-in-charge/index.html',
   'guides/03-in-charge/scenes/town-sim.js', 'guides/03-in-charge/scenes/town.js',
+  'guides/03-in-charge/scenes/council-sim.js', 'guides/03-in-charge/scenes/council.js',
   'guides/03-in-charge/scenes/hands.js', 'guides/03-in-charge/scenes/levels.js',
   'guides/04-australia/', 'guides/04-australia/index.html',
   'guides/04-australia/scenes/story-sim.js', 'guides/04-australia/scenes/ausmap.js',
   'guides/04-australia/scenes/story.js', 'guides/04-australia/scenes/beach.js',
   'guides/04-australia/scenes/sea.js', 'guides/05-people/', 'guides/05-people/index.html',
   'guides/05-people/scenes/tree-sim.js', 'guides/05-people/scenes/tree.js',
-  'guides/05-people/scenes/family.js', 'guides/05-people/scenes/generations.js',
-  'guides/05-people/scenes/spread.js', 'guides/06-long-ago/', 'guides/06-long-ago/index.html',
+  'guides/05-people/scenes/family.js', 'guides/05-people/scenes/generations-sim.js',
+  'guides/05-people/scenes/generations.js', 'guides/05-people/scenes/spread.js',
+  'guides/06-long-ago/', 'guides/06-long-ago/index.html',
   'guides/06-long-ago/scenes/long-ago-sim.js', 'guides/06-long-ago/scenes/pics.js',
   'guides/06-long-ago/scenes/timeline.js', 'guides/06-long-ago/scenes/candles.js',
   'guides/06-long-ago/scenes/roll.js', 'guides/07-where-are-we/',
@@ -39,23 +42,24 @@ var FILES = [
   'guides/10-day-night/scenes/shadow.js'
 ];
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(VERSION).then(function (c) {
+    return c.addAll(FILES.map(function (file) { return new Request(file, { cache: 'reload' }); }));
+  }));
 });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
     return Promise.all(keys.filter(function (k) { return k.indexOf('bq-') === 0 && k !== VERSION; })
       .map(function (k) { return caches.delete(k); }));
-  }).then(function () { return self.clients.claim(); }));
+  }));
 });
 self.addEventListener('fetch', function (e) {
-  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  var url = new URL(e.request.url), base = self.registration.scope;
+  if (e.request.method !== 'GET' || !FILES.some(function (file) {
+    return new URL(file, base).href === url.origin + url.pathname;
+  })) return;
   e.respondWith(caches.open(VERSION).then(function (cache) {
     return cache.match(e.request, { ignoreSearch: true }).then(function (hit) {
-      var fresh = fetch(e.request).then(function (res) {
-        if (res && res.ok) cache.put(e.request, res.clone());
-        return res;
-      }).catch(function () { return hit; });
-      return hit || fresh;
+      return hit || fetch(e.request);
     });
   }));
 });

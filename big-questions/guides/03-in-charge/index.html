@@ -9,6 +9,23 @@
 <style>
   .slip { transform-origin: 150px 96px; animation: drop 3s ease-in-out infinite; }
   @keyframes drop { 0%, 100% { transform: translateY(-12px) rotate(-8deg); } 50% { transform: translateY(8px) rotate(-8deg); } }
+  .council-layout { height:100%; display:flex; flex-direction:column; justify-content:center; gap:8px; padding:4px; }
+  .council-board { flex:0 1 auto; width:100%; aspect-ratio:480 / 245; min-height:110px; position:relative; }
+  .council-choices { display:flex; justify-content:space-around; gap:8px; }
+  .council-choice, .council-count { min-height:60px; border:3px solid var(--ink); border-radius:16px; background:white; color:var(--ink); font:600 15px system-ui; cursor:pointer; touch-action:manipulation; }
+  .council-choice { width:29%; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:4px; padding:3px; }
+  .council-choice svg { width:60px; height:40px; }
+  .council-count { align-self:center; display:flex; align-items:center; gap:10px; padding:2px 18px; }
+  .council-count svg { width:42px; height:42px; }
+  @media (max-height:430px) {
+    .council-layout { display:grid; grid-template-columns:minmax(0,1fr) 108px; grid-template-rows:minmax(0,1fr) 60px; }
+    .council-board { grid-column:1 / -1; grid-row:1; height:100%; min-height:0; aspect-ratio:auto; }
+    .council-choices { grid-column:1; grid-row:2; gap:4px; }
+    .council-choice { width:32%; flex-wrap:nowrap; font-size:12px; }
+    .council-choice svg { width:38px; }
+    .council-count { grid-column:2; grid-row:2; font-size:12px; padding:2px 4px; gap:2px; }
+    .council-count svg { width:30px; }
+  }
 </style>
 </head>
 <body>
@@ -33,6 +50,8 @@
   <nav class="shelf-row">
     <a class="tile" href="#opening">
       <svg viewBox="0 0 48 48" fill="none" stroke="#3b3a36" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="26" r="9" fill="#aeb5bd"/><path d="M13 22L9 8M35 22l4-14"/></svg>Hands up</a>
+    <a class="tile" href="#council">
+      <svg viewBox="0 0 48 48" stroke="#3b3a36" stroke-width="2.5"><circle cx="9" cy="15" r="6" fill="#a17a55"/><circle cx="24" cy="11" r="6" fill="#aeb5bd"/><circle cx="39" cy="15" r="6" fill="#7cc36a"/><path d="M4 40V28h40v12" fill="#d9b98a"/><path d="M9 22v10M24 18v14M39 22v10"/></svg>Decide together</a>
     <a class="tile" href="#levels">
       <svg viewBox="0 0 48 48" stroke="#3b3a36" stroke-width="2.5" stroke-linejoin="round"><path d="M4 40V34l5-5 5 5v6z" fill="#f5a742"/><path d="M17 40V30l7-7 7 7v10z" fill="#8a7fd1"/><path d="M33 40V25l6-9 6 9v15z" fill="#5fb98a"/></svg>Three governments</a>
     <a class="tile" href="#tryit">
@@ -49,6 +68,8 @@
 <section class="part" data-part="opening" hidden><div class="stage"></div></section>
 <section class="part" data-part="levels" hidden><div class="stage"></div></section>
 
+<section class="part" data-part="council" hidden><div class="stage"></div></section>
+
 <!-- TRY IT -->
 <section class="part page" data-part="tryit" hidden>
   <h1>Try it: leader for the afternoon</h1>
@@ -57,11 +78,13 @@
       <li>Put out two cups. Draw a picture on each for two people in the family.</li>
       <li>Everyone drops one block in the cup of the person they choose. That is your vote.</li>
       <li>Tip the cups out. Whoever has the most blocks is the leader for the afternoon.</li>
-      <li>The leader decides three small things: which game, which song, which fruit.</li>
-      <li>After that, vote again. Did you choose the same leader?</li>
+      <li>Agree together which choices the leader may make. The leader listens, then chooses one game.</li>
+      <li>Now try a council of three toys. Give each one a choice of game. Which game gets more votes?</li>
     </ol>
   </div>
   <p style="color:var(--soft);font-size:15px">You need: two cups, a few blocks or pegs, paper and a pencil. It works best with three or more people, or line up some toys to vote too.</p>
+  <h2>Listen before deciding</h2>
+  <p>Give three toys different ideas for a game. Let each have a turn to “speak”. Can you find a plan they can share? A vote is one way to decide, and talking or taking turns can help too.</p>
 </section>
 
 <!-- WONDER MORE -->
@@ -81,6 +104,17 @@
      <span class="tag simp">Model</span> a deliberate simplification, or
      <span class="tag unsure">Unsure</span> not settled.</p>
 
+  <h2>Play another way</h2>
+  <div class="card">
+    <p>Pick one invitation, then let your child lead. Watching, pointing or changing her mind all count; there is no answer to pass.</p>
+    <ul>
+      <li>Keep everyone’s preferences the same and vote twice in the town. Then change one voter’s mind and vote again.</li>
+      <li>Open Decide together. Keep the leader’s hill choice and give the other two river choices. Count their votes.</li>
+      <li>Ask: “What could the group do for people who wanted the other plan?” Accept more than one idea.</li>
+    </ul>
+  </div>
+  <p>Another connection: <a href="../02-money/index.html">What is money?</a></p>
+
   <h2>The idea</h2>
   <ul>
     <li><span class="tag fact">Fact</span>Australia is a representative democracy. Citizens aged 18 and over vote to choose people, called representatives, who then make decisions on everyone's behalf. People do not vote on each rule.</li>
@@ -92,7 +126,8 @@
 
   <h2>What the pictures simplify</h2>
   <ul>
-    <li><span class="tag simp">Model</span><b>One leader who decides alone.</b> Real representatives sit together in a council or parliament, argue it out and vote among themselves. Leaders must also follow the law, and courts can overrule them.</li>
+    <li><span class="tag simp">Model</span><b>One leader in the town.</b> This first toy isolates choosing someone and choosing again. It is not how a council or parliament makes every decision. The "Decide together" scene adds other elected voices: even the leader can be outvoted. Leaders must follow the law.</li>
+    <li><span class="tag simp">Model</span><b>Three members in "Decide together".</b> This is an invented council, not a model of every council rule. Each member gets one vote between two plans. Actual federal laws need agreement in both houses of Parliament and assent. Debate, amendments, rights and legal limits matter too.</li>
     <li><span class="tag simp">Model</span><b>Two candidates and "most votes wins".</b> Real elections usually have several candidates, and Australian voters number them in order of preference.</li>
     <li><span class="tag simp">Model</span><b>Open voting.</b> In the toy you can see how everyone votes. Real votes are secret, so nobody can be pressured.</li>
     <li><span class="tag simp">Model</span><b>One thing to disagree about.</b> The townsfolk care only which side of town gets built on. Real voters weigh many things at once.</li>
@@ -111,8 +146,8 @@
   </ul>
 
   <h2>Words this guide teaches</h2>
-  <p><b>Vote</b>: showing which one you choose. <b>Leader</b>: the person we choose to decide for us.
-     <b>Government</b>: the leaders we choose, for a town, a state or the whole country.</p>
+  <p><b>Vote</b>: showing which one you choose. <b>Leader</b>: someone who helps a group make decisions.
+     <b>Government</b>: the people who run public services and help make rules for a place.</p>
 
   <h2>Go further</h2>
   <p><b>NSW Parliament House</b> on Macquarie Street in Sydney is open to visitors on weekdays and runs free guided tours.
@@ -121,6 +156,7 @@
 
   <h2>Sources</h2>
   <ul>
+    <li><a href="https://peo.gov.au/understand-our-parliament/how-parliament-works/bills-and-laws/making-a-law" target="_blank" rel="noopener">Parliamentary Education Office, "Making a law"</a>: debate and votes in both houses; the leader does not make laws alone.</li>
     <li><a href="https://peo.gov.au/understand-our-parliament/how-parliament-works/three-levels-of-government/three-levels-of-government-governing-australia" target="_blank" rel="noopener">Parliamentary Education Office, "Three levels of government"</a>: who looks after what, the number of councils, and voting at 18.</li>
     <li><a href="https://www.aec.gov.au/About_AEC/publications/voting/" target="_blank" rel="noopener">Australian Electoral Commission, "Compulsory voting in Australia"</a>.</li>
     <li><a href="https://www.parliament.nsw.gov.au/visit-parliament" target="_blank" rel="noopener">Parliament of NSW, "Visit Parliament"</a>.</li>
@@ -133,13 +169,15 @@
 <script src="../../shared/cast.js"></script>
 <script src="scenes/town-sim.js"></script>
 <script src="scenes/town.js"></script>
+<script src="scenes/council-sim.js"></script>
+<script src="scenes/council.js"></script>
 <script src="scenes/hands.js"></script>
 <script src="scenes/levels.js"></script>
 <script>
   BQ.frame.init({
     shelf: '../../index.html',
     sw: '../../sw.js',
-    scenes: { toy: BQ.scenes.town, opening: BQ.scenes.hands, levels: BQ.scenes.levels }
+    scenes: { toy: BQ.scenes.town, opening: BQ.scenes.hands, levels: BQ.scenes.levels, council: BQ.scenes.council }
   });
 </script>
 </body>

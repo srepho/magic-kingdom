@@ -1,5 +1,13 @@
 # Guide 04 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Read the [AIATSIS map page](https://aiatsis.gov.au/explore/map-indigenous-australia): its locations and boundaries are general, not exact, and the map is not suitable for land claims. Added a present-day First Nations storytelling activity using the already-named books, and long-view/close-view comparison prompts. Changed the 2021 population estimate from “today” to its actual reference year. Darug naming remains the user's confirmed choice; no additional local identity or place has been inferred. Archaeological dates and the complete historical account were not re-audited.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part).
 
 Checked 14 November 2026.

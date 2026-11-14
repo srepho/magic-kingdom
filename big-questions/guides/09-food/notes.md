@@ -1,5 +1,13 @@
 # Guide 09 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Read [Oregon State Extension's carrot-top answer](https://extension.oregonstate.edu/ask-extension/featured/can-i-regrow-carrots-planting-tops) and [NSW DPI's poultry FAQs](https://www.dpird.nsw.gov.au/dpi/animals/poultry/poultry-species/nichebackyard-industries/backyard-poultry-faqs). Carrot tops can regrow leaves, not a new thick taproot; hens lay without a rooster, which is needed for fertilisation. Replaced “all shop eggs” with “most eating eggs”. Read [ACCC's country-of-origin guidance](https://www.accc.gov.au/consumers/advertising-and-promotions/country-of-origin-claims) to distinguish where a food was packed or made from where ingredients grew. Added mixed-ingredient trails and an “other” category so mushrooms, salt and water do not get misclassified. Factory-process and visiting claims retain the original checking limits.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked.
 

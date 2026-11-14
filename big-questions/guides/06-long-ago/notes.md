@@ -1,5 +1,13 @@
 # Guide 06 — fact-check log
 
+## Lesson review — 14 November 2026
+
+Added a shorter scrap-paper alternative and prompts that distinguish a change of scale from a change in an event's age. The home timeline now starts with five years per sheet and uses the chosen grown-up's real age, not an assumed father's age. Read [WA Museum, End of an Era](https://museum.wa.gov.au/explore/dinosaur-discovery/end-era/index.html); clarified that birds are surviving dinosaurs, rather than merely relatives outside that group. Existing deep-time dates and volume estimates were not re-estimated.
+
+Every guide also now has three optional parent invitations and a link to a related guide.
+These additions are not quizzes or a required route through the guide. The older
+log below is retained as provenance; corrections in this section supersede it.
+
 The grown-up notes the parent reads are in `index.html` (the `grownups` part). This file
 records where each claim was checked. All "years ago" are counted from 2026.
 

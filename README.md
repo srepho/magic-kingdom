@@ -4,6 +4,32 @@ A no-reading-required browser game for young children — unicorns, rainbows,
 princesses and castles for a 5-year-old, plus a special sparkle mode for a
 2-year-old little sister.
 
+## Big Questions
+
+The [Big Questions shelf](https://srepho.github.io/magic-kingdom/big-questions/)
+has ten illustrated guides to explore together: matter, money, government,
+Australia's history, evolution, time, our place in space, the body, food, and
+day and night. Each guide has a toy, smaller scenes, things to try away from
+the screen, questions to talk about, and grown-up notes with sources. The notes also
+include optional play invitations and links between related guides. In the
+government guide, try "Decide together" to see how a leader can be outvoted.
+
+For local development, serve `big-questions/` with `python3 -m http.server`.
+From the repository root, run:
+
+```sh
+node --test big-questions/tests/
+python3 big-questions/tools/build_shelf.py
+```
+
+Rebuild after **any published guide, script, style, or worker change**. The build
+updates the shelf and offline list, and changes the cache version only when the
+release content changes. On the HTTPS site, offline use is available once the
+first complete download finishes. Updates download in the background, then
+take effect after all Big Questions tabs are closed and the site is reopened.
+Existing open guides keep using their current release. External source links
+still need an internet connection.
+
 ## How to play
 
 **Play online from any computer or tablet:**
